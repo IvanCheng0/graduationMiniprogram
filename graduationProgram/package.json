@@ -1,0 +1,24 @@
+{
+  "name": "graduationminiprogram",
+  "version": "1.0.0",
+  "description": "graduationMiniprogram: 华工小灯神的毕业季小程序项目; Uniapp/Vue",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanCheng0/graduationMiniprogram.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IvanCheng0/graduationMiniprogram/issues"
+  },
+  "homepage": "https://github.com/IvanCheng0/graduationMiniprogram#readme",
+  "dependencies": {
+    "node-sass": "^5.0.0",
+    "sass-loader": "^11.0.1",
+    "uview-ui": "^1.8.4"
+  }
+}
