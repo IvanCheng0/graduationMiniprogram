@@ -1,0 +1,22 @@
+
+.areaChoose{
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+	margin-top:50rpx
+}
+.areaChoose view{
+	border:#007AFF 3rpx solid;
+	padding:10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
+}
+
+
+

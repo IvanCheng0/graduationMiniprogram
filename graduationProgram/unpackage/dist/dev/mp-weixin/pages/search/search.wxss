@@ -1,0 +1,15 @@
+
+.history{
+	margin-top: 10rpx;
+}
+.historyData{
+	padding:10rpx 100rpx;
+	margin-left:30rpx;
+	margin-right:30rpx;
+	margin-top: 10rpx;
+	border:solid #007AFF 3rpx
+}
+
+
+
+
