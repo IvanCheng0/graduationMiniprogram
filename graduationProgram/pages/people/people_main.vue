@@ -1,52 +1,106 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
-		</view>
-	</view>
+	<div>
+		<titleComponent @back="back()" :title="title"></titleComponent>
+		<div class="userInfo">
+			<image src="../../static/people.png" class="avatar"></image>
+			<div>
+				<div class="name">{{name}}</div>
+				<div class="introduction">{{introduction}}</div>
+			</div>
+		</div>
+		<navigator class="my" url="./people_story"><span>我的故事</span></navigator>
+		<navigator class="my" url="./people_collection"><span>我的收藏</span></navigator>
+		<navigator class="my" url="./people_footprint"><span>我的足迹</span></navigator>
+	</div>
 </template>
 
 <script>
+	import titleComponent from './titleComponent.vue'
 	export default {
+		components: {
+			titleComponent: titleComponent
+		},
 		data() {
 			return {
-				title: 'Hello'
+				name: "小明",
+				introduction: "个人介绍",
+				title: {
+					name: '个人中心',
+					icon: '../../static/people.png'
+				}
 			}
 		},
-		onLoad() {	
+		onLoad() {
 			console.log("1253")
 		},
 		methods: {
-
+			// 这里写退出
+			back() {
+				console.log('1');
+			}
 		}
 	}
 </script>
 
 <style>
-	.content {
+	/* 个人信息栏 */
+	.userInfo {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-around;
+		height: 400upx;
+		border-bottom: 2upx solid #a1a1a1;
 	}
 
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
+	/* 头像 */
+	.userInfo>.avatar {
+		width: 210upx;
+		height: 210upx;
+		border-radius: 50%;
+		border: 1upx solid #a1a1a1;
+		padding: 2upx;
 	}
 
-	.text-area {
+	.userInfo>div {
+		width: 400upx;
+		font-size: 35upx;
+	}
+
+	.userInfo>div .name {
+		height: 50upx;
+		background-color: #eee;
+		width: 400upx;
+		border: 1upx solid #a1a1a1;
+		padding: 5upx;
+		margin-bottom: 10upx;
+	}
+
+	.userInfo>div .introduction {
+		height: 180upx;
+		background-color: #eee;
+		width: 400upx;
+		border: 1upx solid #a1a1a1;
+		padding: 5upx;
+	}
+
+	.my {
 		display: flex;
+		height: 300upx;
+		width: 100%;
+		border-bottom: 2upx solid #a1a1a1;
 		justify-content: center;
+		align-items: center;
+		font-size: 50upx;
 	}
 
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+	.my::after {
+		content: ">";
+		position: absolute;
+		right: 25upx;
+		font-size: 150upx;
+	}
+
+	.my>span {
+		display: block;
 	}
 </style>

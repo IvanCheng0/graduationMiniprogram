@@ -20,8 +20,17 @@
 			"style": {
 				"navigationBarTitleText": "个人信息"
 			}
+		},
+		{
+			"path":"pages/people/people_story"
+		},
+		{
+			"path":"pages/people/people_collection"
+		},
+		{
+			"path":"pages/people/people_footprint"
 		}
-	],
+    ],
 	"tabBar": {
 		"color": "#909399",
 		"selectedColor": "#303133",
