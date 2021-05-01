@@ -3,13 +3,25 @@
 		<view>
 			<input class="textContent" type="text" placeholder="请在此输入你的故事吧~" />
 		</view>
-		<view class="uploadSrc">
+		<!--可使用v-for简化代码-->
+		<view class="uploadSrc" v-show="buttonTabChoose==0">
 			<span class="addSrc" @click="toAddPic">添加图片</span>
 			<span class="addSrc" @click="toAddVid">添加视频</span>
 			<span class="addSrc" @click="toAddVoic">添加语音</span>
 		</view>
-		
+		<view class="uploadSrc" v-show="buttonTabChoose==1">
+			<button class="addSrc" @tap="startRecord">开始录音</button>
+			<button class="addSrc" @tap="endRecord">停止录音</button>
+			<button class="addSrc" @tap="playVoice">播放录音</button>
+			<view class="addTag" @click="backToLastPage">返回</view>
+		</view>
 		<view class="addTag" @click="toAddTag">+点击添加标签</view>
+		<view>
+			<!--弹窗-->	
+			<u-modal v-model="showPop" :content="popContent" @confirm="addCurrTag">
+				<input placeholder="请输入要添加的标签" v-model="tempTag"/>
+			</u-modal>
+		</view>
 		<view style="margin-top: 10px;">
 			<!--区域滚动-->
 			<scroll-view scroll-x="true"  scroll-left="100" show-scrollbar="true" style="margin-top:5px;height: 25px;">
@@ -17,6 +29,8 @@
 			</scroll-view>
 			<view style="color: #18B566;">点击标签可删除</view>
 		</view>
+		<view class="addLoc" @click="toAddLoc" v-show="locFlag==false">+点击添加位置</view>
+		<view class="tag" style="margin-top: 10px;" @click="delLoc" v-show="locFlag==true">{{currAddress}}</view>
 		<radio-group class="radioBox">
 			<view>
 				<radio value="realName" :checked="realName_or_not==true">实名</radio>
@@ -29,16 +43,23 @@
 </template>
 
 <script>
+const recorderManager = uni.getRecorderManager();
+const innerAudioContext = uni.createInnerAudioContext();
+
+innerAudioContext.autoplay = true;
+
 	export default {
 		data() {
 			return {
 				title: '发布故事',
+				buttonTabChoose:0,
 				realName_or_not: false,
 				img:[
 					{
 						path:'1.jpg'
 					},
 				],
+				voicePath: '',
 				tags:[
 					{
 						value:'tag1'
@@ -46,7 +67,12 @@
 					{
 						value:'tag2'
 					}
-				]
+				],
+				showPop:false, //弹窗
+				popContent:'hello world',
+				tempTag:'',
+				locFlag:false,
+				currAddress:'',
 			}
 		},
 		onLoad() {	
@@ -92,8 +118,6 @@
 								
 								success:function(res1){
 									console.log(res1.data);
-									
-									
 								}
 							})
 						}
@@ -101,25 +125,62 @@
 					}
 				})
 			},
+			
 			toAddVid(){
 				
 			},
 			toAddVoic(){
-				
+				this.buttonTabChoose=1;
+			},
+			startRecord() {
+			    console.log('开始录音');
+			    recorderManager.start();
+			},
+			endRecord() {
+			    console.log('录音结束');
+			    recorderManager.stop();
+			},
+			playVoice() {
+			    console.log('播放录音');
+			
+			    if (this.voicePath) {
+			        innerAudioContext.src = this.voicePath;
+			        innerAudioContext.play();
+			    }
+			},
+			backToLastPage(){
+				this.buttonTabChoose=0;
 			},
 			toAddTag(){
-				//填充输入标签代码
-				//this.setData({
-				//	tags:this.tags.push({
-				//		value:'tag3'
-				//	})
-				//})
+				this.showPop=true;
+			},
+			addCurrTag(){
 				this.tags.push({
-					value:'tag3'
+					value:this.tempTag,
 				});
+				this.tempTag='';
 			},
 			delTag(idx){
 				this.tags.splice(idx,1);
+			},
+			
+			toAddLoc(){
+				const that = this;
+				uni.chooseLocation({
+					success:function(res){
+						console.log('位置名称：' + res.name);
+						console.log('详细地址：' + res.address);
+				        console.log('纬度：' + res.latitude);
+						console.log('经度：' + res.longitude);
+						that.currAddress=res.name+res.address;
+						console.log(that.currAddress);
+						that.locFlag=true;
+					}
+				})
+			},
+			delLoc(){
+				this.locFlag=false;
+				this.currAddress='';
 			},
 			submitStory(){
 				
@@ -149,6 +210,7 @@
 	border: 1px solid;
 	border-radius: 8px;
 	margin-left: 5px;
+
 }
 .addTag{
 	border: 1px solid;
@@ -159,7 +221,15 @@
 	text-align: center;
 	width: 30%;
 }
-
+.addLoc{
+	border: 1px solid;
+	border-radius: 8px;
+	margin-top: 15px;
+	position: relative;
+	left: 70%;
+	text-align: center;
+	width: 30%;
+}
 .tag{
 	border: 1px solid;
 	border-radius: 8px;

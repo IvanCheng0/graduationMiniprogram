@@ -10,9 +10,15 @@
 			}
 		},
 		{
-			"path": "pages/index/index_2",
+			"path": "pages/story/post",
 			"style": {
-				"navigationBarTitleText": "uni-app-2"
+				"navigationBarTitleText": "发布故事"
+			}
+		},
+		{
+			"path":"pages/story/storyDetails",
+			"style":{
+				"navigationBarTitleText":"故事详情"
 			}
 		},
 		{
@@ -27,14 +33,15 @@
 		"selectedColor": "#303133",
 		"backgroundColor": "#FFFFFF",
 		"borderStyle": "black",
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/search.png",
 				"selectedIconPath": "static/search_blue.png",
 				"text": "寻找故事"
 			},
 			{
-				"pagePath": "pages/index/index_2",
+				"pagePath": "pages/story/post",
 				"iconPath": "static/write.png",
 				"selectedIconPath": "static/write_blue.png",
 				"text": "发布故事"

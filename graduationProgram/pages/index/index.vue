@@ -4,6 +4,9 @@
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
+		<view @click="toStory">
+			click here to view the story
+		</view>
 	</view>
 </template>
 
@@ -18,7 +21,11 @@
 			console.log("1253")
 		},
 		methods: {
-
+			toStory(){
+				uni.navigateTo({
+					url:"../story/storyDetails"
+				})
+			}
 		}
 	}
 </script>

@@ -16,25 +16,7 @@
 			<span class="storySrc">此处应有视频</span>
 			<span class="storySrc">此处应有语音</span>
 		</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
-		<view>test</view>
+		
 	</view>
 	<view class="footer">
 		<input style="border: 1px solid;margin-left:5px ;width: 40%;float: left;" type="text" placeholder="请输入文字" />
