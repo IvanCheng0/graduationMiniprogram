@@ -1,14 +1,22 @@
 {
   "pages": [
+<<<<<<< HEAD
     "pages/search/search",
     "pages/index/index",
    
     "pages/searchPlace/searchPlace"
+=======
+    "pages/index/index"
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
+<<<<<<< HEAD
     "navigationBarTitleText": "毕业季",
+=======
+    "navigationBarTitleText": "uni-app",
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },

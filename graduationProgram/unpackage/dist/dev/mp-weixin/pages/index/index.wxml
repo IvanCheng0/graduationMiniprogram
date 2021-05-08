@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 <view class="content"><u-search vue-id="8dd740cc-1" placeholder="日照香炉生紫烟" clearabled="{{true}}" show-action="{{false}}" value="{{keyword}}" data-event-opts="{{[['^search',[['search']]],['^input',[['__set_model',['','keyword','$event',[]]]]]]}}" bind:search="__e" bind:input="__e" bind:__l="__l"></u-search><view class="areaChoose"><view>五山校区</view><view>大学城校区</view><view>国际校区</view></view><u-tabbar bind:input="__e" vue-id="8dd740cc-2" list="{{list}}" mid-button="{{true}}" value="{{current}}" data-event-opts="{{[['^input',[['__set_model',['','current','$event',[]]]]]]}}" bind:__l="__l"></u-tabbar></view>
+=======
+<view class="content"><image class="logo" src="/static/logo.png"></image><view class="text-area"><text class="title">{{title}}</text></view></view>
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef

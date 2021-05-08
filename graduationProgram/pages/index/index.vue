@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<u-search placeholder="日照香炉生紫烟" v-model="keyword" :clearabled="true" @search="search()" :show-action="false"></u-search>
+		<u-search placeholder="" v-model="keyword" :clearabled="true" @search="search()" :show-action="false"></u-search>
 		<!-- //底部三个按钮 -->
 		<view class="areaChoose">
 			<view>五山校区</view>
@@ -48,8 +48,8 @@
 				current: 0
 			}
 		},
-		onLoad() {
-
+		onLoad() {	
+			console.log("1253")
 		},
 		methods: {
 			search(){

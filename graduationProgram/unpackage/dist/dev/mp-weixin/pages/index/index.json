@@ -1,7 +1,11 @@
 {
   "navigationBarTitleText": "uni-app",
+<<<<<<< HEAD
   "usingComponents": {
     "u-search": "/uview-ui/components/u-search/u-search",
     "u-tabbar": "/uview-ui/components/u-tabbar/u-tabbar"
   }
+=======
+  "usingComponents": {}
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 }

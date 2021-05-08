@@ -92,6 +92,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
+<<<<<<< HEAD
 var components = {
   uSearch: function() {
     return __webpack_require__.e(/*! import() | uview-ui/components/u-search/u-search */ "uview-ui/components/u-search/u-search").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-search/u-search.vue */ 62))
@@ -100,6 +101,9 @@ var components = {
     return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 69))
   }
 }
+=======
+var components
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -137,6 +141,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+<<<<<<< HEAD
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
@@ -150,6 +155,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+=======
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 //
 //
 //
@@ -162,6 +170,7 @@ var _default =
 {
   data: function data() {
     return {
+<<<<<<< HEAD
       keyword: 'Hello',
       list: [{
         iconPath: "home",
@@ -185,11 +194,15 @@ var _default =
 
 
       current: 0 };
+=======
+      title: 'Hello' };
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 
   },
   onLoad: function onLoad() {
 
   },
+<<<<<<< HEAD
   methods: {
     search: function search() {
       uni.navigateTo({
@@ -205,6 +218,9 @@ var _default =
   // }
 };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+=======
+  methods: {} };exports.default = _default;
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 
 /***/ }),
 

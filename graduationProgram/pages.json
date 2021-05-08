@@ -1,11 +1,27 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{
+			"path": "pages/index/index_2",
+			"style": {
+				"navigationBarTitleText": "uni-app-2"
+			}
+		},
+		{
+			"path": "pages/people/people_main",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
 		}
+<<<<<<< HEAD
         ,{
             "path" : "pages/search/search",
             "style" :                                                                                    
@@ -25,13 +41,46 @@
             
         }
     ],
+=======
+	],
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#303133",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/search.png",
+				"selectedIconPath": "static/search_blue.png",
+				"text": "寻找故事"
+			},
+			{
+				"pagePath": "pages/index/index_2",
+				"iconPath": "static/write.png",
+				"selectedIconPath": "static/write_blue.png",
+				"text": "发布故事"
+			},
+			{
+				"pagePath": "pages/people/people_main",
+				"iconPath": "static/person.png",
+				"selectedIconPath": "static/person_blue.png",
+				"text": "个人信息"
+			}
+		]
+	},
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "毕业季",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+<<<<<<< HEAD
 	},
 	"easycom": {
 			"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 		}
 }
+=======
+	}
+}
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef

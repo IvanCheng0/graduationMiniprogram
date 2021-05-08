@@ -21,6 +21,7 @@ createPage(_search.default);
   !*** C:/Users/Ivan/Desktop/graduation/graduationMiniprogram/graduationProgram/pages/search/search.vue ***!
   \********************************************************************************************************/
 /*! no static exports found */
+<<<<<<< HEAD
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -182,6 +183,11 @@ __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
     if(false) { var cssReload; }
   
+=======
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js):\nError: ENOENT: no such file or directory, open 'C:\\Users\\Ivan\\Desktop\\graduation\\graduationMiniprogram\\graduationProgram\\pages\\search\\search.vue'");
+>>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 
 /***/ })
 

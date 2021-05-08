@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-search placeholder="日照香炉生紫烟" v-model="keyword"></u-search>
+		<u-search placeholder="" v-model="keyword"></u-search>
 		<view class="history">历史记录</view>
 		<view class="historyData" v-for="message in historyData" >地点：{{message}}</view>
 		<view class="history">搜索发现</view>
