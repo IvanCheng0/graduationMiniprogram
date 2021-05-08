@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<titleComponent :title="title" @back="back()"></titleComponent>
-		<div class="tap" id="tap" :class="tapFixed? 'tapFixed':''">
+		<div class="tap" id="tapId" :class="tapFixed? 'tapFixed':''">
 			<span @click="changeTap" :class="listingShow?'active':''">清单</span>
 			<span @click="changeTap" :class="interactiveShow?'active':''">互动</span>
 		</div>
@@ -122,13 +122,8 @@
 			},
 
 			handleScroll() {
-				var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-				var offsetTop = document.querySelector('#tap').offsetTop
-				if (scrollTop > offsetTop) {
-					this.tapFixed = true
-				} else {
+				
 					this.tapFixed = false
-				}
 			}
 		},
 		mounted() {

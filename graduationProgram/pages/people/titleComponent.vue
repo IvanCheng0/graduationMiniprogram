@@ -1,7 +1,7 @@
 <template>
 	<div class="title">
-		<span class="backBtn" @click='$emit("back")'>
-			<</span> <span class="personal">{{title.name}}
+		<span class="backBtn" @click='$emit("back")'></span> 
+		<span class="personal">{{title.name}}
 		</span>
 		<image :src="title.icon" class="icon"></image>
 	</div>
