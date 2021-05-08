@@ -1,27 +1,31 @@
 <template>
 	<view>
-		<view class="page-body">
-		    <view class="page-section page-section-gap">
-		        <map style="width: 100%; height: 600px;" 
-					:controls="controls" 
-					:scale="scale" 
-					:latitude="latitude" 
-					:longitude="longitude" 
-					:markers="covers"
-					@callouttap="handleTap">
-		        </map>
-		    </view>
+		<u-search placeholder="" v-model="keyword" :clearabled="true" @search="search()" :show-action="false">
+		</u-search>
+		<map style="width: 100%; height: 600px;" :controls="controls" :scale="scale" :latitude="latitude"
+			:longitude="longitude" :markers="covers" @callouttap="handleTap">
+		</map>
+		<!-- //底部三个按钮 -->
+		<view class="areaChoose">
+			<view>五山校区</view>
+			<view>大学城校区</view>
+			<view>国际校区</view>
 		</view>
-		<view @click="toStory">
-			click here to view the story
-		</view>
+
+		<u-search placeholder="" v-model="keyword"></u-search>
+		<view class="history">历史记录</view>
+		<view class="historyData" v-for="message in historyData">地点：{{message}}</view>
+		<view class="history">搜索发现</view>
+		<view class="historyData" v-for="message in historyData">地点：{{message}}</view>
 	</view>
 </template>
- 
+
 <script>
 	export default {
 		data() {
 			return {
+				keyword: '遥看瀑布挂前川',
+				historyData: ['故事文字第一句', '故事文字第二句', '故事文字第三句', '故事文字第四句'],
 				title: 'map',
 				latitude: 39.909,
 				longitude: 116.39742,
@@ -104,44 +108,41 @@
 				// 	dottedLine:true,//是否虚线
 				// 	arrowLine:true,	//带箭头的线 开发者工具暂不支持该属性
 				// }],
-				
-				
-			};
-		},
-		methods:{
-			handleTap(e){
-				console.log(e.detail)
-				console.log(123)
 			}
 		},
-
 		methods: {
-			toStory(){
+			search() {
 				uni.navigateTo({
-					url:"../story/storyDetails"
+					url: '../searchPlace/searchPlace'
 				})
-			},
-			onLoad(){
-			uni.getLocation({//获取当前的位置坐标
-				type: 'wgs84',
-				success: function (res) {
-					console.log('当前位置的经度：' + res.longitude);
-					console.log('当前位置的纬度：' + res.latitude);
-				}
-			});
-		}  
-// 			uni.chooseLocation({
-// 				success: function (res) {
-// 					console.log('位置名称：' + res.name);
-// 					console.log('详细地址：' + res.address);
-// 					console.log('纬度：' + res.latitude);
-// 					console.log('经度：' + res.longitude);
-// 				}
-// 			});
-		}
+			}
+		},
 	}
 </script>
- 
+
 <style>
- 
+	.history {
+		margin-top: 10rpx;
+	}
+
+	.historyData {
+		padding: 10rpx 100rpx;
+		margin-left: 30rpx;
+		margin-right: 30rpx;
+		margin-top: 10rpx;
+		border: solid #007AFF 3rpx
+	}
+
+	.areaChoose {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		margin-top: 50rpx
+	}
+
+	.areaChoose view {
+		border: #007AFF 3rpx solid;
+		padding: 10rpx;
+		border-radius: 10rpx;
+	}
 </style>
