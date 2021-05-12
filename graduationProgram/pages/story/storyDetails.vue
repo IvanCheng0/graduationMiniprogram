@@ -1,9 +1,9 @@
 <template>
 	<view>
 	<view class="content">
-		<view class="tags">
-			<span style="margin-left: 10px;">标签</span><!--区域滚动-->
-			<scroll-view scroll-x="true"  scroll-left="100" show-scrollbar="true" style="margin-top:5px;height: 25px;">
+		<view>
+			<span style="">标签</span><!--区域滚动-->
+			<scroll-view scroll-x="true" style="white-space: nowrap; margin-top: 5px;height: 30px;">
 				<span v-for="item in tags" class="tag">{{item.value}}</span>
 			</scroll-view>
 			
@@ -36,34 +36,28 @@
 				title: '故事详情',
 				tags:[
 					{
-						value:'tag1'
+						value:'haoye0'
 					},
 					{
-						value:'tag2'
+						value:'haoye1'
 					},
 					{
-						value:'tag4'
+						value:'haoye2'
 					},
 					{
-						value:'tag5'
+						value:'haoye3'
 					},
 					{
-						value:'tag6'
+						value:'好耶0'
 					},
 					{
-						value:'tag6'
+						value:'好耶1'
 					},
 					{
-						value:'tag7'
+						value:'好耶2'
 					},
 					{
-						value:'tag8'
-					},
-					{
-						value:'tag9'
-					},
-					{
-						value:'tag10'
+						value:'好耶3'
 					},
 				],
 				storyContent:'故事文字描述',
@@ -96,7 +90,9 @@
 .tag{
 	border: 1px solid;
 	border-radius: 8px;
-	margin-left: 10px;
+	margin-right: 10px;
+	display:inline-block;
+	padding: 2px;
 }
 .textContent{
 	border: 1px solid;
