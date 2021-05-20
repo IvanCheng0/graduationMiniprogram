@@ -19,6 +19,14 @@
 			}
 		},
 		{
+			"path": "pages/story/addTag",
+			"style": {
+				"navigationBarTitleText": "标签",
+				"navigationBarBackgroundColor": "#BCC1CB",
+				"backgroundColor": "#BCC1CB"
+			}
+		},
+		{
 			"path":"pages/story/storyDetails",
 			"style":{
 				"navigationBarTitleText":"故事详情"

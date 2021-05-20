@@ -2,30 +2,37 @@
 	<view>
 	<view class="content">
 		<view>
-			<span style="">标签</span><!--区域滚动-->
-			<scroll-view scroll-x="true" style="white-space: nowrap; margin-top: 5px;height: 30px;">
-				<span v-for="item in tags" class="tag">{{item.value}}</span>
-			</scroll-view>
-			
+			<image src="../story/ana.jpg" class="headPic" mode="aspectFit"></image>
+			<span style="display: inline-block;">
+				<view>昵称</view>
+				<view>2021-05-01</view>
+			</span>
 		</view>
 		<view class="textContent">
 			{{storyContent}}
 		</view>
 		<view class="src">
-			<span class="storySrc">此处应有图片</span>
-			<span class="storySrc">此处应有视频</span>
-			<span class="storySrc">此处应有语音</span>
+			<span class="storySrc">此处应有图片/视频/语音</span>
+			
+		</view>
+		<view>
+			<span style="">标签</span><!--区域滚动-->
+			<view style="margin-top: 10px;">
+				<!--区域滚动-->
+					<span v-for="(item,idx) in tags" class="tag" style="margin-right: 10px;">#{{item.value}}</span>
+			</view>
+			
+			
+		</view>
+		<view class="function">
+			<span>评论图标</span>
+			<span>点赞图标</span>
+			<span>收藏图标</span>
 		</view>
 		
+		
 	</view>
-	<view class="footer">
-		<input style="border: 1px solid;margin-left:5px ;width: 40%;float: left;" type="text" placeholder="请输入文字" />
-		<span>
-			<span class="funcButton" :style="[{backgroundColor: mark_flag==true ? '#FF0000' : '#FFFFFF'}]" @click="mark">收藏</span>
-			<span class="funcButton" :style="[{backgroundColor: like_flag==true ? '#FF0000' : '#FFFFFF'}]" @click="like">喜欢</span>
-			<span class="funcButton" @click="moreComment">评论</span>
-		</span>
-	</view>
+	
 	</view>
 </template>
 
@@ -60,7 +67,7 @@
 						value:'好耶3'
 					},
 				],
-				storyContent:'故事文字描述',
+				storyContent:'……………………………………………………………………………………………………………………………………………………………………………………………………………………………………………………',
 				mark_flag:false,//获取用户数据
 				like_flag:false,
 				
@@ -87,27 +94,36 @@
 	margin: 0 auto;
 	margin-top: 15px;
 }
+.content>view{
+	margin-top: 10px;
+}
+.headPic{
+	width: 40px;
+	height: 40px;
+}
 .tag{
-	border: 1px solid;
-	border-radius: 8px;
-	margin-right: 10px;
+	box-shadow: 5px 5px 5px #C1C6CF;
+	border-radius: 15px;
 	display:inline-block;
-	padding: 2px;
+	padding: 8px;
+	margin: 5px;
+	background-color: #437796;
+	color: #FFFFFF;
 }
 .textContent{
-	border: 1px solid;
-	border-radius: 8px;
-	margin-top: 15px;
-	padding: 5px 150px 180px 10px;
+	
 }
 .src{
-	margin-top: 15px;
 	text-align: center;
 }
 .storySrc{
-	border: 1px solid;
 	border-radius: 8px;
-	margin-left: 10px;
+	padding: 5px;
+	height: 150px;/*换行！*/
+	min-height: 150px;
+	background-color: #EBF2FF;
+	box-shadow: 8px 8px 5px #C1C6CF;
+
 	
 }
 .footer{
@@ -118,10 +134,12 @@
 	padding: 10px 5px 10px 5px;
 	background-color: white;
 }
-.funcButton{
-	float: right;
-	border: 1px solid;
-	border-radius: 8px;
-	margin-right: 20px;
+.function{
+	position: absolute;
+	right: 10%;
+	margin-top: 10px;
+}
+.function>span{
+	margin-right: 10px;
 }
 </style>
