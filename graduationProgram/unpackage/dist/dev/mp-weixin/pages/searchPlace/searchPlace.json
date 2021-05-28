@@ -1,7 +1,6 @@
 {
-  "navigationBarTitleText": "",
-  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "故事详情",
   "usingComponents": {
-    "u-avatar": "/uview-ui/components/u-avatar/u-avatar"
+    "u-popup": "/uview-ui/components/u-popup/u-popup"
   }
 }

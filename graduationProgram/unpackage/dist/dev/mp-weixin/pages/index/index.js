@@ -92,18 +92,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-<<<<<<< HEAD
 var components = {
   uSearch: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-search/u-search */ "uview-ui/components/u-search/u-search").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-search/u-search.vue */ 62))
-  },
-  uTabbar: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 69))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-search/u-search */ "uview-ui/components/u-search/u-search").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-search/u-search.vue */ 66))
   }
 }
-=======
-var components
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -141,7 +134,6 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-<<<<<<< HEAD
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
@@ -155,11 +147,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-=======
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
-//
-//
 //
 //
 //
@@ -170,57 +157,98 @@ var _default =
 {
   data: function data() {
     return {
-<<<<<<< HEAD
-      keyword: 'Hello',
-      list: [{
-        iconPath: "home",
-        selectedIconPath: "home-fill",
-        text: '寻找故事',
-        customIcon: false },
+      keyword: '',
+      title: 'map',
+      latitude: 23.046455,
+      longitude: 113.405261,
+      covers: [{
+        id: 0,
+        latitude: 23.046455,
+        longitude: 113.405261,
+        title: '图书馆', //标注点名
+        label: { //为标记点旁边增加标签
+          content: '图书馆',
+          color: '#F76350',
+          anchorX: 0, //label的坐标，原点是 marker 对应的经纬度
+          anchorY: -80, //label的坐标，原点是 marker 对应的经纬度 
+          bgColor: '#fff', //背景色
+          padding: 5
+          // borderWidth: 1, //边框宽度
+          // borderColor: '#D84C29', //边框颜色							
+          // textAlign: 'right' //文本对齐方式。
+        },
+        callout: { //自定义标记点上方的气泡窗口 点击有效
+          content: '地点1',
+          color: '#F76350',
+          fontSize: 12,
+          borderRadius: 5 } },
 
       {
-        iconPath: "https://cdn.uviewui.com/uview/common/min_button.png",
-        selectedIconPath: "https://cdn.uviewui.com/uview/common/min_button_select.png",
-        text: '发布故事',
-        midButton: true,
-        customIcon: false },
+        id: 5,
+        latitude: 23.047667,
+        longitude: 113.405512,
+        title: 'A1教学楼',
+        x: 23.1290,
+        y: 113.264,
+        label: {
+          content: 'A1教学楼',
+          color: '#F76350',
+          bgColor: '#fff',
+          anchorX: 0, //label的坐标，原点是 marker 对应的经纬度
+          anchorY: -80, //label的坐标，原点是 marker 对应的经纬度
+          padding: 5,
+          borderRadius: 4 },
 
-      {
-        iconPath: "account",
-        selectedIconPath: "account-fill",
-        text: '个人中心',
-        isDot: false,
-        customIcon: false }],
+        callout: {
+          content: '地点2',
+          color: '#F76350',
+          fontSize: 12 } }],
 
 
-      current: 0 };
-=======
-      title: 'Hello' };
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
+      scale: 17, //地图层级
+      controls: [{ //在地图上显示控件，控件不随着地图移动
+        id: 1, //控件id
+        iconPath: '../../static/logo.png', //显示的图标	
+        position: { //控件在地图的位置
+          left: 15,
+          top: 15,
+          width: 50,
+          height: 50 } }] };
+
+
 
   },
-  onLoad: function onLoad() {
-
-  },
-<<<<<<< HEAD
   methods: {
     search: function search() {
-      uni.navigateTo({
+      uni.switchTab({
         url: '../searchPlace/searchPlace' });
 
-    } }
+    },
+    changeTap: function changeTap(e) {
+      console.log(e.detail.markerId);
+      if (e.detail.markerId == 5) {
+        uni.switchTab({
+          url: "../search/search" });
 
+      } else if (e.detail.markerId == 0) {
+        uni.switchTab({
+          url: "../searchPlace/searchPlace" });
 
-  // onReady(){
-  // 	search(){
-
-  // 	}
-  // }
-};exports.default = _default;
+      }
+    },
+    toWushan: function toWushan() {
+      this.latitude = 23.154165;
+      this.longitude = 113.345922;
+    },
+    toCollegeTown: function toCollegeTown() {
+      this.latitude = 23.046455;
+      this.longitude = 113.405261;
+    },
+    toInternation: function toInternation() {
+      this.latitude = 23.008579;
+      this.longitude = 113.407349;
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-=======
-  methods: {} };exports.default = _default;
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 
 /***/ }),
 

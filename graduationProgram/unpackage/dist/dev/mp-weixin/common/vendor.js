@@ -8025,7 +8025,6 @@ function normalizeComponent (
 }
 
 
-<<<<<<< HEAD
 /***/ }),
 /* 13 */
 /*!**************************************************************************************************!*\
@@ -10473,8 +10472,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   sticky: 970,
   indexListSticky: 965 };exports.default = _default;
 
-=======
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 /***/ })
 ]]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

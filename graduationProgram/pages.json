@@ -10,77 +10,48 @@
 			}
 		},
 		{
-			"path": "pages/index/index_2",
+			"path": "pages/search/search",
 			"style": {
-				"navigationBarTitleText": "uni-app-2"
+				"navigationBarTitleText": "发布故事"
 			}
 		},
 		{
-			"path": "pages/people/people_main",
-			"style": {
-				"navigationBarTitleText": "个人信息"
+			"path":"pages/searchPlace/searchPlace",
+			"style":{
+				"navigationBarTitleText":"故事详情"
 			}
 		}
-<<<<<<< HEAD
-        ,{
-            "path" : "pages/search/search",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/searchPlace/searchPlace",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
-=======
 	],
 	"tabBar": {
 		"color": "#909399",
 		"selectedColor": "#303133",
 		"backgroundColor": "#FFFFFF",
 		"borderStyle": "black",
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/search.png",
 				"selectedIconPath": "static/search_blue.png",
 				"text": "寻找故事"
 			},
 			{
-				"pagePath": "pages/index/index_2",
+				"pagePath": "pages/search/search",
 				"iconPath": "static/write.png",
 				"selectedIconPath": "static/write_blue.png",
 				"text": "发布故事"
 			},
 			{
-				"pagePath": "pages/people/people_main",
+				"pagePath": "pages/searchPlace/searchPlace",
 				"iconPath": "static/person.png",
 				"selectedIconPath": "static/person_blue.png",
 				"text": "个人信息"
 			}
 		]
 	},
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "毕业季",
+		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
-<<<<<<< HEAD
-	},
-	"easycom": {
-			"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-		}
-}
-=======
 	}
 }
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef

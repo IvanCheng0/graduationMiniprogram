@@ -1,13 +1,47 @@
 
+.u-content.data-v-4c556b40{
+	height:70rpx !important;
+	margin:0 20rpx;
+	margin-top:30rpx ;
+}
+.u-input.data-v-4c556b40 {
+	width:300rpx !important;
+}
+/* 搜索 */
+.u-action.data-v-4c556b40{
+	background-color: #EEEEEE;
+	height:70rpx !important;
+	line-height: 70rpx;
+	width:200rpx;
+	-webkit-border-radius:20rpx;
+	        border-radius:20rpx;
+	margin-top:30rpx ;
+}
 .history{
-	margin-top: 10rpx;
+	margin-top: 30rpx;
+	font-weight:bold;
+	font-size: 35rpx;
+	margin-left:40rpx;
 }
 .historyData{
-	padding:10rpx 100rpx;
-	margin-left:30rpx;
-	margin-right:30rpx;
-	margin-top: 10rpx;
-	border:solid #007AFF 3rpx
+	padding:10rpx 80rpx;
+	margin:10rpx 30rpx;
+	margin-top:20rpx;
+	height:80rpx;
+	-webkit-border-radius:30rpx;
+	        border-radius:30rpx;
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	border:solid #F6F3EE 3rpx;
+	background-color:#F6F3EE;
+	font-family:'Microsoft JhengHei UI Segoe';
+	display:flex;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
 }
 
 

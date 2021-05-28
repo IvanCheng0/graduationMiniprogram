@@ -55,14 +55,11 @@
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
-<<<<<<< HEAD
 /******/ 	// object to store loaded CSS chunks
 /******/ 	var installedCssChunks = {
 /******/ 		"common/runtime": 0
 /******/ 	}
 /******/
-=======
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 /******/ 	// object to store loaded and loading chunks
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
@@ -72,14 +69,11 @@
 /******/
 /******/ 	var deferredModules = [];
 /******/
-<<<<<<< HEAD
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
 /******/ 		return __webpack_require__.p + "" + chunkId + ".js"
 /******/ 	}
 /******/
-=======
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -104,7 +98,6 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
-<<<<<<< HEAD
 /******/ 	// This file contains only the entry chunk.
 /******/ 	// The chunk loading function for additional chunks
 /******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
@@ -112,11 +105,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"uview-ui/components/u-tabbar/u-tabbar":1,"uview-ui/components/u-search/u-search":1,"uview-ui/components/u-avatar/u-avatar":1,"uview-ui/components/u-badge/u-badge":1,"uview-ui/components/u-icon/u-icon":1};
+/******/ 		var cssChunks = {"uview-ui/components/u-search/u-search":1,"uview-ui/components/u-popup/u-popup":1,"uview-ui/components/u-icon/u-icon":1,"uview-ui/components/u-mask/u-mask":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"uview-ui/components/u-tabbar/u-tabbar":"uview-ui/components/u-tabbar/u-tabbar","uview-ui/components/u-search/u-search":"uview-ui/components/u-search/u-search","uview-ui/components/u-avatar/u-avatar":"uview-ui/components/u-avatar/u-avatar","uview-ui/components/u-badge/u-badge":"uview-ui/components/u-badge/u-badge","uview-ui/components/u-icon/u-icon":"uview-ui/components/u-icon/u-icon"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"uview-ui/components/u-search/u-search":"uview-ui/components/u-search/u-search","uview-ui/components/u-popup/u-popup":"uview-ui/components/u-popup/u-popup","uview-ui/components/u-icon/u-icon":"uview-ui/components/u-icon/u-icon","uview-ui/components/u-mask/u-mask":"uview-ui/components/u-mask/u-mask"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {
@@ -207,8 +200,6 @@
 /******/ 		}
 /******/ 		return Promise.all(promises);
 /******/ 	};
-=======
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -262,12 +253,9 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/";
 /******/
-<<<<<<< HEAD
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
-=======
->>>>>>> 94aa3062b82865e3e9f1d2779bd40c441b5eb1ef
 /******/ 	var jsonpArray = global["webpackJsonp"] = global["webpackJsonp"] || [];
 /******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
 /******/ 	jsonpArray.push = webpackJsonpCallback;

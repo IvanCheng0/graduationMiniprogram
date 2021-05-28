@@ -1,30 +1,135 @@
 
-.place{
-	background-color: grey ;
-	padding:30rpx 2000rpx
+.button{
+	font-family: FZCHSJW--GB1-0;
+	width:600rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	font-weight: bold;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
+	background-color: #E2ECFF;
+	margin-top:30rpx ;
 }
 .user{
+	margin-top:40rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-orient: horizontal;
+}
+.headImage{
+	height:100rpx ;
+	width:100rpx;
+	-webkit-border-radius: 100rpx;
+	        border-radius: 100rpx;
+	margin-left: 40rpx;
+}
+.imgRight{
+	margin-left: 40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
-	-webkit-flex-direction: row;
-	        flex-direction: row;
-	margin:30rpx;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 }
-.user view{
-	margin-left:20rpx;
-	background-color: grey;
-	height:40rpx;
-	width:200rpx;
-	padding:15rpx  70rpx;
+.nickname{
+	font-family: FZCHSJW--GB1-0;
+	font-size: 40rpx;
+	font-weight: bold;
 }
-.text{
-	border:solid grey 3rpx;
-	width:100%;
-	height:100px;
-	background-color: grey;
+.date{
+	font-size: 20rpx;
+}
+.descriptionFold,.descriptionUnfold{
+	font-family: FZCHSJW--GB1-0;
+	margin-left:40rpx;
+	margin-top:25rpx;
+	margin-right:20rpx;
+}
+.descriptionUnfold{
+	font-family: FZCHSJW--GB1-0;
+}
+.userImage{
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	margin-left:30rpx;
+}
+.displayImage{
+	width:32% !important;
+	height:320rpx !important;
+}
+.label{
+	margin-left:50rpx;
+	margin-top:20rpx;
+	background-color: #FFFBF2;
+	width:300rpx;
+	height:100rpx;
+	color:#ACACAC;
+}
+.iconfont.icon-pinglun{
+	margin-right: 40rpx;font-size: 50rpx;
+}
+.iconfont.icon-shoucang{
+	margin-right: 40rpx;font-size: 50rpx;
+}
+.iconfont.icon-add{
+	margin-right: 40rpx;font-size: 50rpx;
+}
+.line{
+  position:relative;
+  margin-top:20rpx;
+}
+.line::after {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #8A8A8A;
+}
+/* 弹出层 */
+.user{
+	margin-top:40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.commentImage{
+	height:100rpx ;
+	width:100rpx;
+	-webkit-border-radius: 20% !important;
+	        border-radius: 20% !important;
+	margin-left: 40rpx;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.imgRight{
+	margin-left: 40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+}
+.commentUser{
+	font-family:Microsoft JhengHei UI Segoe;
+	font-size: 30rpx;
+	color:#437796
+}
+.comment{
+	font-size: 33rpx;
 }
 
 

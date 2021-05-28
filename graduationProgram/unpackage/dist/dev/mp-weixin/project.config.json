@@ -4,11 +4,11 @@
     "ignore": []
   },
   "setting": {
-    "urlCheck": false
+    "urlCheck": true
   },
   "compileType": "miniprogram",
   "libVersion": "",
-  "appid": "touristappid",
+  "appid": "wx82de4d02d2bece39",
   "projectname": "graduationMiniprogram",
   "condition": {
     "search": {
@@ -28,8 +28,8 @@
       "list": [
         {
           "id": 0,
-          "name": "pages/index/index",
-          "pathName": "pages/index/index",
+          "name": "pages/searchPlace/searchPlace",
+          "pathName": "pages/searchPlace/searchPlace",
           "query": ""
         }
       ]
