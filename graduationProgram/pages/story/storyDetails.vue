@@ -1,131 +1,75 @@
 <template>
 	<view>
-	<view class="content">
-		<view class="tags">
-			<span style="margin-left: 10px;">标签</span><!--区域滚动-->
-			<scroll-view scroll-x="true"  scroll-left="100" show-scrollbar="true" style="margin-top:5px;height: 25px;">
-				<span v-for="item in tags" class="tag">{{item.value}}</span>
-			</scroll-view>
-			
-		</view>
-		<view class="textContent">
-			{{storyContent}}
-		</view>
-		<view class="src">
-			<span class="storySrc">此处应有图片</span>
-			<span class="storySrc">此处应有视频</span>
-			<span class="storySrc">此处应有语音</span>
-		</view>
-		
-	</view>
-	<view class="footer">
-		<input style="border: 1px solid;margin-left:5px ;width: 40%;float: left;" type="text" placeholder="请输入文字" />
-		<span>
-			<span class="funcButton" :style="[{backgroundColor: mark_flag==true ? '#FF0000' : '#FFFFFF'}]" @click="mark">收藏</span>
-			<span class="funcButton" :style="[{backgroundColor: like_flag==true ? '#FF0000' : '#FFFFFF'}]" @click="like">喜欢</span>
-			<span class="funcButton" @click="moreComment">评论</span>
-		</span>
-	</view>
+		<!--布尔传参不能用驼峰命名^^-->
+		<singlestory 
+		story-page-type 
+		:p_usrname="storyInfo.usrname"
+		:p_time="storyInfo.time"
+		:p_tags="storyInfo.tags"
+		:p_storyContent="storyInfo.storyContent"
+		:p_comment_num="storyInfo.comment_num"
+		:p_mark_flag="storyInfo.mark_flag"
+		:p_like_flag="storyInfo.like_flag"
+		:p_like_num="storyInfo.like_num"
+		:p_commentList="storyInfo.commentList"></singlestory>
+<!--评论区列表-->
+
+		<comment-list :p_commentList="storyInfo.commentList"></comment-list>
 	</view>
 </template>
 
 <script>
+import singlestory from '../story/singleStory_component.vue'
+import commentList from '../story/comment_list_component.vue'
 	export default {
 		data() {
 			return {
-				title: '故事详情',
-				tags:[
+				storyInfo:
 					{
-						value:'tag1'
+						id: '我是故事id1',
+						usrname: '我是昵称1',
+						time: '2021-05-01',
+						tags:[
+							{
+								value:'haoye0'
+							},
+							{
+								value:'haoye1'
+							},
+							
+						],
+						storyContent:'我是内容1 这里是文章测试标题，含标点一共二十个字。这里是文章测试标题，含标点一共二十个字。这里是文章测试标题，含标点一共二十个字。这里是文章测试标题，含标点一共二十个字。这里是文章测试标题，含标点一共二十个字。这里是文章测试标题，含标点一共二十个字。这里是文章测试标题，含标点一共二十个字。这里是文章测试标题，含标点一共二十个字。',
+						comment_num: 5,
+						mark_flag:false,//获取用户数据
+						like_flag:false,//获取用户数据
+						like_num:50,
+						mark_icon: '../../static/story/icon/mark.png',
+						mark_after_icon: '../../static/story/icon/mark_after.png',
+						like_icon: '../../static/story/icon/like.png',
+						like_after_icon: '../../static/story/icon/like_after.png',
+						replyContent: '',
+						commentList: [
+							
+						],
+					
 					},
-					{
-						value:'tag2'
-					},
-					{
-						value:'tag4'
-					},
-					{
-						value:'tag5'
-					},
-					{
-						value:'tag6'
-					},
-					{
-						value:'tag6'
-					},
-					{
-						value:'tag7'
-					},
-					{
-						value:'tag8'
-					},
-					{
-						value:'tag9'
-					},
-					{
-						value:'tag10'
-					},
-				],
-				storyContent:'故事文字描述',
-				mark_flag:false,//获取用户数据
-				like_flag:false,
+				
 				
 			}
 		},
 		methods: {
-			mark(){
-				this.mark_flag=!this.mark_flag;
-				console.log(this.mark_flag);
-			},
-			like(){
-				this.like_flag=!this.like_flag;
-			},
-			moreComment(){
-				
-			}
+		},
+		onLoad(){
+			//获取发布人昵称、头像、发布日期、标签、点赞、评论、收藏
+		},
+		components:{
+			singlestory,
+			commentList
 		}
 	}
 </script>
 
 <style>
-.content {
-	width: 90%;
-	margin: 0 auto;
-	margin-top: 15px;
-}
-.tag{
-	border: 1px solid;
-	border-radius: 8px;
-	margin-left: 10px;
-}
-.textContent{
-	border: 1px solid;
-	border-radius: 8px;
-	margin-top: 15px;
-	padding: 5px 150px 180px 10px;
-}
-.src{
-	margin-top: 15px;
-	text-align: center;
-}
-.storySrc{
-	border: 1px solid;
-	border-radius: 8px;
-	margin-left: 10px;
-	
-}
-.footer{
-	width: 100%;
-	position: fixed;
-	bottom: 0;
-	border-top: 1px solid #000000;
-	padding: 10px 5px 10px 5px;
-	background-color: white;
-}
-.funcButton{
-	float: right;
-	border: 1px solid;
-	border-radius: 8px;
-	margin-right: 20px;
-}
+
+
 </style>

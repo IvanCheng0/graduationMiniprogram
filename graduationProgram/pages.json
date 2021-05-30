@@ -10,20 +10,40 @@
 			}
 		},
 		{
-			"path":"pages/searchPlace/searchPlace"
+			"path":"pages/index/searchPlace"
 		},
 		{
-			"path": "pages/story/post",
-			"style": {
-				"navigationBarTitleText": "发布故事"
-			}
+			"path":"pages/index/search"
 		},
 		{
-			"path":"pages/story/storyDetails",
-			"style":{
-				"navigationBarTitleText":"故事详情"
-			}
-		},
+		   "path": "pages/story/post",
+		   "style": {
+		    "navigationBarTitleText": "发布故事",
+		    "navigationBarBackgroundColor": "#4572CD"
+		   }
+		  },
+		  {
+		   "path": "pages/story/addTag",
+		   "style": {
+		    "navigationBarTitleText": "标签",
+		    "navigationBarBackgroundColor": "#4572CD",
+		    "backgroundColor": "#BCC1CB"
+		   }
+		  },
+		  {
+		   "path":"pages/story/storyDetails",
+		   "style":{
+		    "navigationBarTitleText":"故事详情",
+		    "navigationBarBackgroundColor": "#4572CD"
+		   }
+		  },
+		  {
+		   "path":"pages/story/storyList",
+		   "style":{
+		    "navigationBarTitleText":"故事列表",
+		    "navigationBarBackgroundColor": "#4572CD"
+		   }
+		  },
 		{
 			"path": "pages/people/people_main",
 			"style": {
@@ -38,6 +58,15 @@
 		},
 		{
 			"path":"pages/people/people_footprint"
+		},
+		{
+			"path":"pages/people/people_action"
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
 		}
     ],
 	"tabBar": {
@@ -71,5 +100,15 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"condition" : { 
+		"current": 0, 
+		"list": [
+			{
+				"name": "", 
+				"path": "", 
+				"query": "" 
+			}
+		]
 	}
 }

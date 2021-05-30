@@ -1,13 +1,11 @@
 <template>
 	<div class="outer" @click="$emit('showDetail', listItem.ID)">
 		<image :src="avatar" class="avatar"></image>
-		<div class="des">
-			<div class="description">
-				{{listItem.description}}
-			</div>
+		<div class="content">
+			<div class="name">{{listItem.name}}</div>
+			<div class="description">{{listItem.description}}</div>
 		</div>
-
-		<image src="../../static/img/people/delete.png" class="delete" @click.prevent="$emit('delete', listItem.ID)"></image>
+		<div class="time">{{listItem.time}}</div>
 	</div>
 </template>
 
@@ -25,10 +23,11 @@
 	.outer {
 		display: flex;
 		align-items: center;
-		justify-content: space-around;
-		height: 135upx;
-		margin-bottom: 50upx;
+		justify-content: space-between;
+		height: 140upx;
 		box-sizing: border-box;
+		padding: 30upx;
+		border-bottom: 1upx solid #707070;
 	}
 
 	/* 头像 */
@@ -36,37 +35,36 @@
 		width: 110upx;
 		height: 110upx;
 		margin-left: 15upx;
-		border-radius: 20%;
+		border-radius: 50%;
 		background-color: white;
 		box-shadow: 4upx 4upx 4upx #b0aea5;
 		box-sizing: border-box;
 	}
-
-	.outer .description {
-		width: 400upx;
-		font-size: 35upx;
-		min-height: 70upx;
-		font-family: FZCuHeiSongS-B-GB;
+	
+	/* 内容 */
+	.outer>.content{
+		flex: 1;
+		padding: 10upx 20upx;
 		box-sizing: border-box;
+	}
+	/* 昵称 */
+	.name{
+		font-family: FZCuHeiSongS-B-GB;
+		font-size: 35upx;
+		box-sizing: border-box;
+	}
+	.description{
+		box-sizing: border-box;
+		font-family: Microsoft JhengHei UI;
+		padding: 0 10upx;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
-		float: left;
 	}
-
-	.outer .des {
-		padding: 15upx 20upx;
-		box-sizing: border-box;
-		background-color: #CFDEE7;
-		box-shadow: 4upx 4upx 4upx #b0aea5;
-		border-radius: 35upx;
-	}
-
-	.outer>.delete {
-		height: 90upx;
-		margin-right: 15upx;
-		width: 90upx;
+	.time{
+		align-self: flex-start;
+		font-size: 25upx;
 	}
 </style>

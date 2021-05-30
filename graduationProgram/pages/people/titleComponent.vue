@@ -1,51 +1,51 @@
 <template>
 	<div class="title">
-		<span class="backBtn" @click='$emit("back")'></span> 
-		<span class="personal">{{title.name}}
+		<span class="backBtn" @click='$emit("back")' v-if="isShownBack">
+			</span> <span class="personal">{{title}}
 		</span>
-		<image :src="title.icon" class="icon"></image>
 	</div>
 </template>
 
 <script>
 	export default {
-		props: {
-			title: Object,
-			required: true
-		}
+		props: ['title', 'isShownBack']
 	}
 </script>
 
 <style>
 	/* 标题栏 */
 	.title {
-		height: 100upx;
-		line-height: 100upx;
-		display: flex;
-		align-items: center;
-		border-bottom: 2upx solid #a1a1a1;
+		position: relative;
+		height: 150upx;
+		border-bottom: 4upx solid #4572CD;
+		box-shadow: -0upx 3upx 3upx #d5d5d5;
 	}
+
 
 	/* 返回按钮 */
 	.backBtn {
-		padding: 0 20upx;
-		font-size: 40upx;
+		font-size: 100upx;
+		color: #333333;
+		float: left;
+		margin-left: 20upx;
+		display: inline-block;
+		height: 150upx;
+		line-height: 150upx;
 	}
 
 	/* 个人中心四个字 */
 	.personal {
-		flex: 1;
-		text-align: center;
-		font-size: 40upx;
-		font-weight: 500;
-	}
-
-	/* 右边的图标 */
-	.icon {
-		display: inline-block;
-		width: 50upx;
-		height: 50upx;
-		line-height: 100upx;
-		vertical-align: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		font-size: 50upx;
+		font-family: FZCuHeiSongS-B-GB;
+		padding: 15upx 70upx;
+		border-radius: 70upx;
+		background-color: #E2ECFF;
+		box-shadow: -0upx 5upx 5upx #4572CD;
 	}
 </style>
+
+
