@@ -61,12 +61,6 @@
 		},
 		{
 			"path":"pages/people/people_action"
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
 		}
     ],
 	"tabBar": {
