@@ -1,7 +1,11 @@
 <template>
 	<view class="content">
+		<u-form :model="form" ref="postForm">
+
 		<view id="textContent">
-			<textarea v-model="storyContent" placeholder="请在此输入你的故事吧~"></textarea>
+			<u-form-item prop="storyContent">
+				<textarea id="textArea" v-model="form.storyContent" placeholder="请在此输入你的故事吧~"></textarea>
+			</u-form-item>
 		</view>
 <!--录音切换显示-->
 		<!--<view class="uploadSrc" v-show="buttonTabChoose==0"></view>-->
@@ -26,7 +30,6 @@
 		<!--
 			<span class="addSrc" @click="toAddVid" style="margin-right: 10%;">添加视频</span>
 			<span class="addSrc" @click="toAddVoic">添加语音</span>
-
 		
 		<view class="uploadSrc" v-show="buttonTabChoose==1">
 			<button class="addSrc" @tap="startRecord" style="margin-right: 10%">开始录音</button>
@@ -37,7 +40,7 @@
 		-->
 <!--标签-->
 		<view id="tag">
-			<span v-for="(item,idx) in tags" @click="delTag(idx)">{{item.value}}</span>	
+			<span v-for="(item,idx) in tags" @click="delTag(idx)" :key="idx">{{item.value}}</span>	
 			<image src="../../static/story/icon/add.png" mode="heightFix" @click="addTag_newPage"></image>
 
 		</view>
@@ -45,30 +48,94 @@
 			<view id="picContent">
 				<image src='../../static/story/icon/icon0.png' style="max-width: 90%; max-height: 90%;"></image>
 			</view>
-			<!--按钮-->
+<!--按钮-->
 			<view id="button">
-				<view class="radioBox" >
+				<u-select v-model="show" mode="mutil-column-auto" :list="locList" @confirm="selectLoc"></u-select>
+				<view class="radioBox">
 					<checkbox value="anonymous" :checked="realName_or_not==false" />匿名
 				</view>
-				<view class="submitButton" @click="submitStory">确认发表</view>
+				<view style="clear: both;"></view>
+				<u-form-item prop="location" style="float: right;">
+				<view v-show="form.location==''" id="sel_loc" class="viewLoc" @click="show = true">选择地点</view>
+				<view v-show="form.location!=''" id="view_loc" v-html="form.location" class="viewLoc" @click="show = true"></view>
+				</u-form-item>
 			</view>		
 		</view>
+
+		<view class="submitButton" @click="submitStory">确认发表</view>
 		
+		</u-form>	
 	</view>
 </template>
 
 <script>
 const recorderManager = uni.getRecorderManager();
 const innerAudioContext = uni.createInnerAudioContext();
-
 innerAudioContext.autoplay = true;
-
 	export default {
 		data() {
 			return {
+				form:{
+					storyContent:'',
+					location: '',
+				},
+				rules:{
+					storyContent:{
+						required: true,
+						message: '请输入故事内容~',
+						trigger: 'change',
+					},
+					location:{
+						required: true,
+						message: '请选择地点~',
+						trigger: 'change',
+					},
+				},
+				show: false,
+				locList:[
+					{
+						value: '五山校区',
+						label: '五山校区',
+						children:[{
+							value: '西湖',
+							label: '西湖',
+						},
+						{
+							value: '剥削楼',
+							label: '剥削楼',
+						},
+						{
+							value: '分手亭',
+							label: '分手亭',
+						},
+						{
+							value: '北二饭堂',
+							label: '北二饭堂',
+						},
+						]
+					},
+					{
+						value: '大学城校区',
+						label: '大学城校区',
+						children:[{
+							value: '图书馆',
+							label: '图书馆',
+						},
+						{
+							value: '天桥底',
+							label: '天桥底',
+						},
+						{
+							value: '碎石村',
+							label: '碎石村',
+						},
+						]
+					},
+				],
+				
 				title: '发布故事',
 				//buttonTabChoose:0,
-				storyContent:'',
+				
 				realName_or_not: false,
 				
 				action:'https://zy.zaozhijob.com/api/v1/job/upload',
@@ -87,6 +154,10 @@ innerAudioContext.autoplay = true;
 		},
 		onLoad() {	
 			console.log("1253")
+		},
+		onReady() {
+			console.log("onready")
+			this.$refs.postForm.setRules(this.rules);
 		},
 		methods: {
 			submitPic(){
@@ -146,11 +217,15 @@ innerAudioContext.autoplay = true;
 				})
 			},
 			
-			
 			delTag(idx){
 				this.tags.splice(idx,1);
 			},
-			
+			selectLoc(res){
+				console.log(res);
+				this.form.location = res[0].label
+				+ '<br /><center>'
+				+ res[1].label + "</center>";
+			},
 			/*toAddLoc(){
 				const that = this;
 				uni.chooseLocation({
@@ -170,27 +245,36 @@ innerAudioContext.autoplay = true;
 				this.currAddress='';
 			},*/
 			submitStory(){
-				
+				console.log("test");
 				var that = this;
-				uni.showModal({
-				    title: '提示',
-				    content: '是否确认发布故事？',
-					cancelText: '我再想想',
-				    success: function (res) {
-				        if (res.confirm) {
-							//console.log(that.img_url);//上传后才有
-							//that.submitPic();
-							uni.showModal({
-								title: '提示',
-								content: '发布成功！',
-								showCancel:false
-								//调用发送数据接口
-							})
-				        } //else if (res.cancel) {
-				        //    console.log('用户点击取消');
-				        //}
-				    }
+				this.$refs.postForm.validate(valid =>{
+					console.log("valid");
+					if(valid){
+						console.log("验证通过！");
+						uni.showModal({
+						    title: '提示',
+						    content: '是否确认发布故事？',
+							cancelText: '我再想想',
+						    success: function (res) {
+						        if (res.confirm) {
+									//console.log(that.img_url);//上传后才有
+									//that.submitPic();
+									uni.showModal({
+										title: '提示',
+										content: '发布成功！',
+										showCancel:false
+										//调用发送数据接口
+									})
+						        } 
+						    }
+						});
+					}
+					else{
+						console.log("验证失败:(!");
+					}
 				});
+				
+				
 				
 			},
 		}
@@ -208,23 +292,22 @@ innerAudioContext.autoplay = true;
 	margin: 0 auto;
 	margin-top: 15px;
 }
-.content>view{
+.content>.u-form>view{
 	margin-top: 5%;
 }
-#textContent>textarea{
+#textArea{
 	border-radius: 8px;
 	margin-top: 5px;
 	padding: 5px;
 	min-height: 150px;
-	width: auto;
+	width: 90%;
+	margin: 0 auto;
 	background-color: #EBF2FF;
 	box-shadow: 8px 8px 5px #C1C6CF;
 }
-
 #uploadSrc{
 	text-align: center;
 }
-
 #uploadSrc>span{
 	margin: 0 auto;
 	background-color: #D0DEE9;
@@ -240,7 +323,6 @@ innerAudioContext.autoplay = true;
 	width: 60vw;
 	height: 20vw;
 }	
-
 #tag>span{
 	box-shadow: 5px 5px 5px #C1C6CF;
 	border-radius: 15px;
@@ -259,7 +341,7 @@ innerAudioContext.autoplay = true;
 	display: inline-block;
 	width: 25vw;
 }
-#button>view{
+#button>view:nth-child(2), #sel_loc, #view_loc{
 	padding: 8px;
 	border-radius: 15px;
 	box-shadow: 5px 5px 5px #C1C6CF;
@@ -267,14 +349,20 @@ innerAudioContext.autoplay = true;
 }
 .radioBox{
 	background-color: #DCB093;
-
+	margin-bottom: 10px;
+}
+.viewLoc{
+	background-color: #D0DEE9;
 }
 .submitButton{
 	margin-top: 10px;
 	text-align: center;
 	background-color: #65696C;
 	color: #FFFFFF;
-	display: inline-block;
-
+	padding: 8px;
+	border-radius: 15px;
+	box-shadow: 5px 5px 5px #C1C6CF;
+	width: 80%;
+	margin: 0 auto;
 }
 </style>

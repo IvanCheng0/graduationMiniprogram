@@ -8,7 +8,7 @@
 			<view  class="button"	@click="toInternation">国际校区</view>
 		</view>
 		<view style="margin-left:40rpx;margin-right:40rpx">
-			<map style="width: 100%; height: 800rpx;margin-top:50rpx;margin-right:40rpx" :controls="controls" :scale="scale" :latitude="latitude"
+			<map style="width: 100%; height: 800rpx;margin-top:50rpx;margin-right:40rpx"  :scale="scale" :latitude="latitude"
 			 :longitude="longitude" :markers="covers"  @markertap="changeTap" max-scale="19" min-scale="16">
 			</map>
 		</view>
