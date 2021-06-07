@@ -8,7 +8,7 @@
 			<view  class="button"	@click="toInternation">国际校区</view>
 		</view>
 		<view style="margin-left:40rpx;margin-right:40rpx">
-			<map style="width: 100%; height: 800rpx;margin-top:50rpx;margin-right:40rpx"  :scale="scale" :latitude="latitude"
+			<map :scale="scale" :latitude="latitude"
 			 :longitude="longitude" :markers="covers"  @markertap="changeTap" max-scale="19" min-scale="16">
 			</map>
 		</view>
@@ -29,17 +29,14 @@
 					id: 0,
 					latitude: 23.046455, 
 					longitude: 113.405261, 		
-					title: '图书馆', //标注点名
-					label: { //为标记点旁边增加标签
+					title: '图书馆', 
+					label: { 
 						content: '', 
 						color: '#F76350', 
 						anchorX: 0, //label的坐标，原点是 marker 对应的经纬度
 						anchorY: -80, //label的坐标，原点是 marker 对应的经纬度 
 						bgColor: '#fff', //背景色
 						padding: 5, 
-						// borderWidth: 1, //边框宽度
-						// borderColor: '#D84C29', //边框颜色							
-						// textAlign: 'right' //文本对齐方式。
 					},
 					callout: { //自定义标记点上方的气泡窗口 点击有效
 						content: '图书馆',
@@ -70,16 +67,6 @@
 					}
 				}],
 				scale: 17, //地图层级
-				// controls: [{ //在地图上显示控件，控件不随着地图移动
-				// 	id: 1, //控件id
-				// 	iconPath: '../../static/logo.png', //显示的图标	
-				// 	position: { //控件在地图的位置
-				// 		left: 15,
-				// 		top: 15,
-				// 		width: 50,
-				// 		height: 50
-				// 	},
-				// }],
 			}
 		},
 		methods: {
@@ -94,11 +81,10 @@
 					console.log("图书馆")
 				}else if(e.detail.markerId==5){
 					console.log("A1教学楼")
-					setTimeout(() => {
 						uni.navigateTo({
-							url: './searchPlace'
+							url: '../story/storyList'
 						})
-					}, 1000)
+				
 				}
 			},
 			toWushan() {
@@ -141,6 +127,12 @@
 
 	.u-input.data-v-4c556b40 {
 		background-color: #E2ECFF !important;
+	}
+	map{
+		width: 100%; 
+		height: 800rpx;
+		margin-top:50rpx;
+		margin-right:40rpx
 	}
 	
 </style>

@@ -16,6 +16,9 @@
 			"path":"pages/index/search"
 		},
 		{
+			"path":"pages/story/storyList"
+		},
+		{
 		   "path": "pages/story/post",
 		   "style": {
 		    "navigationBarTitleText": "发布故事",
