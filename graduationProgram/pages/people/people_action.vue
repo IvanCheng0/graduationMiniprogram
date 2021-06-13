@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<titleComponent :title="title" @back="back()"></titleComponent>
-		<div class="tapContainer" >
-			<div class="tapItemContainer" v-for="(item, index) in tapList" @click="changeCurrentTapId(index)" >
+		<div class="tapContainer">
+			<div class="tapItemContainer" v-for="(item, index) in tapList" :key="item.sid" @click="changeCurrentTapId(index)" >
 				<img :src="currentTapId==index?item.tappedSrc:item.src"  class="tapItem">
 				</img>
 			</div>
 		</div>
 		<!-- 喜爱 -->
-		<div v-if="currentTapId == 0" v-for="item in loveList" :key="item.sid" class="list">
+		<div v-if="currentTapId == 0" v-for="item in goodList" :key="item.sid" class="list">
 			<list-item :avatar="userInfo.avatar" :listItem="item" @delete="deleteItem" @showDetail="showDetail"></list-item>
 		</div>
 		<!-- 留言 -->
@@ -19,18 +19,20 @@
 		<div v-if="currentTapId == 2" v-for="item in collectList" :key="item.sid" class="list">
 			<list-item :avatar="userInfo.avatar" :listItem="item" @showDetail="showDetail"></list-item>
 		</div>
-		<uni-load-more :loadingType="loadingType" :contentText="contentText"></uni-load-more>
+		<uni-load-more v-if="currLength >= 7" :loadingType="loadingType" :contentText="contentText"></uni-load-more>
 	</div>
 </template>
 
 <script>
 	import titleComponent from './titleComponent.vue';
 	import listItem from './actionListItemComponent.vue';
+	import uniLoadMore from '../components/uni-load-more.vue';
 	import {getMyGoodList, getMyDiscussList, getMyCollectList} from "../../api/people/api.js"
 	export default {
 		components: {
 			titleComponent: titleComponent,
-			listItem: listItem
+			listItem: listItem,
+			uniLoadMore: uniLoadMore
 		},
 		data() {
 			return {
@@ -54,6 +56,7 @@
 				goodPage: 1,
 				talkPage: 1,
 				collectPage: 1,
+				currLength: 0,
 				modalShow: false,
 				isShownBack: true,
 				loadingText: '加载中...',
@@ -66,7 +69,7 @@
 				title: '互动',
 				// list的数据
 				// type: 0->文字   1->语音    2->视频
-				loveList: [{
+				goodList: [{
 						sid: '424',
 						name:'小红',
 						desc: '嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻',
@@ -167,12 +170,12 @@
 							
 							if (_self.currentTapId === 0) {
 								// 点赞
-								_self.goodList = _self.goodList.concat(res.data.data)
+								_self.goodList = _self.goodList.concat(res.data.discussList)
 								_self.goodPage++
 							}
 							if (_self.currentTapId === 1) {
 								// 评论
-								_self.talkList = _self.talkList.concat(res.data.data)
+								_self.talkList = _self.talkList.concat(res.data.storyList)
 								_self.talkPage++
 							}
 							if (_self.currentTapId === 2) {
@@ -199,6 +202,15 @@
 			},
 			changeCurrentTapId(tapId) {
 				this.currentTapId = tapId;
+				if (this.currentTapId === 0) {
+					this.currLength = this.goodList.length
+				}
+				if (this.currentTapId === 1) {
+					this.currLength = this.talkList.length
+				}
+				if (this.currentTapId === 2) {
+					this.currLength = this.collectList.length
+				}
 			},
 			showDetail(id){
 				console.log(id);
@@ -208,23 +220,21 @@
 			const _self = this
 			getMyGoodList(this.goodPage).then((res) => {
 				if (res.data) {
-					console.log(res.data , "1111")
-					_self.goodList = _self.goodList.concat(res.data.data)
+					_self.goodList = _self.goodList.concat(res.data.discussList)
 					_self.goodPage++
+					_self.currLength = _self.goodList.length
 				}
 			})
 			
 			getMyDiscussList(this.talkPage).then((res) => {
 				if (res.data) {
-					console.log(res.data , "222")
-					_self.talkList = _self.talkList.concat(res.data.data)
+					_self.talkList = _self.talkList.concat(res.data.storyList)
 					_self.talkPage++
 				}
 			})
 			
 			getMyCollectList(this.collectPage).then((res) => {
 				if (res.data) {
-					console.log(res.data , "333")
 					_self.collectList = _self.collectList.concat(res.data.storyList)
 					_self.collectPage++
 				}

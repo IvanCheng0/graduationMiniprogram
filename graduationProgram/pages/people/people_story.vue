@@ -4,7 +4,7 @@
 		<div v-for="item in list" :key="item.sid" class="list">
 			<list-item :avatar="userInfo.avatar" :listItem="item" @delete="deleteItem" @showDetail="showDetail"></list-item>
 		</div>
-		<uni-load-more :loadingType="loadingType" :contentText="contentText"></uni-load-more>
+		<uni-load-more v-if="currLength >= 7" :loadingType="loadingType" :contentText="contentText"></uni-load-more>
 		<u-modal v-model="modalShow" @confirm="confirm" ref="uModal" :async-close="true" content="确认删除？" show-cancel-button
 		 confirmText="确认" cancelText="取消"></u-modal>
 	</div>
@@ -31,6 +31,7 @@
 					userName: '',
 					avatar: '',
 				},
+				currLength:0,
 				loadingText: '加载中...',
 				loadingType: 0, //定义加载方式 0---contentdown  1---contentrefresh 2---contentnomore
 				contentText: {
@@ -158,6 +159,7 @@
 					console.log(res.data, "data")
 					_self.list = _self.list.concat(res.data.storyList)
 					_self.page_id++
+					_self.currLength = _self.list.length
 				} else {
 					uni.showToast({
 						icon:'loading',

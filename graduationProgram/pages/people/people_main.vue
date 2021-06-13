@@ -14,6 +14,9 @@
 			<button @click="goPage('./people_story')" class="my_nav">我的故事</button>
 		</div>
 		<div class="my">
+			<button @click="goPage('./people_collection')" class="my_nav">我的收藏</button>
+		</div>
+		<div class="my">
 			<button @click="goPage('./people_footprint')" class="my_nav">我的足迹</button>
 		</div>
 		<div class="my">

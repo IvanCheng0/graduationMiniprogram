@@ -28,7 +28,7 @@
 					method:'POST',
 					data: {
 						username: this.userInfo.nickName,
-						avater: this.userInfo.avatarUrl
+						avatar: this.userInfo.avatarUrl
 					},
 					success:res=>{
 						if(!res){

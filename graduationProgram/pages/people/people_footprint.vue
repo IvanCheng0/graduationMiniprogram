@@ -63,9 +63,10 @@
 		},
 		onLoad() {
 			getMyHistoryList().then((res)=>{
+				const _self = this
 				if (res.data) {
 					console.log(res.data, "data")
-					_self.list = _self.list.concat(res.data.historyList)
+					_self.list = _self.list.concat(res.data.data)
 				} else {
 					uni.showToast({
 						icon:'loading',
