@@ -8,7 +8,8 @@ const store = new Vuex.Store({
         userInfo: {
 			token: "",
 			userName: "",
-			avater: ""
+			avatar: "",
+			desc:","
 		},  
         hasLogin: false  
     },  
@@ -16,8 +17,9 @@ const store = new Vuex.Store({
         login(state, provider) {//改变登录状态  
             state.hasLogin = true  
             state.userInfo.token = provider.token  
-            state.userInfo.userName = provider.username
-			state.userInfo.avater = provider.avater 
+            state.userInfo.userName = provider.userName
+			state.userInfo.avatar = provider.avatar 
+			state.userInfo.desc = provider.desc 
             uni.setStorage({//将用户信息保存在本地  
                 key: 'userInfo',  
                 data: provider  

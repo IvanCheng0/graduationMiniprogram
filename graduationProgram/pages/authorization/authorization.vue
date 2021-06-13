@@ -23,7 +23,6 @@
 		},
 		methods: {
 			getToken() {
-				console.log(this.code, this.userInfo.nickName, this.userInfo.avatarUrl ,"data")
 				uni.request({
 					url:`https://story.genielink.cn/api/v1/getToken?code=${this.code}`,
 					method:'POST',
@@ -40,12 +39,12 @@
 						}
 						if (res.data) {
 							const data= {
-								username:this.userInfo.nickName,
-								avater:this.userInfo.avatarUrl,
+								userName:this.userInfo.nickName,
+								avatar:this.userInfo.avatarUrl,
+								desc: res.data.desc,
 								token:res.data.token
 							}
 							this.$store.commit('login', data)
-							console.log("aaaa", this.$store)
 						}
 						this.cancel()
 					},

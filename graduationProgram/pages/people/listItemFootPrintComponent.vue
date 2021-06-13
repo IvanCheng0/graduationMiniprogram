@@ -3,7 +3,7 @@
 		<image :src="avatar" class="avatar"></image>
 		<div class="des">
 			<div class="description">
-				{{listItem.description}}
+				{{listItem.desc}}
 			</div>
 		</div>
 	</div>

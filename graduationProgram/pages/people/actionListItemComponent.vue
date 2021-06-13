@@ -1,9 +1,9 @@
 <template>
-	<div class="outer" @click="$emit('showDetail', listItem.ID)">
+	<div class="outer" @click="$emit('showDetail', listItem.sid)">
 		<image :src="avatar" class="avatar"></image>
 		<div class="content">
 			<div class="name">{{listItem.name}}</div>
-			<div class="description">{{listItem.description}}</div>
+			<div class="description">{{listItem.desc}}</div>
 		</div>
 		<div class="time">{{listItem.time}}</div>
 	</div>

@@ -9,7 +9,7 @@ const http=(options)=>{
 		})
 		return;
 	}else{
-		options.params.token = token
+		options.url = options.url + `?token=${token}`
 		return new Promise((resolve,reject)=>{
 			uni.request({
 				url:baseURL+options.url,

@@ -1,17 +1,16 @@
 <template>
 	<div class="container">
 		<title-component :title="title" @back="back()" :isShownBack="isShownBack"></title-component>
-		<div v-for="item in list" :key="item.storyID" class="list">
-			<list-item :avatar="userInfo.avatar" :listItem="item" @delete="deleteItem" @showDetail="showDetail"></list-item>
+		<div v-for="item in list" :key="item.sid" class="list">
+			<list-item :avatar="item.avatar" :listItem="item" @showDetail="showDetail"></list-item>
 		</div>
-		<u-modal v-model="modalShow" @confirm="confirm" ref="uModal" :async-close="true" content="确认删除？" show-cancel-button
-		 confirmText="确认" cancelText="取消"></u-modal>
 	</div>
 </template>
 
 <script>
 	import titleComponent from './titleComponent.vue';
 	import listItem from './listItemFootPrintComponent.vue';
+	import {getMyHistoryList} from "../../api/people/api.js"
 	export default {
 		components: {
 			listItem: listItem,
@@ -31,39 +30,19 @@
 				// list的数据
 				// type: 0->文字   1->语音    2->视频
 				list: [{
-						ID: '424',
-						type: 0,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
+						sid: '424',
+						avatar: "",
+						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
-						ID: '4214',
-						type: 1,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
+						sid: '4214',
+						avatar: "",
+						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
-						ID: '1424',
-						type: 2,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
-					},
-					{
-						ID: '4724',
-						type: 1,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
-					},
-					{
-						ID: '4284',
-						type: 2,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
-					},
-					{
-						ID: '4994',
-						type: 0,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
-					},
-					{
-						ID: '422224',
-						type: 1,
-						description: '123'
+						sid: '1424',
+						avatar: "",
+						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					}
 				]
 			}
@@ -76,35 +55,26 @@
 					url: '/pages/people/people_main',
 				});
 			},
-			// 删除某一项
-			deleteItem(itemID) {
-				// 这里发起一个删除的信息
-				// 弹出弹窗询问是否删除
-				this.modalShow = true;
-				this.selectID = itemID;
-			},
 			// 跳转查看详情
 			showDetail(itemID) {
 				console.log(itemID);
 
-			},
-			confirm() {
-				// 这里要写异步删除
-				setTimeout(() => {
-					// 3秒后自动关闭
-					this.modalShow = false;
-					// 如果不想关闭，而单是清除loading状态，需要通过ref手动调用方法
-					// this.$refs.uModal.clearLoading();
-				}, 3000)
 			}
 		},
-		onLoad(data) {
-			// 获取‘个人中心’页面传过来的数据
-			let userInfo = JSON.parse(data.userInfo);
-			// 赋值
-			this.userInfo.name = userInfo.name;
-			this.userInfo.userId = userInfo.userId;
-			this.userInfo.avatar = userInfo.avatar;
+		onLoad() {
+			getMyHistoryList().then((res)=>{
+				if (res.data) {
+					console.log(res.data, "data")
+					_self.list = _self.list.concat(res.data.historyList)
+				} else {
+					uni.showToast({
+						icon:'loading',
+						title:'获取数据失败'
+					})
+				}
+			}).catch((err)=>{
+				console.log(err)
+			})
 		}
 	}
 </script>
@@ -118,7 +88,7 @@
 	.popup {
 		width: 500upx;
 		height: 400upx;
-		border-radius: ;
+		border-radius: 25upx;
 	}
 
 	.popupContent {

@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<title-component :title="title" @back="back()" :isShownBack="isShownBack"></title-component>
-		<div v-for="item in list" :key="item.storyID" class="list">
+		<div v-for="item in list" :key="item.sid" class="list">
 			<list-item :avatar="userInfo.avatar" :listItem="item" @delete="deleteItem" @showDetail="showDetail"></list-item>
 		</div>
 		<uni-load-more :loadingType="loadingType" :contentText="contentText"></uni-load-more>
@@ -14,7 +14,7 @@
 	import titleComponent from './titleComponent.vue';
 	import listItem from './listItemComponent.vue';
 	import uniLoadMore from '../components/uni-load-more.vue';
-	import {getMyStoryList} from "../../api/people/api.js"
+	import {getMyStoryList, deleteMyStory} from "../../api/people/api.js"
 	export default {
 		components: {
 			listItem: listItem,
@@ -42,39 +42,32 @@
 				// list的数据
 				// type: 0->文字   1->语音    2->视频
 				list: [{
-						ID: '424',
-						type: 0,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
+						sid: '424',
+						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
-						ID: '4214',
-						type: 1,
-						description: '啦'
+						sid: '4214',
+						desc: '啦'
 					},
 					{
-						ID: '1424',
-						type: 2,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
+						sid: '1424',
+						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
-						ID: '4724',
-						type: 1,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
+						sid: '4724',
+						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
-						ID: '4284',
-						type: 2,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
+						sid: '4284',
+						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
-						ID: '4994',
-						type: 0,
-						description: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
+						sid: '4994',
+						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
-						ID: '422224',
-						type: 1,
-						description: '123'
+						sid: '422224',
+						desc: '123'
 					}
 				]
 			}
@@ -115,7 +108,6 @@
 			},
 			// 这里写退出
 			back() {
-				console.log("1")
 				uni.switchTab({
 					url: '/pages/people/people_main',
 				});
@@ -129,17 +121,32 @@
 			},
 			// 跳转查看详情
 			showDetail(itemID) {
-				console.log(itemID);
-
+				console.log(itemID, "lalala");
 			},
 			confirm() {
 				// 这里要写异步删除
-				setTimeout(() => {
-					// 3秒后自动关闭
-					this.modalShow = false;
-					// 如果不想关闭，而单是清除loading状态，需要通过ref手动调用方法
-					// this.$refs.uModal.clearLoading();
-				}, 3000)
+				console.log("删除", this.selectID)
+				const _self = this
+				deleteMyStory(this.selectID).then((res) => {
+					if (res.data && res.data.msg === "success") {
+						uni.showToast({
+							title:'删除成功'
+						})
+						_self.modalShow = false;
+					} else {
+						uni.showToast({
+							icon:'loading',
+							title:'请稍后再试'
+						})
+						_self.modalShow = false;
+					}
+				}).catch((err) => {
+					uni.showToast({
+						icon:'loading',
+						title:'请稍后再试'
+					})
+					_self.modalShow = false;
+				})
 			}
 		},
 		onLoad(data) {
@@ -173,7 +180,7 @@
 	.popup {
 		width: 500upx;
 		height: 400upx;
-		border-radius: ;
+		border-radius: 25upx;
 	}
 
 	.popupContent {

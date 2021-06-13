@@ -1,13 +1,13 @@
 <template>
-	<div class="outer" @click="$emit('showDetail', listItem.ID)">
+	<div class="outer" @click="$emit('showDetail', listItem.sid)">
 		<image :src="avatar" class="avatar"></image>
 		<div class="des">
 			<div class="description">
-				{{listItem.description}}
+				{{listItem.desc}}
 			</div>
 		</div>
 
-		<image src="../../static/img/people/delete.png" class="delete" @click.prevent="$emit('delete', listItem.ID)"></image>
+		<image src="../../static/img/people/delete.png" class="delete" @click.stop="$emit('delete', listItem.sid)"></image>
 	</div>
 </template>
 

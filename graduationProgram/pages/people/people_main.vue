@@ -4,15 +4,14 @@
 		<div class="userInfo">
 			<image :src="userInfo.avatar" class="avatar"></image>
 			<div>
-				<input class="userName" :value="userInfo.name" />
-				<textarea class="introduction" :value="userInfo.introduction" />
+				<input class="userName" :value="userInfo.name" disabled="true" />
+				<textarea class="introduction" :value="userInfo.desc" @blur="saveUserDesc" />
+				<u-modal v-model="modalShow" @confirm="confirm" ref="uModal" :async-close="true" content="确认保存？" show-cancel-button
+				 confirmText="确认" cancelText="取消"></u-modal>
 			</div>
 		</div>
 		<div class="my">
 			<button @click="goPage('./people_story')" class="my_nav">我的故事</button>
-		</div>
-		<div class="my">
-			<button @click="goPage('./people_collection')" class="my_nav">我的收藏</button>
 		</div>
 		<div class="my">
 			<button @click="goPage('./people_footprint')" class="my_nav">我的足迹</button>
@@ -28,6 +27,7 @@
 	import titleComponent from './titleComponent.vue'
 	import authorization from '../authorization/authorization.vue'
 	import http from '../utils/request.js'
+	import {saveUserInfo } from "../../api/people/api.js"
 	export default {
 		components: {
 			titleComponent: titleComponent,
@@ -35,19 +35,11 @@
 		},
 		data() {
 			return {
-				// userInfo:{
-				// 	// userId 标识唯一用户
-				// 	userId:'',
-				// 	name: "叫什么名字呀",
-				// 	introduction: "说点什么吧~",
-				// 	avatar: ''
-				// },
+				modalShow: false,
 				userInfo:{
-					// userId 标识唯一用户
-					userId:'123456',
-					name: "大美女",
-					introduction: "大可爱大聪明",
-					avatar: '../../static/img/people/avatar.jpg'
+					name: "",
+					desc: "",
+					avatar: '',
 				},
 				title: '个人中心',
 				isShownBack: false,
@@ -56,6 +48,7 @@
 		},
 		onLoad() {
 			this.login()
+			
 		},
 		methods: {
 			goPage(url){
@@ -63,14 +56,36 @@
 					url:`${url}?userInfo=${JSON.stringify(this.userInfo)}`
 				})
 			},
+			saveUserDesc() {
+				this.modalShow = true;
+			},
+			confirm() {
+				saveUserInfo(this.userInfo.desc).then((res) => {
+					if (res.data) {
+						if (res.data.msg === "success") {
+							uni.showToast({
+								title:'保存成功'
+							})
+						}
+					}
+				})
+				this.modalShow = false;
+			},
 			login(){
-				// this.$http()
-				const token = uni.getStorageSync('token')
-				console.log(token, "token")
-				if (!token) this.tologin=true
+				const token = this.$store.state.userInfo.token
+				if (!token) {
+					this.tologin=true
+				} else {
+					this.userInfo.name = this.$store.state.userInfo.userName,
+					this.userInfo.avatar = this.$store.state.userInfo.avatar,
+					this.userInfo.desc = this.$store.state.userInfo.desc
+				}
 			},
 			getChild(val){
 				this.tologin=val
+				this.userInfo.name = this.$store.state.userInfo.userName,
+				this.userInfo.avatar = this.$store.state.userInfo.avatar,
+				this.userInfo.desc = this.$store.state.userInfo.desc
 			},
 		}
 	}

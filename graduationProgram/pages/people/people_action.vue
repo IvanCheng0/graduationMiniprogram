@@ -8,23 +8,25 @@
 			</div>
 		</div>
 		<!-- 喜爱 -->
-		<div v-if="currentTapId == 0" v-for="item in loveList" :key="item.storyID" class="list">
+		<div v-if="currentTapId == 0" v-for="item in loveList" :key="item.sid" class="list">
 			<list-item :avatar="userInfo.avatar" :listItem="item" @delete="deleteItem" @showDetail="showDetail"></list-item>
 		</div>
 		<!-- 留言 -->
-		<div v-if="currentTapId == 1" v-for="item in talkList" :key="item.storyID" class="list">
+		<div v-if="currentTapId == 1" v-for="item in talkList" :key="item.sid" class="list">
 			<list-item :avatar="userInfo.avatar" :listItem="item" @showDetail="showDetail"></list-item>
 		</div>
 		<!-- 收藏 -->
-		<div v-if="currentTapId == 2" v-for="item in colectList" :key="item.storyID" class="list">
+		<div v-if="currentTapId == 2" v-for="item in collectList" :key="item.sid" class="list">
 			<list-item :avatar="userInfo.avatar" :listItem="item" @showDetail="showDetail"></list-item>
 		</div>
+		<uni-load-more :loadingType="loadingType" :contentText="contentText"></uni-load-more>
 	</div>
 </template>
 
 <script>
 	import titleComponent from './titleComponent.vue';
 	import listItem from './actionListItemComponent.vue';
+	import {getMyGoodList, getMyDiscussList, getMyCollectList} from "../../api/people/api.js"
 	export default {
 		components: {
 			titleComponent: titleComponent,
@@ -49,85 +51,147 @@
 				// 被选中的tap
 				currentTapId: 0,
 				selectID: '',
+				goodPage: 1,
+				talkPage: 1,
+				collectPage: 1,
 				modalShow: false,
 				isShownBack: true,
-				userInfo: {
-					userId: '',
-					name: '',
-					avatar: '',
+				loadingText: '加载中...',
+				loadingType: 0, //定义加载方式 0---contentdown  1---contentrefresh 2---contentnomore
+				contentText: {
+					contentdown: '上拉显示更多',
+					contentrefresh: '正在加载...',
+					contentnomore: '没有更多数据了'
 				},
 				title: '互动',
 				// list的数据
 				// type: 0->文字   1->语音    2->视频
 				loveList: [{
-						ID: '424',
+						sid: '424',
 						name:'小红',
-						type: 0,
-						description: '嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻',
+						desc: '嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻',
 						time: '21-5-1'
 					},
 					{
-						ID: '4214',
-						type: 1,
+						sid: '4214',
 						name:'小红',
-						description: '嘻嘻嘻',
+						desc: '嘻嘻嘻',
 						time: '21-5-1'
 					},
 					{
-						ID: '1424',
-						type: 2,
+						sid: '1424',
 						name:'小红',
-						description: '嘻嘻嘻',
+						desc: '嘻嘻嘻',
 						time: '21-5-1'
 					}
 				],
 				talkList: [{
-						ID: '424',
-						type: 0,
+						sid: '424',
 						name:'小红',
-						description: '啦啦啦',
+						desc: '啦啦啦',
 						time: '21-5-1'
 					},
 					{
-						ID: '4214',
-						type: 1,
+						sid: '4214',
 						name:'小红',
-						description: '啦啦啦',
+						desc: '啦啦啦',
 						time: '21-5-1'
 					},
 					{
-						ID: '1424',
-						type: 2,
+						sid: '1424',
 						name:'小红',
-						description: '啦啦啦',
+						desc: '啦啦啦',
 						time: '21-5-1'
 					}
 				],
-				colectList: [{
-						ID: '424',
-						type: 0,
+				collectList: [{
+						sid: '424',
 						name:'小红',
-						description: '啦啦啦啦啦',
+						desc: '啦啦啦啦啦',
 						time: '21-5-1'
 					},
 					{
-						ID: '4214',
-						type: 1,
+						sid: '4214',
 						name:'小红',
-						description: '啦啦啦啦啦',
+						desc: '啦啦啦啦啦',
 						time: '21-5-1'
 					},
 					{
-						ID: '1424',
-						type: 2,
+						sid: '1424',
 						name:'小红',
-						description: '啦啦啦啦啦',
+						desc: '啦啦啦啦啦',
 						time: '21-5-1'
 					}
 				],
 			}
 		},
+		onReachBottom: function() {
+			//触底的时候请求数据，即为上拉加载更多
+			//为了更加清楚的看到效果，添加了定时器
+			this.getmorenews();
+		},
 		methods: {
+			getmorenews: function() {
+				if (this.loadingType !== 0) { //loadingType!=0;直接返回
+					return false;
+				}
+				this.loadingType = 1;
+				uni.showNavigationBarLoading(); //显示加载动画
+				const _self = this
+				let getApi = getMyGoodList;
+				let currPage = this.goodPage;
+				if (this.currentTapId === 0) {
+					// 点赞
+					getApi = getMyGoodList
+					currPage = this.goodPage
+				}
+				if (this.currentTapId === 1) {
+					// 评论
+					getApi = getMyDiscussList
+					currPage = this.talkPage
+				}
+				if (this.currentTapId === 2) {
+					// 收藏
+					getApi = getMyCollectList
+					currPage = this.collectPage
+				}
+				getApi(currPage).then((res)=>{
+					uni.hideNavigationBarLoading() //显示加载动画
+					if (res.data) {
+						if (res.data.data && res.data.data.length === 0) 
+						{
+							_self.loadingType = 2
+						} else {
+							_self.list = _self.list.concat(res.data.data)
+							_self.page_id++
+							
+							if (_self.currentTapId === 0) {
+								// 点赞
+								_self.goodList = _self.goodList.concat(res.data.data)
+								_self.goodPage++
+							}
+							if (_self.currentTapId === 1) {
+								// 评论
+								_self.talkList = _self.talkList.concat(res.data.data)
+								_self.talkPage++
+							}
+							if (_self.currentTapId === 2) {
+								// 收藏
+								_self.collectList = _self.collectList.concat(res.data.storyList)
+								_self.collectPage++
+							}
+							this.loadingType = 0;
+						}
+					} else {
+						uni.showToast({
+							icon:'loading',
+							title:'获取数据失败'
+						})
+					}
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
 			back() {
 				uni.switchTab({
 					url: '/pages/people/people_main',
@@ -141,12 +205,30 @@
 			}
 		},
 		onLoad(data) {
-			// 获取‘个人中心’页面传过来的数据
-			let userInfo = JSON.parse(data.userInfo);
-			// 赋值
-			this.userInfo.name = userInfo.name;
-			this.userInfo.userId = userInfo.userId;
-			this.userInfo.avatar = userInfo.avatar;
+			const _self = this
+			getMyGoodList(this.goodPage).then((res) => {
+				if (res.data) {
+					console.log(res.data , "1111")
+					_self.goodList = _self.goodList.concat(res.data.data)
+					_self.goodPage++
+				}
+			})
+			
+			getMyDiscussList(this.talkPage).then((res) => {
+				if (res.data) {
+					console.log(res.data , "222")
+					_self.talkList = _self.talkList.concat(res.data.data)
+					_self.talkPage++
+				}
+			})
+			
+			getMyCollectList(this.collectPage).then((res) => {
+				if (res.data) {
+					console.log(res.data , "333")
+					_self.collectList = _self.collectList.concat(res.data.storyList)
+					_self.collectPage++
+				}
+			})
 		}
 	}
 </script>
