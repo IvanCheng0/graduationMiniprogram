@@ -2,7 +2,7 @@
 	<div class="container">
 		<title-component :title="title" @back="back()" :isShownBack="isShownBack"></title-component>
 		<div v-for="item in list" :key="item.sid" class="list">
-			<list-item :avatar="userInfo.avatar" :listItem="item" @delete="deleteItem" @showDetail="showDetail"></list-item>
+			<list-item :avatar="getAvater()" :listItem="item" @delete="deleteItem" @showDetail="showDetail"></list-item>
 		</div>
 		<uni-load-more v-if="currLength >= 7" :loadingType="loadingType" :contentText="contentText"></uni-load-more>
 		<u-modal v-model="modalShow" @confirm="confirm" ref="uModal" :async-close="true" content="确认删除？" show-cancel-button
@@ -79,6 +79,10 @@
 			this.getmorenews();
 		},
 		methods: {
+			getAvater() {
+				console.log(this.userInfo)
+				return this.userInfo.avatar
+			},
 			getmorenews: function() {
 				if (this.loadingType !== 0) { //loadingType!=0;直接返回
 					return false;
@@ -151,8 +155,8 @@
 			}
 		},
 		onLoad(data) {
-			this.userInfo.name = this.$store.state.userName;
-			this.userInfo.avatar = this.$store.state.avatar;
+			this.userInfo.name = this.$store.state.userInfo.userName;
+			this.userInfo.avatar = this.$store.state.userInfo.avatar;
 			const _self = this
 			getMyStoryList(this.page_id).then((res)=>{
 				if (res.data) {

@@ -1,6 +1,6 @@
 <template>
 	<div class="outer" @click="$emit('showDetail', listItem.ID)">
-		<image :src="avatar" class="avatar"></image>
+		<image :src="avatar? avatar:getAvatar()" class="avatar"></image>
 		<div class="des">
 			<div class="description">
 				{{listItem.desc}}
@@ -16,6 +16,11 @@
 		},
 		props: ['listItem', 'avatar'],
 		onLoad() {},
+		methods: {
+			getAvatar() {
+				return "../../static/logo.png"
+			}
+		},
 	}
 </script>
 
