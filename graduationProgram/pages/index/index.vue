@@ -1,26 +1,38 @@
 <template>
 	<view>
-		<u-search placeholder="请输入关键词" style="margin-top:30rpx;" class="search" v-model="keyword" :clearabled="true" @search="search()" :show-action="false">
+		<u-search placeholder="请输入关键词" @focus="leaveToSearch" style="margin-top:30rpx;" class="search" v-model="keyword" :clearabled="true"  :show-action="false">
 		</u-search>
 		<view class="areaChoose">
 			<view  class="button" @click="toWushan">五山校区</view>
 			<view  class="button" @click="toCollegeTown">大学城校区</view>
 			<view  class="button"	@click="toInternation">国际校区</view>
+			
 		</view>
 		<view style="margin-left:40rpx;margin-right:40rpx">
-			<map :scale="scale" :latitude="latitude"
-			 :longitude="longitude" :markers="covers"  @markertap="changeTap" max-scale="19" min-scale="16">
+			<map :scale="scale"
+			 :latitude="latitude"
+			 :longitude="longitude"
+			 :markers="covers"  
+			 @markertap="changeTap"
+			 @tap="getLocation"
+			 max-scale="19" 
+			 min-scale="16">
 			</map>
 		</view>
-		
+		<view class="locate">
+			<image @click="locate" src="../../static/search/images/locate.png"></image>
+			<view>显示当前位置</view>
+		</view>
 		
 	</view>
 </template>
 
 <script>
+	import api from '../api/search/api.js'
 	export default {
 		data() {
 			return {
+				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjMzNDgzNTl9.GlUs4Ys8p0hY3l1lhAhNmxGVs_l4iwMwxlE0X1043g4",
 				keyword: '',
 				title: 'map',
 				latitude: 23.046455,
@@ -45,7 +57,7 @@
 						borderRadius: 5,
 					},					
 				}, {
-					id: 5,
+					id: 1,
 					latitude: 23.047667,
 					longitude: 113.405512,
 					title: 'A1教学楼',
@@ -70,22 +82,30 @@
 			}
 		},
 		methods: {
-			search() {
+			leaveToSearch() {
 				uni.navigateTo({
-					url: './searchPlace'
+					url: './search'
 				})
 			},
-			changeTap(e){
-				console.log(e.detail.markerId)
-				if(e.detail.markerId==0){
-					console.log("图书馆")
-				}else if(e.detail.markerId==5){
-					console.log("A1教学楼")
-						uni.navigateTo({
-							url: '../story/storyList'
-						})
+			getLocation(index){
+				console.log(index)
+			},
+			 async changeTap(e){
+				// console.log(e.detail.markerId)
+				// if(e.detail.markerId==0){
+				// 	console.log("图书馆")
+				// }else if(e.detail.markerId==5){
+				// 	console.log("A1教学楼")
+				// 		uni.navigateTo({
+				// 			url: '../story/storyList'
+				// 		})
 				
-				}
+				// }
+				 api.getStory({data:{token:`${this.token}`,location_id:1,page_id: 1}}).then(res=>{
+					 console.log(res)
+				 })
+				
+				console.log(data)
 			},
 			toWushan() {
 				this.latitude = 23.154165
@@ -99,12 +119,24 @@
 				this.latitude = 23.008579
 				this.longitude = 113.407349
 			},
-
+			locate(){
+				uni.getLocation({
+				    type: 'wgs84',
+				    success: function (res) {
+				        console.log('当前位置的经度：' + res.longitude);
+				        console.log('当前位置的纬度：' + res.latitude);
+				    }
+				});
+			}
 		},
 	}
 </script>
 
 <style>
+	@font-face {
+		font-family:"FZCuHeiSongS-B-GB";
+		src: url("../../static/story/font/fzchsjwgb10_downyi.com.TTF");
+	}
 	.areaChoose {
 		display: flex;
 		justify-content: space-around;
@@ -133,6 +165,20 @@
 		height: 800rpx;
 		margin-top:50rpx;
 		margin-right:40rpx
+	}
+	.locate{
+		display:flex;
+		margin-top: 30rpx;
+		margin-left:400rpx;
+	}
+	.locate image{
+		width:40rpx;
+		height:35rpx;
+		margin-right: 30rpx;
+	}
+	.locate view{
+		font-size: 30rpx;
+		font-family:"FZCuHeiSongS-B-GB";
 	}
 	
 </style>

@@ -19,7 +19,7 @@
 			"path":"pages/story/storyList"
 		},
 		{
-		   "path": "pages/story/post",
+		   "path": "pages/story/postStory",
 		   "style": {
 		    "navigationBarTitleText": "发布故事",
 		    "navigationBarBackgroundColor": "#4572CD"
@@ -79,7 +79,7 @@
 				"text": "寻找故事"
 			},
 			{
-				"pagePath": "pages/story/post",
+				"pagePath": "pages/story/postStory",
 				"iconPath": "static/write.png",
 				"selectedIconPath": "static/write_blue.png",
 				"text": "发布故事"

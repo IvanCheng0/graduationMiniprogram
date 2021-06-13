@@ -1,6 +1,6 @@
 const baseURL='https://story.genielink.cn'
 const http=(options)=>{
-	const token=uni.getStorageSync('token')
+	const token="eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjMzNDgzNTl9.GlUs4Ys8p0hY3l1lhAhNmxGVs_l4iwMwxlE0X1043g4"
 	//如果token不存在就跳转到个人页面，让用户登录
 	if(!token){
 		uni.navigateTo({
@@ -15,7 +15,6 @@ const http=(options)=>{
 				method:options.methods||'GET',
 				//请求url中如果没有data，默认为空
 				data: options.data || {},
-				header: {Authorization:token},
 				success:res=>{
 					if(!res){
 						return uni.showToast({icon:'loading',title:'获取数据失败'})
@@ -34,3 +33,4 @@ const http=(options)=>{
 		})
 	}
 } 
+export default http

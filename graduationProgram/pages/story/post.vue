@@ -1,10 +1,9 @@
 <template>
 	<view class="content">
 		<u-form :model="form" ref="postForm">
-
 		<view id="textContent">
 			<u-form-item prop="storyContent">
-				<textarea id="textArea" v-model="form.storyContent" placeholder="请在此输入你的故事吧~"></textarea>
+				<textarea id="textArea" v-model="form.detail" placeholder="请在此输入你的故事吧~"></textarea>
 			</u-form-item>
 		</view>
 <!--录音切换显示-->
@@ -15,34 +14,21 @@
 				<div>添加图片(上传的图片不能超过5M)</div>
 				<u-form-item>
 				      <u-upload 
+					  ref="uUpload"
 					  :action="action" 
-					  :file-list="img_url" 
-					  :auto-upload="false"
+					  @on-success="uploadSuccess"
 					  max-count="9" 
-					  max-size="5 * 1024 * 1024" 
+					  max-size="1 * 1024 * 1024" 
 					  width="180rpx"
 					  height="180rpx"
 					  del-bg-color="#B4B4B4"></u-upload>     
 				</u-form-item>
 			</span>
 		</view>	
-<!--录音、视频功能-->
-		<!--
-			<span class="addSrc" @click="toAddVid" style="margin-right: 10%;">添加视频</span>
-			<span class="addSrc" @click="toAddVoic">添加语音</span>
-		
-		<view class="uploadSrc" v-show="buttonTabChoose==1">
-			<button class="addSrc" @tap="startRecord" style="margin-right: 10%">开始录音</button>
-			<button class="addSrc" @tap="endRecord" style="margin-right: 10%">停止录音</button>
-			<button class="addSrc" @tap="playVoice" style="margin-right: 10%">播放录音</button>
-			<view class="tag" @click="backToLastPage">返回</view>
-		</view>
-		-->
-<!--标签-->
+		<!-- tag -->
 		<view id="tag">
-			<span v-for="(item,idx) in tags" @click="delTag(idx)" :key="idx">{{item.value}}</span>	
+			<span v-for="(item,idx) in this.form.tags" @click="delTag(idx)" :key="idx">{{item}}</span>	
 			<image src="../../static/story/icon/add.png" mode="heightFix" @click="addTag_newPage"></image>
-
 		</view>
 		<view>
 			<view id="picContent">
@@ -52,12 +38,14 @@
 			<view id="button">
 				<u-select v-model="show" mode="mutil-column-auto" :list="locList" @confirm="selectLoc"></u-select>
 				<view class="radioBox">
-					<checkbox value="anonymous" :checked="realName_or_not==false" />匿名
+					<checkbox-group @change="checkboxChange">
+						<checkbox value="anonymous" :checked="form.isShow" />匿名
+					</checkbox-group>					
 				</view>
 				<view style="clear: both;"></view>
-				<u-form-item prop="location" style="float: right;">
-				<view v-show="form.location==''" id="sel_loc" class="viewLoc" @click="show = true">选择地点</view>
-				<view v-show="form.location!=''" id="view_loc" v-html="form.location" class="viewLoc" @click="show = true"></view>
+				<u-form-item  style="float: right;">
+				<view v-show="form.location_id==''" id="sel_loc" class="viewLoc" @click="show = true">选择地点</view>
+				<view v-show="form.location_id!=''" id="view_loc" v-html="form.location_id" class="viewLoc" @click="show = true"></view>
 				</u-form-item>
 			</view>		
 		</view>
@@ -75,22 +63,28 @@ innerAudioContext.autoplay = true;
 	export default {
 		data() {
 			return {
+				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjMzNDgzNTl9.GlUs4Ys8p0hY3l1lhAhNmxGVs_l4iwMwxlE0X1043g4",
 				form:{
-					storyContent:'',
-					location: '',
+					detail:'',
+					showImgList:[
+					],
+					tags:['常用标签1','常用标签2'],
+					isShow:false,
+					location_id: '',
 				},
 				rules:{
-					storyContent:{
+					detail:{
 						required: true,
 						message: '请输入故事内容~',
 						trigger: 'change',
 					},
-					location:{
+					location_id:{
 						required: true,
 						message: '请选择地点~',
 						trigger: 'change',
 					},
 				},
+				//选择地点是否显示
 				show: false,
 				locList:[
 					{
@@ -138,18 +132,9 @@ innerAudioContext.autoplay = true;
 				
 				realName_or_not: false,
 				
-				action:'https://zy.zaozhijob.com/api/v1/job/upload',
-				img_url:[
-				],
+				action:`https://story.genielink.cn/api/v1/upload`,
+				
 				voicePath: '',
-				tags:[
-					{
-						value:'常用标签1'
-					},
-					{
-						value:'常用标签2'
-					},
-				],
 			}
 		},
 		onLoad() {	
@@ -163,10 +148,14 @@ innerAudioContext.autoplay = true;
 			submitPic(){
 				this.$refs.uUpload.upload();
 			},
-			
+			uploadSuccess(data){
+				console.log(data)
+				this.form.showImgList=data;
+			},
 			preview(url){
 				uni.previewImage({
 					current: url, //当前点击预览的图片索引
+					
 					urls: this.img_url,//预览图片的链接
 					longPressActions:{
 						success: function(data) {
@@ -185,32 +174,7 @@ innerAudioContext.autoplay = true;
 					img_url: images
 				});
 			},
-			/*toAddVid(){
-				
-			},
-			toAddVoic(){
-				this.buttonTabChoose=1;
-			},
-			
-			startRecord() {
-			    console.log('开始录音');
-			    recorderManager.start();
-			},
-			endRecord() {
-			    console.log('录音结束');
-			    recorderManager.stop();
-			},
-			playVoice() {
-			    console.log('播放录音');
-			
-			    if (this.voicePath) {
-			        innerAudioContext.src = this.voicePath;
-			        innerAudioContext.play();
-			    }
-			},
-			backToLastPage(){
-				this.buttonTabChoose=0;
-			},*/
+			//增加标签
 			addTag_newPage(){
 				uni.navigateTo({
 					url:'addTag'
@@ -220,32 +184,21 @@ innerAudioContext.autoplay = true;
 			delTag(idx){
 				this.tags.splice(idx,1);
 			},
+			//是否匿名
+			checkboxChange(){
+				this.form.isShow=true;
+				console.log(this.form.isShow)
+			},
 			selectLoc(res){
-				console.log(res);
-				this.form.location = res[0].label
+				this.form.location_id = res[0].label
 				+ '<br /><center>'
 				+ res[1].label + "</center>";
 			},
-			/*toAddLoc(){
-				const that = this;
-				uni.chooseLocation({
-					success:function(res){
-						console.log('位置名称：' + res.name);
-						console.log('详细地址：' + res.address);
-				        console.log('纬度：' + res.latitude);
-						console.log('经度：' + res.longitude);
-						that.currAddress=res.name+res.address;
-						console.log(that.currAddress);
-						that.locFlag=true;
-					}
-				})
-			},
-			delLoc(){
-				this.locFlag=false;
-				this.currAddress='';
-			},*/
 			submitStory(){
-				console.log("test");
+				this.form.showImgList=this.$refs.uUpload.lists
+				console.log(this.form.showImgList)
+				console.log('form',this.form)
+				let postData=JSON.stringify(this.form)
 				var that = this;
 				this.$refs.postForm.validate(valid =>{
 					console.log("valid");
@@ -255,27 +208,25 @@ innerAudioContext.autoplay = true;
 						    title: '提示',
 						    content: '是否确认发布故事？',
 							cancelText: '我再想想',
-						    success: function (res) {
+						    success:  async function (res) {
 						        if (res.confirm) {
+									const data = await that.$http({url:`/api/v1/publish?token=${that.token}`,methods:`POST`,data:postData});
 									//console.log(that.img_url);//上传后才有
 									//that.submitPic();
 									uni.showModal({
 										title: '提示',
 										content: '发布成功！',
-										showCancel:false
-										//调用发送数据接口
+										showCancel:false,
 									})
-						        } 
+									
+						        }
 						    }
 						});
 					}
 					else{
 						console.log("验证失败:(!");
 					}
-				});
-				
-				
-				
+				});				
 			},
 		}
 	}

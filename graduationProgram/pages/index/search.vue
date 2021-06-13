@@ -1,15 +1,9 @@
 <template>
 	<view>
-		<u-search placeholder="请输入关键词" v-model="keyword"></u-search>
-		<view class="history">历史记录</view>
-		<view class="historyData" v-for="(message,index) in historyData" :key="index" >
-			<view>地点：{{message}}</view>
-			<image src="../../static/search/images/delete.png" style="width:30rpx;height: 30rpx;margin-right: 10rpx;"></image>
-		</view>
-		<view class="history">搜索发现</view>
-		<view class="historyData" v-for="(message,index) in searchData" :key="index" >
-			<view >地点：{{message}}</view>
-			<image src="../../static/search/images/delete.png" style="width:30rpx;height: 30rpx;margin-right: 10rpx;"></image>
+		<u-search placeholder="请输入关键词" v-model="keyword" @search="search" @custom="search"></u-search>
+		<view class="search">搜索发现</view>
+		<view class="tagData" v-for="(tag,index) in tags"  >
+			<u-tag bg-color="#F6F3EE" border-color="#F6F3EE" :text="tag" color="#000000" shape="circle" @click="toStory(index)" ref="tag" ></u-tag>
 		</view>
 	</view>
 </template>
@@ -18,58 +12,36 @@
 	export default {
 		data() {
 			return {
+				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjMzNDgzNTl9.GlUs4Ys8p0hY3l1lhAhNmxGVs_l4iwMwxlE0X1043g4",
 				keyword: '',
-				historyData:['A1教学楼 我在这里度过无数节...','A1教学楼 我在这里度过无数节...','A1教学楼 我在这里度过无数节...','A1教学楼 我在这里度过无数节...'],
-				searchData:['图书馆 每天抢位置学习真是头...','图书馆 每天抢位置学习真是头...','图书馆 每天抢位置学习真是头...','图书馆 每天抢位置学习真是头...'],
+				tags:['图书馆','A1教学楼','世博超市','一饭','一饭天桥','二饭','C10楼下水果店','A1教学楼','软件学院','电子商务系']
 			}
 		},
 		methods: {
-			
+			async search(){
+				console.log(11)
+				const data=await this.$http({url:'/api/v1/searchTip?token=`${this.token}`&keyword=`${this.keyword}`'})
+			},
+			toStory(index){
+				console.log(index)
+			}
 		}
 	}
 </script>
 
 <style>
 	
-	.u-content.data-v-4c556b40{
-		height:70rpx !important;
-		margin:0 20rpx;
-		margin-top:30rpx ;
-		
-	}
-	.u-input.data-v-4c556b40 {
-		width:300rpx !important;
-	}
-	/* 搜索 */
-	.u-action.data-v-4c556b40{
-		background-color: #EEEEEE;
-		height:70rpx !important;
-		line-height: 70rpx;
-		width:200rpx;
-		border-radius:20rpx;
-		margin-top:30rpx ;
-	}
-	.history{
+	.search{
 		margin-top: 30rpx;
 		font-weight:bold;
 		font-size: 35rpx;
 		margin-left:40rpx;
 	}
-	.historyData{
-		padding:10rpx 80rpx;
-		margin:10rpx 30rpx;
-		margin-top:20rpx;
-		height:80rpx;
-		border-radius:30rpx;
-		display:flex;
-		align-items: center;
-		border:solid #F6F3EE 3rpx;
-		background-color:#F6F3EE;
-		font-family:'Microsoft JhengHei UI Segoe';
-		display:flex;
-		justify-content: space-around;
-		
+	.tagData{
+		margin:10px;
+		float:left;
 	}
+	
 	
 	
 
