@@ -13,7 +13,7 @@
 	export default {
 		methods: {
 			getAvatar() {
-				return "../../static/logo.png"
+				return "../../static/avatar_miss.jpg"
 			}
 		},
 		data() {
