@@ -11,7 +11,7 @@
 
 <script>
 	import titleComponent from './titleComponent.vue';
-	import listItem from './listItemComponent.vue';
+	import listItem from './listItemFootPrintComponent.vue';
 	export default {
 		components: {
 			listItem: listItem,

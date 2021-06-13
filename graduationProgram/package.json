@@ -18,7 +18,10 @@
   "homepage": "https://github.com/IvanCheng0/graduationMiniprogram#readme",
   "dependencies": {
     "node-sass": "^5.0.0",
-    "sass-loader": "^11.0.1",
     "uview-ui": "^1.8.4"
+  },
+  "devDependencies": {
+    "node-sass": "^5.0.0",
+    "sass-loader": "^7.3.1"
   }
 }

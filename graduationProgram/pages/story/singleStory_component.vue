@@ -17,9 +17,14 @@
 		</view>
 		
 <!--图片内容-->
-		<view class="src">
-			<u-swiper class="storySrc" :list="picList" :autoplay="false" :circular="false" img-mode="aspectFill" @click="viewPic"></u-swiper>
+		<view class="userImage">
+			<view v-for="(image,index) in userImages" :key="index" class="displayImage" :style="{width:imageWidth}"  >
+				<image :src="image " :style="{width:'100%',height:imageHeight}"  @tap="_previewImage(`${image}`)"  ></image>		
+			</view>
 		</view>
+		<!-- <view class="src">
+			<u-swiper class="storySrc" :list="picList" :autoplay="false" :circular="false" img-mode="aspectFill" @click="viewPic"></u-swiper>
+		</view> -->
 <!--标签-->	
 		<view>
 			<view style="margin-top: 10px;">
@@ -56,16 +61,20 @@ import commentPop from '../story/comment_pop_component.vue'
 				tags: this.p_tags,
 				showBtn: true,
 				maxLen: 20,
-				picList:[
-					{
-						image: '../../static/story/test/ana.jpg',
-						title: '1'
-					}, 
-					{
-						image: '../../static/story/test/ana.jpg',
-						title: '2'
-					}, 
-				],
+				// 图片内容
+				userImages:[
+					'../../static/search/images/3.jpg',
+					'../../static/search/images/4.jpg',
+					'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
+					'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
+					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
+					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
+					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
+					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
+					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
+					],
+				imageWidth:'100%',
+				imageHeight:'320rpx',
 				storyContent: this.p_storyContent,
 				comment_num: this.p_comment_num,
 				mark_flag: this.p_mark_flag,//获取用户数据
@@ -88,6 +97,17 @@ import commentPop from '../story/comment_pop_component.vue'
 				uni.previewImage({
 					urls: url,
 					current:e
+				});
+			},
+			// 点击放大图片
+			_previewImage(image) {
+				console.log(image)
+				var imgArr = [];
+				imgArr.push(image);
+				//预览图片
+				uni.previewImage({
+					urls: imgArr,
+					current: imgArr[0]
 				});
 			},
 			reply(){
@@ -187,9 +207,17 @@ import commentPop from '../story/comment_pop_component.vue'
 	width: 90%;
 	margin: auto;
 }
-.src{
-	text-align: center;
-}
+/* 图片展示 */
+.userImage{
+	display:flex;
+	flex-wrap: wrap;
+	margin-left:30rpx;
+	}
+.displayImage{
+	width:32% !important;
+	height:320rpx !important;
+		
+	}
 .storySrc{
 	border-radius: 9px;
 	padding: 5px;

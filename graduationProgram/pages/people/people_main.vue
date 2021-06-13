@@ -20,14 +20,18 @@
 		<div class="my">
 			<button @click="goPage('./people_action')" class="my_nav">我的互动</button>
 		</div>
+		<authorization v-if="tologin" @cancelChild="getChild"></authorization>
 	</div>
 </template>
 
 <script>
 	import titleComponent from './titleComponent.vue'
+	import authorization from '../authorization/authorization.vue'
+	import http from '../utils/request.js'
 	export default {
 		components: {
-			titleComponent: titleComponent
+			titleComponent: titleComponent,
+			authorization:authorization
 		},
 		data() {
 			return {
@@ -46,18 +50,28 @@
 					avatar: '../../static/img/people/avatar.jpg'
 				},
 				title: '个人中心',
-				isShownBack: false
+				isShownBack: false,
+				tologin:false,
 			}
 		},
 		onLoad() {
-			console.log("1253")
+			this.login()
 		},
 		methods: {
 			goPage(url){
 				uni.navigateTo({
 					url:`${url}?userInfo=${JSON.stringify(this.userInfo)}`
 				})
-			}
+			},
+			login(){
+				// this.$http()
+				const token = uni.getStorageSync('token')
+				console.log(token, "token")
+				if (!token) this.tologin=true
+			},
+			getChild(val){
+				this.tologin=val
+			},
 		}
 	}
 </script>

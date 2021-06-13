@@ -1,5 +1,7 @@
 <template>
 	<view>
+		<!-- 地点 -->
+		<button  class="button">{{placeData}}</button>
 		<view v-for="(item, idx) in storyList" :key="idx">
 			<singlestory 
 		:p_usrname="item.usrname"
@@ -20,6 +22,7 @@ import singlestory from '../story/singleStory_component.vue'
 	export default {
 		data() {
 			return {
+				placeData:'A1教学楼',
 				storyList:[
 					{
 						id: '我是故事id1',
@@ -186,6 +189,15 @@ import singlestory from '../story/singleStory_component.vue'
 </script>
 
 <style>
-
+.button{
+	font-family: FZCHSJW--GB1-0;
+	width:600rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	font-weight: bold;
+	border-radius: 40rpx;
+	background-color: #E2ECFF;
+	margin-top:30rpx ;
+	}
 
 </style>
