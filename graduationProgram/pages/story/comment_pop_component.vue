@@ -10,9 +10,11 @@
 
 <script>
 	import comments from '../story/comment_component.vue'
+	import api from '../api/story/api.js'
 	export default{
 		data(){
 			return{
+				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjM3MjAzNTJ9.fRuEUBCVW2YQqU92et_JZrDFcpgF_tasPWWzMDfrgpg",
 				commentList: this.p_commentList,
 				detailStatus: this.storyPageType,
 				replyContent: '',
@@ -24,6 +26,9 @@
 			reply(){
 				this.$refs.popup.open();
 				//请求评论数据
+				api.getComments({params:`?token=${this.token}&sid=1&page_id=1`}).then(res=>{
+					console.log(res)
+				})
 			},
 			like(reply_flag=-1){
 				if(reply_flag==-1){

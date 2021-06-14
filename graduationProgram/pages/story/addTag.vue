@@ -26,6 +26,7 @@
 </template>
 	
 <script>
+	import bus from '../utils/bus.js'
 	export default {
 		onLoad() {
 			// let pages = getCurrentPages();  //获取所有页面栈实例列表
@@ -69,11 +70,8 @@
 				this.selected.splice(idx,1);
 			},
 			addAllTag(){
-				// let pages = getCurrentPages();  //获取所有页面栈实例列表
-				// let nowPage = pages[ pages.length - 1];  //当前页页面实例
-				// let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				// var temp = prevPage.$vm.tags;
-				// prevPage.$vm.tags = this.selected;   //修改上一页data里面的tags
+				console.log(this.selected)
+				bus.$emit('tagsToPostStory',this.selected)
 				uni.navigateBack({  //uni.navigateTo跳转的返回，默认1为返回上一级
 					delta: 1
 				});

@@ -32,7 +32,7 @@
 	export default {
 		data() {
 			return {
-				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjMzNDgzNTl9.GlUs4Ys8p0hY3l1lhAhNmxGVs_l4iwMwxlE0X1043g4",
+				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjM3MjAzNTJ9.fRuEUBCVW2YQqU92et_JZrDFcpgF_tasPWWzMDfrgpg",
 				keyword: '',
 				title: 'map',
 				latitude: 23.046455,
@@ -90,22 +90,20 @@
 			getLocation(index){
 				console.log(index)
 			},
-			 async changeTap(e){
-				// console.log(e.detail.markerId)
-				// if(e.detail.markerId==0){
-				// 	console.log("图书馆")
-				// }else if(e.detail.markerId==5){
-				// 	console.log("A1教学楼")
-				// 		uni.navigateTo({
-				// 			url: '../story/storyList'
-				// 		})
+			changeTap(e){
+				console.log(e.detail.markerId)
+				if(e.detail.markerId==0){
+					console.log("图书馆")
+				}else if(e.detail.markerId==1){
+					console.log("A1教学楼")
+						uni.navigateTo({
+							url: '../story/storyList'
+						})
 				
-				// }
+				}
 				 api.getStory({data:{token:`${this.token}`,location_id:1,page_id: 1}}).then(res=>{
 					 console.log(res)
 				 })
-				
-				console.log(data)
 			},
 			toWushan() {
 				this.latitude = 23.154165

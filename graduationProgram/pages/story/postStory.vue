@@ -28,6 +28,9 @@
 			</view>
 			<!-- 添加标签 -->
 			<view class="tag">
+				<span class="tagBtn" v-if="showTags" v-for="(tag,index) in form.tags" :key="index">
+					<view>{{tag}}</view>
+				</span>
 				<span class="tagAdd"  @click="addTag_newPage" >
 					<image src="../../static/story/icon/add.png" ></image>
 					<span>点击添加标签</span>
@@ -38,10 +41,11 @@
 				<span class="tagBtn" v-if="showBtn">
 					<image src="../../static/story/icon/add.png"  @click="addTag_newPage"></image>
 				</span>
+				
 			</view>
 			<!-- 匿名发表 -->
 			<u-checkbox-group class="nameLess">
-				<u-checkbox v-model="form.checked" shape="circle"  @change="checkboxChange" >匿名发表</u-checkbox>
+				<u-checkbox v-model="form.isShow" shape="circle"  @change="checkboxChange" >匿名发表</u-checkbox>
 			</u-checkbox-group>
 
 			<view class="confirm">
@@ -56,22 +60,24 @@
 </template>
 
 <script>
+	import bus from '../utils/bus.js'
+	import api from '../api/story/api.js'
 	export default{
 		data() {
 			return {
-				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjMzNDgzNTl9.GlUs4Ys8p0hY3l1lhAhNmxGVs_l4iwMwxlE0X1043g4",
+				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjM3MjAzNTJ9.fRuEUBCVW2YQqU92et_JZrDFcpgF_tasPWWzMDfrgpg",
 				form:{
 					detail:'',
-					showImgList:[
-					],
+					showImgList:[],
 					tags:['常用标签1','常用标签2'],
 					// 匿名发表
-					checked:false,
-					location_id: '',
+					isShow:false,
+					location_id: '1',
 				},			
 				action:`https://story.genielink.cn/api/v1/upload`,
 				showView:true,
 				showBtn:true,
+				showTags:false,
 				}
 			},				
 			methods:{
@@ -80,7 +86,7 @@
 				},
 				uploadSuccess(data){
 					console.log(data)
-					this.form.showImgList=data;
+					this.form.showImgList.push(data.url);
 				},
 				//上传图片时两个装饰的方块消失
 				changeViewShow(){
@@ -92,19 +98,30 @@
 					this.showBtn=false;
 					uni.navigateTo({
 						url:'addTag'
-					})
+					});
+					setTimeout(()=>{
+						this.showTags=true
+					},1000)
 				},
 				//是否匿名
 				checkboxChange(e) {
 					console.log(e);
-					this.form.checked=e.value;
-					console.log(this.form.checked)
+					this.form.isShow=e.value;
+					console.log(this.form.isShow)
 				},
 				confirmPost(){
+					const formData=JSON.stringify(this.form)
+					api.postStory({params:`?token=${this.token}`,data:formData})
+						
 					
 				},
 					
 			},
+			onShow(){
+				bus.$on('tagsToPostStory',data=>{
+					this.form.tags=data;
+				})
+			}
 	}
 </script>
 
@@ -207,13 +224,19 @@
 		border-radius: 15px;
 	}
 	.tagBtn{
-		margin-left: 10px !important;
+		margin-right: 10px !important;
+	}
+	.tagAdd{
+		margin-right: 10px !important;
 	}
 	.tagBtn image{
 		width:26px;
 		height:23px;
 		margin-left:25px ;
 		margin-top: 5px;
+	}
+	.tagBtn view{
+		margin-top:6px;
 	}
 	.nameLess{
 		/* float:right; */
