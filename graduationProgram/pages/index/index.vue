@@ -19,10 +19,10 @@
 			 min-scale="16">
 			</map>
 		</view>
-		<view class="locate">
+	<!-- 	<view class="locate">
 			<image @click="locate" src="../../static/search/images/locate.png"></image>
 			<view>显示当前位置</view>
-		</view>
+		</view> -->
 		
 	</view>
 </template>
@@ -32,13 +32,13 @@
 	export default {
 		data() {
 			return {
-				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjM3MjAzNTJ9.fRuEUBCVW2YQqU92et_JZrDFcpgF_tasPWWzMDfrgpg",
+				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImV4cCI6MTYyMzk1NDM4MX0.4Ix46RaUm0JWuKRbWRLj9YGb0cEW0a5ahvlD1jg6G98",
 				keyword: '',
 				title: 'map',
 				latitude: 23.046455,
 				longitude: 113.405261,
 				covers: [{
-					id: 0,
+					id: ['大学城校区','图书馆'],
 					latitude: 23.046455, 
 					longitude: 113.405261, 		
 					title: '图书馆', 
@@ -57,7 +57,7 @@
 						borderRadius: 5,
 					},					
 				}, {
-					id: 1,
+					id: ['大学城校区','A1教学楼'],
 					latitude: 23.047667,
 					longitude: 113.405512,
 					title: 'A1教学楼',
@@ -88,20 +88,19 @@
 				})
 			},
 			getLocation(index){
-				console.log(index)
+				// console.log(index)
 			},
 			changeTap(e){
 				console.log(e.detail.markerId)
-				if(e.detail.markerId==0){
-					console.log("图书馆")
-				}else if(e.detail.markerId==1){
+				if(e.detail.markerId.toString()== ['大学城校区','图书馆'].toString()){
+				}else if(e.detail.markerId.toString()==['大学城校区','A1教学楼'].toString()){
 					console.log("A1教学楼")
 						uni.navigateTo({
 							url: '../story/storyList'
 						})
 				
 				}
-				 api.getStory({data:{token:`${this.token}`,location_id:1,page_id: 1}}).then(res=>{
+				 api.getStory({data:{token:`${this.token}`,location_name:'大学城校区-图书馆',page_id: 1}}).then(res=>{
 					 console.log(res)
 				 })
 			},

@@ -3,12 +3,17 @@
 		
 		<u-form :model="form" ref="postForm">
 			<!-- 输入文字部分 -->
-			<u-form-item>
+			<u-form-item style="display: flex;flex-direction: column;">
 				<textarea 
 				value="" 
 				v-model="form.detail"
 				placeholder="写下你的故事吧" 
 				placeholder-style="margin-top:20rpx;margin-left:20rpx;font-family: Roboto;font-size: 14px;line-height: 22px;" />
+				<view class="select" style="">
+					<view @click="selectChange" v-if="selectShow">点击添加地点</view>
+					<u-select v-model="show"  mode="mutil-column-auto" :list="list" @confirm="confirm" >{{this.form.location_name}}</u-select>
+					<view v-if="showPlace" style="float:right" @click="selectChangeAgain">{{this.form.location_name}}</view>
+				</view>
 			</u-form-item>
 			<!-- 上传图片部分 -->
 			<view class="chooseImg">
@@ -65,15 +70,55 @@
 	export default{
 		data() {
 			return {
-				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE0LCJleHAiOjE2MjM3MjAzNTJ9.fRuEUBCVW2YQqU92et_JZrDFcpgF_tasPWWzMDfrgpg",
+				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImV4cCI6MTYyMzk1NDM4MX0.4Ix46RaUm0JWuKRbWRLj9YGb0cEW0a5ahvlD1jg6G98",
 				form:{
 					detail:'',
 					showImgList:[],
 					tags:['常用标签1','常用标签2'],
 					// 匿名发表
 					isShow:false,
-					location_id: '1',
-				},			
+					location_name: [],
+				},	
+				// 控制选择地点的显示与隐藏
+				selectShow:true,
+				// u-select标签的显示与隐藏
+				show:false,
+				showPlace:false,
+				selectDefault:[],
+				list: [
+					{
+						value: 1,
+						label: '大学城校区',
+						children: [
+							{
+								value: 2,
+								label: 'A1教学楼',
+							},
+							{
+								value: 5,
+								label: '一饭',
+							},
+							{
+								value: 5,
+								label: '图书馆',
+							},
+						]
+					},
+					{
+						value: 8,
+						label: '五山校区',
+						children: [
+							{
+								value: 9,
+								label: '逸夫人文馆',							
+							},
+							{
+								value: 10,
+								label: '孙中山像',							
+							}
+						]
+					}
+				],
 				action:`https://story.genielink.cn/api/v1/upload`,
 				showView:true,
 				showBtn:true,
@@ -81,6 +126,25 @@
 				}
 			},				
 			methods:{
+				//选择地点的显示与隐藏
+				selectChange(){
+					this.selectShow=false;
+					this.show=true;
+					this.showPlace=true;
+				},
+				selectChangeAgain(){
+					this.show=true;
+					this.form.location_name=[];
+				},
+				//打印u-select 的参数 
+				confirm(e) {
+					console.log(e);
+					e.forEach((item)=>{
+						this.form.location_name.push(item.label)
+					});
+					this.form.location_name=this.form.location_name.join('-')
+					console.log(this.form.location_name)
+				},				
 				submitPic(){
 					this.$refs.uUpload.upload();
 				},
@@ -109,7 +173,7 @@
 					this.form.isShow=e.value;
 					console.log(this.form.isShow)
 				},
-				confirmPost(){
+				confirmPost(){					
 					const formData=JSON.stringify(this.form)
 					api.postStory({params:`?token=${this.token}`,data:formData})
 						
@@ -129,11 +193,27 @@
 	textarea{
 		margin:0 auto;
 		width: 336px;
-		height: 194px;
+		height: 169px;
 		background: #EAF0FC;
 		box-shadow: 1px 3px 6px 3px rgba(0, 0, 0, 0.25);
-		border-radius: 10px;
+		border-radius: 10px 10px 0 0;
 		margin-top:15px;
+	}
+	.select{
+		position:absolute;
+		width: 336px;
+		height: 37px;
+		left: 20px;
+		top:165px;
+		background: #FFFFFF;
+		border-radius: 0px 0px 10px 10px;
+	}
+	.select view{
+		float:right;
+		font-family: Roboto;
+		font-size: 14px;
+		line-height: 35px;
+		color: #8F8F8F;
 	}
 	/* 样式穿透给u-upload添加样式 */
 	/deep/ .u-list-item.u-add-wrap{
@@ -152,7 +232,7 @@
 	.chooseImg .show1{
 		position: absolute;
 		left: 140px;
-		top: 250px;
+		top: 224px;
 		width: 100px;
 		height: 100px;
 		background: #EEEEEE;
@@ -162,7 +242,7 @@
 	.chooseImg .show2{
 		position: absolute;
 		left: 256px;
-		top: 250px;
+		top: 224px;
 		width: 100px;
 		height: 100px;
 		background: #EEEEEE;
