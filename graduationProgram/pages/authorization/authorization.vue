@@ -23,13 +23,15 @@
 		},
 		methods: {
 			getToken() {
+				let reqData = {
+						username: this.userInfo.nickName,
+						avatar: this.userInfo.avatarUrl
+					};
+				//reqData = JSON.stringify(reqData) 
 				uni.request({
 					url:`https://story.genielink.cn/api/v1/getToken?code=${this.code}`,
 					method:'POST',
-					data: {
-						username: this.userInfo.nickName,
-						avatar: this.userInfo.avatarUrl
-					},
+					data: reqData,
 					success:res=>{
 						if(!res){
 							return uni.showToast({icon:'loading',title:'获取数据失败'})
@@ -44,6 +46,7 @@
 								desc: res.data.desc,
 								token:res.data.token
 							}
+							console.log("data",data)
 							this.$store.commit('login', data)
 						}
 						this.cancel()

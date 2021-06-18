@@ -29,7 +29,7 @@ export function getMyCollectList(page_id) {
 
 export function deleteMyCollect(sid) {
 	return http({
-		url: "/api/v1/deleteCollect",
+		url: "api/v1/storyCollectCancel",
 		methods: "POST",
 		params: {
 			sid

@@ -3,6 +3,7 @@ const baseURL='https://story.genielink.cn'
 const http=(options)=>{
 	const token = store.state.userInfo.token
 	//如果token不存在就跳转到个人页面，让用户登录
+	console.log("post")
 	if(!token){
 		uni.navigateTo({
 			url:'../people/people_main'
