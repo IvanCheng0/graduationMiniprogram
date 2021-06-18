@@ -24,6 +24,10 @@
 			async search(){
 				console.log(11)
 				const data=await this.$http({url:`/api/v1/searchTip?token=${this.token}&keyword=${this.keyword}`})
+				
+				uni.navigateTo({
+					url: '../story/storyList'
+				})
 			},
 			toStory(index){
 				this.keywod=this.tags[index];

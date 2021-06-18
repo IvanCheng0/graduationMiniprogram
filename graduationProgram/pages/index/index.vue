@@ -38,7 +38,7 @@
 				latitude: 23.046455,
 				longitude: 113.405261,
 				covers: [{
-					id: ['大学城校区','图书馆'],
+					id: '大学城校区-图书馆',
 					latitude: 23.046455, 
 					longitude: 113.405261, 		
 					title: '图书馆', 
@@ -57,7 +57,7 @@
 						borderRadius: 5,
 					},					
 				}, {
-					id: ['大学城校区','A1教学楼'],
+					id: '大学城校区-A1教学楼',
 					latitude: 23.047667,
 					longitude: 113.405512,
 					title: 'A1教学楼',
@@ -78,7 +78,7 @@
 						fontSize: 12
 					}
 				}],
-				scale: 17, //地图层级
+				scale: 17, 
 			}
 		},
 		methods: {
@@ -92,16 +92,15 @@
 			},
 			changeTap(e){
 				console.log(e.detail.markerId)
-				if(e.detail.markerId.toString()== ['大学城校区','图书馆'].toString()){
-				}else if(e.detail.markerId.toString()==['大学城校区','A1教学楼'].toString()){
-					console.log("A1教学楼")
-						uni.navigateTo({
-							url: '../story/storyList'
-						})
-				
-				}
-				 api.getStory({data:{token:`${this.token}`,location_name:'大学城校区-图书馆',page_id: 1}}).then(res=>{
+				// if(e.detail.markerId== '大学城校区-图书馆'){
+				// }else if(e.detail.markerId=='大学城校区-A1教学楼'){
+				// 	console.log("A1教学楼")										
+				// }
+				 api.getStory({data:{token:`${this.token}`,location_name:`${e.detail.markerId}`,page_id: 1}}).then(res=>{
 					 console.log(res)
+				 })
+				 uni.navigateTo({
+				 	url: '../story/storyList'
 				 })
 			},
 			toWushan() {
