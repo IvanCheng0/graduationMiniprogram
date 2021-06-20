@@ -9,11 +9,12 @@
 				v-model="form.detail"
 				placeholder="写下你的故事吧" 
 				placeholder-style="margin-top:20rpx;margin-left:20rpx;font-family: Roboto;font-size: 14px;line-height: 22px;" />
-				<view class="select" style="">
-					<view @click="selectChange" v-if="selectShow">点击添加地点</view>
-					<u-select v-model="show"  mode="mutil-column-auto" :list="list" @confirm="confirm" >{{this.form.location_name}}</u-select>
-					<view v-if="showPlace" style="float:right" @click="selectChangeAgain">{{this.form.location_name}}</view>
+				<view class="select">
+					<view @click="selectChange"   v-if="selectShow">点击添加地点</view>
+					<u-select v-model="show"   mode="mutil-column-auto" :list="list" @confirm="confirm" ></u-select>
+					<view v-if="showPlace"  @click="selectChangeAgain">{{form.location_name}}</view>
 				</view>
+
 			</u-form-item>
 			<!-- 上传图片部分 -->
 			<view class="chooseImg">
@@ -34,17 +35,17 @@
 			<!-- 添加标签 -->
 			<view class="tag">
 				<span class="tagBtn" v-if="showTags" v-for="(tag,index) in form.tags" :key="index">
-					<view>{{tag}}</view>
+					<view style="display:flex;align-items:center;justify-content:center;">#{{tag}}</view>
 				</span>
 				<span class="tagAdd"  @click="addTag_newPage" >
-					<image src="../../static/story/icon/add.png" ></image>
+					<u-icon name="plus-circle-fill" size="56" color="#E2ECFF"></u-icon>
 					<span>点击添加标签</span>
 				</span>
 				<span class="tagBtn" v-if="showBtn">
-					<image src="../../static/story/icon/add.png"  @click="addTag_newPage"></image>
+					<u-icon name="plus-circle-fill" size="56" color="#E2ECFF" class="icon"></u-icon>
 				</span>
 				<span class="tagBtn" v-if="showBtn">
-					<image src="../../static/story/icon/add.png"  @click="addTag_newPage"></image>
+					<u-icon name="plus-circle-fill" size="56" color="#E2ECFF" class="icon"></u-icon>
 				</span>
 				
 			</view>
@@ -56,25 +57,20 @@
 			<view class="confirm">
 				<button @click="confirmPost">确认发表</button>
 			</view>
-			
-		
 		</u-form>
-		
-		
 	</view>
 </template>
 
 <script>
 	import bus from '../utils/bus.js'
-	import api from '../api/story/api.js'
+	import api from '../../api/story/api.js'
 	export default{
 		data() {
 			return {
-				token:"eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEsImV4cCI6MTYyMzk1NDM4MX0.4Ix46RaUm0JWuKRbWRLj9YGb0cEW0a5ahvlD1jg6G98",
 				form:{
 					detail:'',
 					showImgList:[],
-					tags:['常用标签1','常用标签2'],
+					tags:[],
 					// 匿名发表
 					isShow:false,
 					location_name: [],
@@ -144,6 +140,7 @@
 					});
 					this.form.location_name=this.form.location_name.join('-')
 					console.log(this.form.location_name)
+					console.log(this.form.location_name)
 				},				
 				submitPic(){
 					this.$refs.uUpload.upload();
@@ -173,11 +170,26 @@
 					this.form.isShow=e.value;
 					console.log(this.form.isShow)
 				},
-				confirmPost(){					
+				async confirmPost(){					
 					const formData=JSON.stringify(this.form)
-					api.postStory({params:`?token=${this.token}`,data:formData})
-						
-					
+					const {data:res} = await api.postStory({data:formData});
+					console.log(res)
+					if(res.code==1001){
+						uni.showToast({
+						    title: '发布成功',
+						    duration: 1500,
+							icon:'success',
+							position:'center',
+						});
+					}else{
+						uni.showToast({
+						    title: '发布失败',
+						    duration: 1500,
+							icon:'loading',
+							position:'center',
+						});
+					}
+				
 				},
 					
 			},
@@ -204,7 +216,7 @@
 		width: 336px;
 		height: 37px;
 		left: 20px;
-		top:165px;
+		top:194px;
 		background: #FFFFFF;
 		border-radius: 0px 0px 10px 10px;
 	}
@@ -227,12 +239,12 @@
 	}
 	.chooseImg{
 		display:relative;
-		margin-top:15px;
+		margin-top:22px;
 	}
 	.chooseImg .show1{
 		position: absolute;
 		left: 140px;
-		top: 224px;
+		top: 231px;
 		width: 100px;
 		height: 100px;
 		background: #EEEEEE;
@@ -242,7 +254,7 @@
 	.chooseImg .show2{
 		position: absolute;
 		left: 256px;
-		top: 224px;
+		top: 231px;
 		width: 100px;
 		height: 100px;
 		background: #EEEEEE;
@@ -271,8 +283,8 @@
 		align-items: center;
 	}
 	.tag .tagAdd image{
-		width:26px;
-		height:23px;
+		width:50px;
+		height:50px;
 		margin-left:5px ;
 	}
 	.tag .tagAdd span{
@@ -310,18 +322,22 @@
 		margin-right: 10px !important;
 	}
 	.tagBtn image{
-		width:26px;
-		height:23px;
+		width:40px;
+		height:40px;
 		margin-left:25px ;
 		margin-top: 5px;
 	}
 	.tagBtn view{
 		margin-top:6px;
 	}
+	.tagBtn .icon{
+		margin-left:25px;
+		margin-top:2px;
+	}
 	.nameLess{
-		/* float:right; */
-		margin-left:286px;
-		margin-top:15px;
+		float:right;
+		/* margin-left:286px; */
+		margin-top:8px;
 	}
 	.confirm{
 		width: 446px;
