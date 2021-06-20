@@ -8,6 +8,13 @@ export default {
 			params: options.data
 		})
 	},
+	//获取某个地点的故事
+	getStory(options){
+		return http({
+			url: '/api/v1/getStory',
+			params:options
+		})
+	},
 	//请求评论数据1/1
 	getComments(options) {
 		return http({
