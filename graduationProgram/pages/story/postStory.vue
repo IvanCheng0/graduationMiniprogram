@@ -170,28 +170,36 @@
 					this.form.isShow=e.value;
 					console.log(this.form.isShow)
 				},
-				async confirmPost(){					
-					const formData=JSON.stringify(this.form)
-					const {data:res} = await api.postStory({data:formData});
-					console.log(res)
-					if(res.code==1001){
+				async confirmPost(){
+					//地点选择是必须的
+					if(this.form.location_name.length==0){
 						uni.showToast({
-						    title: '发布成功',
+						    title: '请选择地点',
 						    duration: 1500,
-							icon:'success',
+							icon:'none',
 							position:'center',
 						});
 					}else{
-						uni.showToast({
-						    title: '发布失败',
-						    duration: 1500,
-							icon:'loading',
-							position:'center',
-						});
-					}
-				
-				},
-					
+						const formData=JSON.stringify(this.form)
+						const {data:res} = await api.postStory({data:formData});
+						console.log(res)
+						if(res.code==1001){
+							uni.showToast({
+							    title: '发布成功',
+							    duration: 1500,
+								icon:'success',
+								position:'center',
+							});
+						}else{
+							uni.showToast({
+							    title: '发布失败',
+							    duration: 1500,
+								icon:'loading',
+								position:'center',
+							});
+						}
+					}			
+				},				
 			},
 			onShow(){
 				bus.$on('tagsToPostStory',data=>{
