@@ -28,7 +28,7 @@
 			<!--标签-->
 			<view>
 				<view style="margin-top: 10px;">
-					<span v-for="(item,idx) in tags" class="tag" style="margin-right: 10px;">#{{item.value}}</span>
+					<span v-for="(item,idx) in tags" class="tag" style="margin-right: 10px;" v-bind:key="idx">#{{item}}</span>
 				</view>
 			</view>
 			<!--功能-->
