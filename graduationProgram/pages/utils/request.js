@@ -4,7 +4,7 @@ const http=(options)=>{
 	const token = store.state.userInfo.token
 	//如果token不存在就跳转到个人页面，让用户登录
 	if(!token){
-		uni.navigateTo({
+		uni.switchTab({
 			url:'../people/people_main'
 		})
 		uni.showToast({
