@@ -1,58 +1,69 @@
 <template>
 	<view class="post">
-		
+
 		<u-form :model="form" ref="postForm">
 			<!-- 输入文字部分 -->
 			<u-form-item style="display: flex;flex-direction: column;">
-				<textarea 
-				value="" 
-				v-model="form.detail"
-				placeholder="写下你的故事吧" 
-				placeholder-style="margin-top:20rpx;margin-left:20rpx;font-family: Roboto;font-size: 14px;line-height: 22px;" />
-				<view class="select">
-					<view @click="selectChange"   v-if="selectShow">点击添加地点</view>
-					<u-select v-model="show"   mode="mutil-column-auto" :list="list" @confirm="confirm" ></u-select>
-					<view v-if="showPlace"  @click="selectChangeAgain">{{form.location_name}}</view>
-				</view>
-
-			</u-form-item>
-			<!-- 上传图片部分 -->
-			<view class="chooseImg">
-				<u-upload
-				ref="uUpload"
-				:action="action"
-				@on-success="uploadSuccess"
-				@on-choose-complete="changeViewShow"
-				:show-progress="false"
-				max-count="9" 
-				max-size="1 * 1024 * 1024" 
-				width="200rpx"
-				height="200rpx"
-				del-bg-color="#B4B4B4"></u-upload>
-				<view class="show1"  v-if="showView"></view>
-				<view class="show2"  v-if="showView"></view>
+				<textarea value="" v-model="form.detail" placeholder="写下你的故事吧" placeholder-style="margin-top:20rpx;margin-left:20rpx;font-family: Roboto;font-size: 14px;line-height: 22px;" />
+				</u-form-item>
+			<view class="select">
+				<view @click="selectChange"   v-if="selectShow">点击添加地点</view>
+				<u-select v-model="show"   mode="mutil-column-auto" :list="list" @confirm="confirm" ></u-select>
+				<view v-if="showPlace"  @click="selectChangeAgain">{{form.location_name}}</view>
 			</view>
+			
+			
+			<!-- 匿名发表 -->
+			<u-checkbox-group class="nameLess">
+				<u-checkbox v-model="form.isShow" shape="circle"  @change="checkboxChange" >匿名发表</u-checkbox>
+			</u-checkbox-group>
+			
+			
 			<!-- 添加标签 -->
 			<view class="tag">
 				<span class="tagBtn" v-if="showTags" v-for="(tag,index) in form.tags" :key="index">
-					<view style="display:flex;align-items:center;justify-content:center;">#{{tag}}</view>
+					<view style="display:flex;align-items:center;justify-content:center;color:#E2ECFF">#{{tag}}</view>
 				</span>
 				<span class="tagAdd"  @click="addTag_newPage" >
 					<u-icon name="plus-circle-fill" size="56" color="#E2ECFF"></u-icon>
 					<span>点击添加标签</span>
 				</span>
-				<span class="tagBtn" v-if="showBtn">
+				<span class="tagBtn" v-if="showBtn" >
 					<u-icon name="plus-circle-fill" size="56" color="#E2ECFF" class="icon"></u-icon>
 				</span>
 				<span class="tagBtn" v-if="showBtn">
 					<u-icon name="plus-circle-fill" size="56" color="#E2ECFF" class="icon"></u-icon>
-				</span>
-				
+				</span>			
 			</view>
+			
+			
+			<!-- 上传图片部分 -->
+			<view class="chooseImg">
+				<u-upload
+				ref="uUpload"
+				:action="action"
+				@on-success="uploadSuccess"				
+				@on-choose-complete="changeViewShow"
+				@on-uploaded="allPicturesUpload"
+				@on-remove="removePictures"
+				:show-progress="false"
+				size-type="['origin']"
+				max-count="9" 
+				max-size="10 * 1024 * 1024" 
+				width="200rpx"
+				height="200rpx"
+				del-bg-color="#B4B4B4"></u-upload>
+			<!-- 	<view class="show1"  v-if="showView"></view>
+				<view class="show2"  v-if="showView"></view> -->
+			</view>
+			
+			
+			
+			
 			<!-- 匿名发表 -->
-			<u-checkbox-group class="nameLess">
+			<!-- <u-checkbox-group class="nameLess">
 				<u-checkbox v-model="form.isShow" shape="circle"  @change="checkboxChange" >匿名发表</u-checkbox>
-			</u-checkbox-group>
+			</u-checkbox-group> -->
 
 			<view class="confirm">
 				<button @click="confirmPost">确认发表</button>
@@ -119,8 +130,11 @@
 				showView:true,
 				showBtn:true,
 				showTags:false,
+				//确认全部图片上传成功
+				allPicturesStatus:false
 				}
-			},				
+			},	
+		
 			methods:{
 				//选择地点的显示与隐藏
 				selectChange(){
@@ -153,6 +167,21 @@
 				changeViewShow(){
 					this.showView=false;
 				},
+				// 所有图片上传成功触发
+				allPicturesUpload(lists, name){
+					console.log("allPicturesUpload-list",lists)
+					lists.forEach(item=>{
+						if(item.progress==100){ this.allPicturesStatus = true}
+					})
+					lists.length=0;
+					console.log("allPicturesUpload-name",lists)
+				},
+				//删除图片时触发
+				removePictures(index, lists, name){
+					console.log("removePictures-index",index)
+					console.log("removePictures-list",lists)
+					console.log("removePictures-name",name)
+				},
 				//增加标签
 				addTag_newPage(){
 					console.log(111)
@@ -170,16 +199,18 @@
 					this.form.isShow=e.value;
 					console.log(this.form.isShow)
 				},
-				async confirmPost(){
-					//地点选择是必须的
-					if(this.form.location_name.length==0){
-						uni.showToast({
-						    title: '请选择地点',
-						    duration: 1500,
-							icon:'none',
-							position:'center',
-						});
-					}else{
+			async confirmPost(){
+				//地点选择是必须的
+				if(this.form.location_name.length==0){
+					uni.showToast({
+					    title: '请选择地点',
+					    duration: 1500,
+						icon:'none',
+						position:'center',
+					});
+				}else{
+					//确认全部图片上传成功
+					if(this.allPicturesStatus){
 						const formData=JSON.stringify(this.form)
 						const {data:res} = await api.postStory({data:formData});
 						console.log(res)
@@ -190,21 +221,41 @@
 								icon:'success',
 								position:'center',
 							});
+							this.form.detail='';
+							this.form.showImgList=[];
+							this.form.tags=[];
+							uni.navigateTo({
+								url:'../people/people_story'
+							})
+							
 						}else{
 							uni.showToast({
 							    title: '发布失败',
 							    duration: 1500,
 								icon:'loading',
 								position:'center',
-							});
-						}
-					}			
-				},				
+							})
+							}	
+					}else{
+						//如果全部图片没有上传成功
+						uni.showToast({
+						    title: '图片上传中',
+						    duration: 3000,
+							icon:'loading',
+							position:'center',
+						})
+					}
+					
+					
+					
+					}
+				},
 			},
 			onShow(){
 				bus.$on('tagsToPostStory',data=>{
 					this.form.tags=data;
 				})
+				console.log(this.form.tags)
 			}
 	}
 </script>
@@ -212,21 +263,24 @@
 <style scoped>
 	textarea{
 		margin:0 auto;
-		width: 336px;
+		width: 88%;
 		height: 169px;
 		background: #EAF0FC;
 		box-shadow: 1px 3px 6px 3px rgba(0, 0, 0, 0.25);
-		border-radius: 10px 10px 0 0;
+		border-radius: 10px;
 		margin-top:15px;
 	}
+	/* 选择地点 */
 	.select{
 		position:absolute;
-		width: 336px;
+		width: 88%;
 		height: 37px;
 		left: 20px;
 		top:194px;
-		background: #FFFFFF;
-		border-radius: 0px 0px 10px 10px;
+		background:  #EEEEEE;
+		box-shadow: 1px 3px 6px 3px #D9DCDD;
+		border-radius: 5px;
+		margin-top:23px;
 	}
 	.select view{
 		float:right;
@@ -237,46 +291,51 @@
 	}
 	/* 样式穿透给u-upload添加样式 */
 	/deep/ .u-list-item.u-add-wrap{
-		width: 100px !important;
+		width:100px !important;
 		height: 100px !important;
 		background: #D0DEE7;
 		box-shadow: 1px 3px 6px 3px rgba(0, 0, 0, 0.25);
 		border-radius: 10px;
 		display: absolute;
 		left:18px;
+		top: 47% !important;
+		/* margin-top:4%; */
+	}	
+	/deep/ .u-list-item.u-preview-wrap.data-v-57ce7388{
+		margin-left: 15px;
 	}
+	
+	
 	.chooseImg{
 		display:relative;
-		margin-top:22px;
+		margin-top:15px;
+		margin-bottom:-15px;
 	}
 	.chooseImg .show1{
 		position: absolute;
-		left: 140px;
-		top: 231px;
-		width: 100px;
-		height: 100px;
+		left: 37%;
+		top: 43%;
+		width: 27%;
+		height: 16%;
 		background: #EEEEEE;
 		box-shadow: 1px 3px 6px 3px #D9DCDD;
 		border-radius: 10px;
 	}
 	.chooseImg .show2{
 		position: absolute;
-		left: 256px;
-		top: 231px;
-		width: 100px;
-		height: 100px;
+		left:69%;
+		top: 43%;
+		width: 27%;
+		height: 16%;
 		background: #EEEEEE;
 		box-shadow: 1px 3px 6px 3px #D9DCDD;
 		border-radius: 10px;
 	}
-	#tag>image{
-		height: 60px;
-		vertical-align: top;
-	}
 	.tag{
+		display:block;
 		display:flex;
-		margin-left: 20px;
-		margin-top: 20px;;
+		margin-left: 5%;
+		margin-top: 90px;
 	}
 	.tag .tagAdd{
 		/* padding:0 ; */
@@ -290,12 +349,8 @@
 		display: flex;
 		align-items: center;
 	}
-	.tag .tagAdd image{
-		width:50px;
-		height:50px;
-		margin-left:5px ;
-	}
 	.tag .tagAdd span{
+		display:block;
 		width: 88px;
 		height: 19px;
 		font-family: Roboto;
@@ -329,12 +384,6 @@
 	.tagAdd{
 		margin-right: 10px !important;
 	}
-	.tagBtn image{
-		width:40px;
-		height:40px;
-		margin-left:25px ;
-		margin-top: 5px;
-	}
 	.tagBtn view{
 		margin-top:6px;
 	}
@@ -344,26 +393,30 @@
 	}
 	.nameLess{
 		float:right;
-		/* margin-left:286px; */
-		margin-top:8px;
+		margin-right:20px;
+		margin-top:60px;
 	}
 	.confirm{
-		width: 446px;
+		display:block;
+		/* width: 80%; */
 		height: 88px;
-		margin-top:10px;
-		background: #FFFFFF;
-		box-shadow: 0px -4px 6px 2px rgba(84, 84, 84, 0.16);
-		display:flex;
+		/* position:fixed; */
+		bottom:0;
+		margin-top:30px;
+		/* background: #FFFFFF; */
+		/* box-shadow: 0px -4px 6px 2px rgba(84, 84, 84, 0.16); */
+		/* display:flex;
 		justify-content: center;
-		align-items: center;
+		align-items: center; */
 	}
 	.confirm button{
-		width: 331px;
+		width: 80%;
 		height: 49px;
 		background: #DCB093;
 		box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 		border-radius: 15px;
-		margin-left:20px;
+		/* margin-left:20px; */
+		margin:0 auto;
 		display:flex;
 		justify-content: center;
 		align-items: center;
