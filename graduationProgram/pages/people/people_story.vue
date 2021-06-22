@@ -11,6 +11,7 @@
 </template>
 
 <script>
+	import bus from "../utils/bus.js"
 	import titleComponent from './titleComponent.vue';
 	import listItem from './listItemComponent.vue';
 	import uniLoadMore from '../components/uni-load-more.vue';
@@ -44,30 +45,51 @@
 				// type: 0->文字   1->语音    2->视频
 				list: [{
 						sid: '424',
+						name: '匿名用户',
+						time: '2021-6-21',
+						place: '大学城校区',
 						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
 						sid: '4214',
+						name: '匿名用户',
+						time: '2021-6-21',
+						place: '大学城校区',
 						desc: '啦'
 					},
 					{
 						sid: '1424',
+						name: '匿名用户',
+						time: '2021-6-21',
+						place: '大学城校区',
 						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
 						sid: '4724',
+						name: '匿名用户',
+						time: '2021-6-21',
+						place: '大学城校区',
 						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
 						sid: '4284',
+						name: '匿名用户',
+						time: '2021-6-21',
+						place: '大学城校区',
 						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
 						sid: '4994',
+						name: '匿名用户',
+						time: '2021-6-21',
+						place: '大学城校区',
 						desc: '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦，嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻'
 					},
 					{
 						sid: '422224',
+						name: '匿名用户',
+						time: '2021-6-21',
+						place: '大学城校区',
 						desc: '123'
 					}
 				]
@@ -153,6 +175,11 @@
 					_self.modalShow = false;
 				})
 			}
+		},
+		created(){
+			bus.$on("hello",msg => {
+				console.log(msg, "lll")
+			})
 		},
 		onLoad(data) {
 			this.userInfo.name = this.$store.state.userInfo.userName;

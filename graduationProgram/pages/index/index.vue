@@ -18,19 +18,24 @@
 			<image @click="locate" src="../../static/search/images/locate.png"></image>
 			<view>显示当前位置</view>
 		</view> -->
-
+		<authorization v-if="tologin" @cancelChild="getChild"></authorization>
 	</view>
 </template>
 
 <script>
 	import api from '../../api/search/api.js'
+	import authorization from '../authorization/authorization.vue'
 	export default {
+		components: {
+			authorization:authorization
+		},
 		data() {
 			return {
 				keyword: '',
 				title: 'map',
 				latitude: 23.046455,
 				longitude: 113.405261,
+				tologin: true,
 				covers: [{
 					id: '大学城校区-图书馆',
 					latitude: 23.046455,
@@ -75,6 +80,9 @@
 				scale: 17,
 			}
 		},
+		onLoad(){
+			this.login()
+		},
 		methods: {
 			leaveToSearch() {
 				uni.navigateTo({
@@ -83,6 +91,22 @@
 			},
 			getLocation(index) {
 				// console.log(index)
+			},
+			login(){
+				const token = this.$store.state.userInfo.token
+				if (!token) {
+					this.tologin=true
+				} else {
+					this.userInfo.name = this.$store.state.userInfo.userName,
+					this.userInfo.avatar = this.$store.state.userInfo.avatar,
+					this.userInfo.desc = this.$store.state.userInfo.desc
+				}
+			},
+			getChild(val){
+				this.tologin=val
+				this.userInfo.name = this.$store.state.userInfo.userName,
+				this.userInfo.avatar = this.$store.state.userInfo.avatar,
+				this.userInfo.desc = this.$store.state.userInfo.desc
 			},
 			changeTap(e) {
 				console.log(e.detail.markerId)
