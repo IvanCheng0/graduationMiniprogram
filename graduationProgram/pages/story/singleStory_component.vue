@@ -3,7 +3,7 @@
 		<view class="content">
 			<!--个人信息、发送时间 需要动态绑定-->
 			<view class="info">
-				<image src="../../static/story/test/ana.jpg" mode="aspectFit"></image>
+				<image :src="avatarUrl" mode="aspectFit"></image>
 				<span style="display: inline-block;">
 					<view>{{ usrname}}</view>
 					<view>{{ time}}</view>
@@ -13,12 +13,15 @@
 			<!--故事内容-->
 			<view class="textContent" auto>
 				<view>{{showBtn?sliceStr:storyContent}}</view>
-				<view @click="showBtn=!showBtn" style="color: #437796;margin-top: 5px;">{{showBtn?"全文":"收起"}}</view>
+				<view style="color: #437796;margin-top: 5px;">
+					<span @click="showBtn=!showBtn">{{showBtn?"全文":"收起"}}</span>
+					<span v-if="detailStatus==false" @click="toViewMore(p_idx)" style="position: absolute;right: 10%;">查看详情</span>
+				</view>
 			</view>
 
 			<!--图片内容-->
 			<view class="userImage">
-				<view v-for="(image,index) in userImages" :key="index" class="displayImage" :style="{width:imageWidth}">
+				<view v-for="(image,index) in imgList" :key="index" class="displayImage" :style="{width:imageWidth}">
 					<image :src="image " :style="{width:'100%',height:imageHeight}" @tap="_previewImage(`${image}`)"></image>
 				</view>
 			</view>
@@ -28,7 +31,7 @@
 			<!--标签-->
 			<view>
 				<view style="margin-top: 10px;">
-					<span v-for="(item,idx) in tags" class="tag" style="margin-right: 10px;">#{{item.value}}</span>
+					<span v-for="(item,idx) in tags" class="tag" style="margin-right: 10px;" v-bind:key="idx">#{{item}}</span>
 				</view>
 			</view>
 			<!--功能-->
@@ -44,7 +47,7 @@
 			<view style="clear: both;"></view>
 		</view>
 		<!--评论区-->
-		<comment-pop :p_commentList="commentList" ref="comment_pop"></comment-pop>
+		<comment-pop v-if="detailStatus==false" :p_sid="sid" :p_commentList="commentList" ref="comment_pop"></comment-pop>
 
 	</view>
 </template>
@@ -56,25 +59,19 @@
 	export default {
 		data() {
 			return {
+				storyKey:this.p_key,
 				detailStatus: this.storyPageType, //true: details, false: list
 				sid: this.p_sid,
+				idx: this.p_idx,
+				location_name: this.p_locationName,
 				usrname: this.p_usrname,
+				avatarUrl: this.p_avatarUrl,
 				time: this.p_time,
 				tags: this.p_tags,
 				showBtn: true,
 				maxLen: 20,
 				// 图片内容
-				userImages: [
-					'../../static/search/images/3.jpg',
-					'../../static/search/images/4.jpg',
-					'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
-					'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
-					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
-					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
-					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
-					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
-					// 'https://iccem0.oss-cn-shenzhen.aliyuncs.com/105.jpg',
-				],
+				imgList: this.p_imgList,
 				imageWidth: '100%',
 				imageHeight: '320rpx',
 				storyContent: this.p_storyContent,
@@ -91,6 +88,13 @@
 			}
 		},
 		methods: {
+			toViewMore(idx){
+				console.log(this.storyKey,idx, "cccc");
+				uni.navigateTo({
+					url:`storyDetails?locationName=${this.location_name}&idx=${idx}`,
+				});
+			},
+			/*
 			viewPic(e) {
 				let url = [];
 				for (let i = 0; i < this.picList.length; i++) {
@@ -100,7 +104,7 @@
 					urls: url,
 					current: e
 				});
-			},
+			},*/
 			// 点击放大图片
 			_previewImage(image) {
 				console.log(image)
@@ -133,7 +137,7 @@
 					})
 				}
 			},
-			like(reply_flag = -1) {
+			like(reply_flag = -1){
 				if (reply_flag == -1) {
 					this.like_flag = !this.like_flag;
 					if (this.like_flag == true) {
@@ -141,14 +145,14 @@
 						api.postLikeStory({
 							sid: this.sid
 						}).then(res => {
-							console.log("postLikeStory", res);
+							console.log("postLikeStory", res.data);
 						});
 					} else {
 						this.like_num--;
 						api.postCancelLikeStory({
 							sid: this.sid
 						}).then(res => {
-							console.log("postCancelLikeStory", res);
+							console.log("postCancelLikeStory", res.data);
 						});
 					}
 				} else {
@@ -169,13 +173,71 @@
 				}
 
 			},
+			/*
 			submit() {
-				console.log(this.replyContent);
-				//回车发送评论
-			},
+				console.log(this.replyContent,'replyContent');
+				//回车发送评论replyContent
+				api.postComment({
+					sid: this.sid,
+					data:{
+						"detail": this.replyContent
+					}
+				}).then(res => {
+					console.log("pubComment", res.data);
+				});
+			},*/
+		},
+		onReady() {
+			//console.log(this.p_locationName ," bbbb");locationName
+			const locationName=this.storyKey.locationName;
+			const idx=this.storyKey.idx;
+			console.log(idx,'idx');
+			console.log(this.storyKey,'storykey');
+			for(var i=0;i<this.$store.state.storyList.length;i++){
+				if(this.$store.state.storyList[i].location_name==locationName){
+					console.log(this.$store.state.storyList[i],"store.list location YES");
+					console.log(this.$store.state.storyList[i].list[idx],'store list[i]');
+					this.sid=this.$store.state.storyList[i].list[idx].sid;
+					this.usrname=this.$store.state.storyList[i].list[idx].usrname;
+					this.avatarUrl=this.$store.state.storyList[i].list[idx].avatar;
+					this.time=this.$store.state.storyList[i].list[idx].time;
+					this.tags=this.$store.state.storyList[i].list[idx].tags;
+					this.storyContent=this.$store.state.storyList[i].list[idx].storyContent;
+					this.imgList=this.$store.state.storyList[i].list[idx].imgList,
+					this.comment_num=this.$store.state.storyList[i].list[idx].comment_num;
+					this.mark_flag=this.$store.state.storyList[i].list[idx].mark_flag;
+					this.like_flag=this.$store.state.storyList[i].list[idx].like_flag;
+					this.like_num=this.$store.state.storyList[i].list[idx].like_num;
+				}
+			}
+			//获取发布人昵称、头像、发布日期、标签、点赞、评论、收藏
+			console.log(this.storyContent,'aaa');
 		},
 		onLoad() {
+			//console.log(this.p_locationName ," bbbb");locationName
+			const locationName=this.storyKey.locationName;
+			const idx=this.storyKey.idx;
+			console.log(idx,'idx');
+			console.log(this.storyKey,'storykey');
+			for(var i=0;i<this.$store.state.storyList.length;i++){
+				if(this.$store.state.storyList[i].location_name==locationName){
+					console.log(this.$store.state.storyList[i],"store.list location YES");
+					console.log(this.$store.state.storyList[i].list[idx],'store list[i]');
+					this.sid=this.$store.state.storyList[i].list[idx].sid;
+					this.usrname=this.$store.state.storyList[i].list[idx].usrname;
+					this.avatarUrl=this.$store.state.storyList[i].list[idx].avatar;
+					this.time=this.$store.state.storyList[i].list[idx].time;
+					this.tags=this.$store.state.storyList[i].list[idx].tags;
+					this.storyContent=this.$store.state.storyList[i].list[idx].storyContent;
+					this.imgList=this.$store.state.storyList[i].list[idx].imgList,
+					this.comment_num=this.$store.state.storyList[i].list[idx].comment_num;
+					this.mark_flag=this.$store.state.storyList[i].list[idx].mark_flag;
+					this.like_flag=this.$store.state.storyList[i].list[idx].like_flag;
+					this.like_num=this.$store.state.storyList[i].list[idx].like_num;
+				}
+			}
 			//获取发布人昵称、头像、发布日期、标签、点赞、评论、收藏
+			console.log(this.storyContent,'aaa');
 		},
 		computed: {
 			sliceStr() {
@@ -187,17 +249,28 @@
 
 		},
 		props: {
+			p_key:Object,
 			storyPageType: Boolean,
-			p_sid: Number,
+			p_sid: Number,//故事id
+			p_idx: Number,//在这个地点的story索引
+			p_locationName: String,
 			p_usrname: String,
-			p_time: String,
-			p_tags: Array,
-			p_storyContent: String,
+			p_time: String,//
+			p_tags: Array,//标签
+			p_storyContent: String,//内容
+			p_imgList: Array,//图片
 			p_comment_num: Number,
 			p_mark_flag: Boolean,
 			p_like_flag: Boolean,
-			p_like_num: Number,
-			p_commentList: Array,
+			p_like_num: Number,//点赞数
+			p_commentList: Array,//评论
+			//p_isShow: Boolean,//匿名
+			p_avatarUrl: String,//头像
+		},
+		watch:{
+			like_flag(val){
+				this.like_flag=val;
+			}
 		},
 		components: {
 			commentPop,

@@ -1,8 +1,6 @@
 <template>
 	<view id="listComment">
-		<comments 
-		:p_commentList="commentList"
-		v-bind:story-page-type="false">
+		<comments :p_sid="sid" :p_commentList="commentList" :story-page-type="detailStatus">
 		</comments>
 	</view>
 	
@@ -14,6 +12,8 @@
 		data(){
 			return{
 				commentList: this.p_commentList,
+				detailStatus: true,
+				sid: this.p_sid,
 				replyContent: '',
 				like_icon: '../../static/story/icon/like.png',
 				like_after_icon: '../../static/story/icon/like_after.png',
@@ -23,7 +23,8 @@
 			
 		},
 		props:{
-			p_commentList: Array
+			p_commentList: Array,
+			p_sid: Number
 		},
 		components:{
 			comments

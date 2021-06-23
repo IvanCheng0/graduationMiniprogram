@@ -11,8 +11,11 @@ const store = new Vuex.Store({
 			avatar: "",
 			desc:","
 		},  
-        hasLogin: false  
+        hasLogin: false,
+		storyList: [],/*{  location_name: "", list: []},*/
+		
     },  
+	
     mutations: {  
         login(state, provider) {//改变登录状态  
             state.hasLogin = true  
@@ -31,8 +34,15 @@ const store = new Vuex.Store({
             uni.removeStorage({  
                 key: 'userInfo'  
             })  
-        }  
-    }  
+        },
+		initializeStoryList(state, provider){//初始化故事列表
+			state.storyList.push({
+				location_name: provider.place,
+				list: provider.listInfo
+			});
+		}
+    },
+	
 })
  
 export default store

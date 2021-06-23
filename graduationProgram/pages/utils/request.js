@@ -10,7 +10,12 @@ const http=(options)=>{
 		})
 		return;
 	}else{
-		options.url = options.url + `?token=${token}`
+		//options.url = options.url + `?token=${token}`
+		if (options.url.indexOf("?") !== -1) {
+		   options.url = options.url + `&token=${token}`
+		  } else {
+		   options.url = options.url + `?token=${token}`
+		  }
 		return new Promise((resolve,reject)=>{
 			uni.request({
 				url:baseURL+options.url,
