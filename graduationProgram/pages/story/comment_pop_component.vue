@@ -15,7 +15,7 @@
 		data() {
 			return {
 				popup: false,
-				detailStatus: false,
+				detailStatus: 0,
 				sid: this.p_sid,
 				commentList: this.p_commentList,
 				replyContent: '',

@@ -1,5 +1,5 @@
 <template>
-	<view id="avl_comment">
+	<view class="avl_comment">
 		<view :style="{ overflow: detailStatus=='true'? 'auto' : 'visible'}">
 			<view class="contentComment">
 				<view v-if="commentList.length==0">
@@ -20,13 +20,13 @@
 			</view>
 
 
-			<view class="scollComment" v-if="detailStatus==false">
+			<view class="scollComment" v-if="detailStatus==0">
 				<input placeholder="一起来分享你的回忆吧~(list)" v-model="replyContent" @confirm="submit" />
 			</view>
 
 		</view>
 
-		<view v-if="detailStatus==true">
+		<view class="listComment" v-if="detailStatus==1">
 			<input placeholder="一起来分享你的回忆吧~" v-model="replyContent" @confirm="submit" />
 		</view>
 	</view>
@@ -102,15 +102,14 @@
 		props: {
 			p_commentList: Array,
 			p_sid: Number,
-			storyPageType: Boolean,
+			storyPageType: Number,
 		},
 		watch: {
 			commentList(val) {
 				this.commentList = val;
 			}
 		},
-		onLoad() {
-		},
+		onLoad() {},
 		mounted() {
 			//console.log(this.detailStatus,'status');
 		}
@@ -123,7 +122,7 @@
 		height: 20px;
 	}
 
-	#avl_comment>view:nth-child(1) {
+	.avl_comment>view:nth-child(1) {
 		margin: 0 auto;
 		padding: 5%;
 		border-radius: 20px 20px 0px 0px;
@@ -131,14 +130,14 @@
 		overflow: auto;
 	}
 
-	#avl_comment>view:nth-child(2) {
+	.avl_comment>view:nth-child(2) {
 		background-color: #437796;
 		padding: 3%;
 
 	}
 
 	.contentComment {
-		margin: 0 2.5vw 10vh 2.5vw;
+		margin: 0 1vw 10vh 1vw;
 	}
 
 	.scollComment {
@@ -151,7 +150,15 @@
 		bottom: 0;
 	}
 
-	input {
+	.scollComment>input {
+		background-color: #FFFFFF;
+		padding: 2%;
+		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+		opacity: 1;
+		border-radius: 10px;
+	}
+
+	.listComment>input {
 		background-color: #FFFFFF;
 		padding: 2%;
 		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);

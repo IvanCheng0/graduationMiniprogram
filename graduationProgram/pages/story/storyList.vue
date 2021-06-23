@@ -139,8 +139,8 @@
 			},
 		},
 		onShow(option) {
-			this.placeData = option.place;
-			console.log("place:",placeData);
+			//this.placeData = option.place;
+			//console.log("place:",placedata)
 			this.storyList = [];//清空刷新
 			api.getStory({
 				location_name: this.placeData,
@@ -150,7 +150,7 @@
 				const flag = 0;
 				const temp = JSON.parse(JSON.stringify(res.data.storyList));
 				for (let i = 0; i < temp.length; i++) {
-					let temp_avatar = '../../static/avatar_miss.jpg'; //匿名头像，有点问题
+					let temp_avatar = '../../static/avatar_miss.jpg';
 					let temp_name = '匿名用户';
 					if (temp[i].isShow) { //实名，有这两个属性
 						temp_avatar = temp[i].avatar;

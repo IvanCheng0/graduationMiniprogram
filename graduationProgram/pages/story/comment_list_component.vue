@@ -12,7 +12,7 @@
 		data(){
 			return{
 				commentList: this.p_commentList,
-				detailStatus: true,
+				detailStatus: 1,
 				sid: this.p_sid,
 				replyContent: '',
 				like_icon: '../../static/story/icon/like.png',

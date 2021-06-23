@@ -29,7 +29,7 @@
 		</view>
 		<!--功能-->
 		<view class="function">
-			<image src="../../static/story/icon/comment.png" class="icon" @click="reply">{{comment_num}}</image>
+			<image src="../../static/story/icon/comment.png" class="icon">{{comment_num}}</image>
 			<span>
 				<image :src="like_flag==true? like_after_icon : like_icon" class="icon" @click="like()">{{like_num}}</image>
 			</span>
@@ -40,21 +40,20 @@
 		<view style="clear: both;"></view>
 		<!--评论区-->
 		<view>
-			<comment-list :p_commentList="storyInfo.commentList"></comment-list>
+			<comment-list :p_sid="sid" :p_commentList="commentList"></comment-list>
 		</view>
 
 	</view>
 </template>
 
 <script>
-	import singlestory from '../story/singleStory_component.vue'
 	import commentList from '../story/comment_list_component.vue'
 	import api from '../../api/story/api.js'
 	export default {
 		data() {
 			return {
 				usrname: '',
-				avatarUrl: '',
+				avatar: '',
 				time: '',
 				tags: [],
 				storyContent: '',
@@ -95,11 +94,7 @@
 					current: imgArr[0]
 				});
 			},
-			reply() {
-				if (this.detailStatus != true) {
-					this.$refs.comment_pop.reply();
-				}
-			},
+			
 			mark() {
 				this.mark_flag = !this.mark_flag;
 				if (this.mark_flag == true) {
@@ -162,6 +157,7 @@
 					}
 				}).then(res => {
 					console.log("pubComment", res.data);
+					this.replyContent = '';
 				});
 			},
 		},
@@ -169,8 +165,10 @@
 			//console.log(option,"option0");
 			console.log(this.$store.state, "aaaa")
 			const locationName = option.locationName;
+			console.log("locationName",locationName);
 			const idx = option.idx;
 			for (var i = 0; i < this.$store.state.storyList.length; i++) {
+				console.log("$store.location_name",this.$store.state.storyList[i].location_name);
 				if (this.$store.state.storyList[i].location_name == locationName) {
 					//console.log(this.$store.state.storyList[i], "store.list location YES");
 					//console.log(this.$store.state.storyList[i].list[idx], 'store list[i]');
@@ -185,14 +183,15 @@
 					this.mark_flag = this.$store.state.storyList[i].list[idx].mark_flag;
 					this.like_flag = this.$store.state.storyList[i].list[idx].like_flag;
 					this.like_num = this.$store.state.storyList[i].list[idx].like_num;
+					this.commentList = this.$store.state.storyList[i].list[idx].commentList;
 				}
-
+				console.log("this.commentList",this.commentList);
+				//console.log("this.avatar",this.avatar);
 			}
-			console.log(this.storyInfo, "storyinfo");
+			
 		},
 
 		components: {
-			singlestory,
 			commentList
 		}
 	}
