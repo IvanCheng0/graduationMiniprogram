@@ -1,0 +1,38 @@
+
+.content.data-v-027f96d0 {
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 15px;
+}
+.textContent.data-v-027f96d0{
+	border: 1px solid;
+	border-radius: 25px;
+	margin-top: 5px;
+	padding: 10px;
+}
+.part.data-v-027f96d0{
+	margin: 5px;
+}
+.part>view.data-v-027f96d0{
+	display: block;
+}
+.part>._span.data-v-027f96d0{
+	box-shadow: 5px 5px 5px #C1C6CF;
+	border-radius: 15px;
+	display:inline-block;
+	padding: 8px;
+	margin: 5px;
+	background-color: #437796;
+	color: #FFFFFF;
+}
+.submitButton.data-v-027f96d0{
+	box-shadow: 5px 5px 5px #C1C6CF;
+	border-radius: 15px;
+	margin-top: 15px;
+	padding: 10px;
+	text-align: center;
+
+	background-color: #65696C;
+	color: #FFFFFF;
+}
+

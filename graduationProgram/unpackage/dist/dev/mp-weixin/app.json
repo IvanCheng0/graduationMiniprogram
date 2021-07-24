@@ -1,0 +1,52 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/search",
+    "pages/story/postStory",
+    "pages/story/addTag",
+    "pages/story/storyDetails",
+    "pages/story/storyList",
+    "pages/people/people_main",
+    "pages/people/people_story",
+    "pages/people/people_collection",
+    "pages/people/people_footprint",
+    "pages/people/people_like",
+    "pages/people/people_comment"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#909399",
+    "selectedColor": "#303133",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/search.png",
+        "selectedIconPath": "static/search_blue.png",
+        "text": "寻找故事"
+      },
+      {
+        "pagePath": "pages/story/postStory",
+        "iconPath": "static/write.png",
+        "selectedIconPath": "static/write_blue.png",
+        "text": "发布故事"
+      },
+      {
+        "pagePath": "pages/people/people_main",
+        "iconPath": "static/person.png",
+        "selectedIconPath": "static/person_blue.png",
+        "text": "个人信息"
+      }
+    ]
+  },
+  "permission": {},
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

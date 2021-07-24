@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "故事列表",
+  "navigationBarBackgroundColor": "#4572CD",
+  "usingComponents": {
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "uni-load-more": "/pages/components/uni-load-more",
+    "comment-pop": "/pages/story/comment_pop_component"
+  }
+}

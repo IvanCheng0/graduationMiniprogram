@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "我赞过的",
+  "navigationBarBackgroundColor": "#4572CD",
+  "usingComponents": {
+    "list-item": "/pages/people/listItemComponent",
+    "title-component": "/pages/people/titleComponent",
+    "uni-load-more": "/pages/components/uni-load-more"
+  }
+}

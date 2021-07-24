@@ -1,0 +1,205 @@
+
+textarea.data-v-3df15324{
+	margin:0 auto;
+	width: 88vw;
+	height: 39vh;
+	padding-top:10rpx;
+	background: #EAF0FC;
+	box-shadow: 2rpx 6rpx 12rpx 6rpx rgba(0, 0, 0, 0.25);
+	border-radius: 20rpx;
+	margin-top:30rpx;
+}
+/* 选择地点 */
+.select.data-v-3df15324{
+	margin:0 auto;
+	width: 88vw;
+	height: 6vh;
+	background:  #EEEEEE;
+	box-shadow: 2rpx 6rpx 12rpx 6rpx #D9DCDD;
+	border-radius: 10rpx;
+	margin-top:43rpx;
+}
+.select view.data-v-3df15324{
+	float:right;
+	font-family: Roboto;
+	font-size: 28rpx;
+	/* line-height: 35px; */
+	color: #8F8F8F;
+	-webkit-transform: translateY(50%);
+	        transform: translateY(50%);
+}
+/* 样式穿透给u-upload添加样式 */
+.data-v-3df15324 .u-list-item.u-add-wrap{
+	width:100px !important;
+	height: 100px !important;
+	background: #D0DEE7;
+	box-shadow: 2rpx 6rpx 12rpx 6rpx rgba(0, 0, 0, 0.25);
+	border-radius: 20rpx;
+	display: absolute;
+	left:22rpx;
+	top: 47% !important;
+	margin-top:4%;
+}
+.data-v-3df15324 .u-list-item.u-preview-wrap{
+	margin-left: 30rpx;
+}
+.chooseImg.data-v-3df15324{
+	display:relative;
+	margin-top:47rpx;
+	margin-bottom:-30rpx;
+}
+.chooseImg .show1.data-v-3df15324{
+	position: absolute;
+	left: 37%;
+	top: 43%;
+	width: 27%;
+	height: 16%;
+	background: #EEEEEE;
+	box-shadow: 1px 3px 6px 3px #D9DCDD;
+	border-radius: 10px;
+}
+.chooseImg .show2.data-v-3df15324{
+	position: absolute;
+	left:69%;
+	top: 43%;
+	width: 27%;
+	height: 16%;
+	background: #EEEEEE;
+	box-shadow: 1px 3px 6px 3px #D9DCDD;
+	border-radius: 10px;
+}
+.tag.data-v-3df15324{
+	display:block;
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:flex;
+	-webkit-flex-wrap:wrap;
+	        flex-wrap:wrap;
+	margin-left: 5%;
+	margin-top: 112rpx;
+}
+/* 从addTag页面传过来的增加的tag */
+.tag .tagBtnAdd.data-v-3df15324{
+	padding:0 6rpx;
+	margin-right:14rpx;
+	margin-bottom: 20rpx;
+	height: 66rpx;
+	background: #437796;
+	box-shadow: 0rpx 4rpx 8rpx rgba(0, 0, 0, 0.25);
+	border-radius: 30rpx;
+}
+.tag .tagBtnAdd view.data-v-3df15324{
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:flex;
+	-webkit-box-align:center;
+	-webkit-align-items:center;
+	        align-items:center;
+	-webkit-box-pack:center;
+	-webkit-justify-content:center;
+	        justify-content:center;
+	color:#E2ECFF;
+	-webkit-flex-wrap:wrap;
+	        flex-wrap:wrap;
+	-webkit-transform: translateY(39%);
+	        transform: translateY(39%);
+}
+.tag .tagAdd.data-v-3df15324{
+	box-sizing: border-box;
+	height:33px;
+	width:118px;
+	background: #437796;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 15px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.tag .tagAdd ._span.data-v-3df15324{
+	display:block;
+	width: 88px;
+	height: 19px;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12.5px;
+	line-height: 14px;
+	color: #E2ECFF;
+	margin-left: 1.8px;
+	margin-top:3.5px;
+}
+/* .tag:nth-child(n+2){
+	width:68px;
+	height: 30px;
+	background: #437796;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 15px;
+} */
+.tag .tagBtn.data-v-3df15324{
+	padding:0 ;
+	margin:0;
+	width:160rpx;
+	height: 66rpx;
+	background: #437796;
+	box-shadow: 0rpx 4rpx 8rpx rgba(0, 0, 0, 0.25);
+	border-radius: 30rpx;
+}
+.tagBtn.data-v-3df15324{
+	margin-right: 20rpx !important;
+}
+.tagAdd.data-v-3df15324{
+	margin-right: 20rpx !important;
+}
+.tagBtn view.data-v-3df15324{
+	margin-top:12rpx;
+}
+.tagBtn .icon.data-v-3df15324{
+	margin-left:50rpx;
+	margin-top:4rpx;
+}
+.nameLess.data-v-3df15324{
+	float:right;
+	margin-right:40rpx;
+	margin-top:42rpx;
+}
+.confirm.data-v-3df15324{
+	display:block;
+	/* width: 80%; */
+	height: 176rpx;
+	/* position:fixed; */
+	bottom:0;
+	margin-top:71rpx;
+	/* background: #FFFFFF; */
+	/* box-shadow: 0px -4px 6px 2px rgba(84, 84, 84, 0.16); */
+	/* display:flex;
+	justify-content: center;
+	align-items: center; */
+}
+.confirm button.data-v-3df15324{
+	width: 80%;
+	height: 98rpx;
+	background: #DCB093;
+	box-shadow: 0rpx 4rpx 8rpx rgba(0, 0, 0, 0.25);
+	border-radius: 30rpx;
+	/* margin-left:20px; */
+	margin:0 auto;
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-family: Abhaya Libre Medium;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 48rpx;
+	line-height: 56rpx;
+	color: #FFFFFF;
+}
+

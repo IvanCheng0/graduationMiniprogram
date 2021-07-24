@@ -1,0 +1,149 @@
+
+.fixed-box {
+	        pointer-events: none; 
+	        width: 100vw;
+	        height: 100vh;
+	        position: fixed;
+	        left: 2px;
+	        bottom: 0;
+	        z-index: 100000;
+}
+.fixed-button {
+	        pointer-events: auto;
+	        width: 110rpx;
+	        height: 360rpx;
+	        right: 0;
+	        left: auto;
+	        top: 60vh;
+	        display: -webkit-box;
+	        display: -webkit-flex;
+	        display: flex;
+	        -webkit-box-pack: center;
+	        -webkit-justify-content: center;
+	                justify-content: center;
+	        -webkit-box-align: center;
+	        -webkit-align-items: center;
+	                align-items: center;
+	        border-radius: 55rpx;
+}
+.mainMenu{
+	        width: 90rpx;
+	        height: 90rpx;
+	        background: #fff;
+	        position: absolute;
+	        left: 2rpx;
+	        bottom: -2rpx; 
+	        display: -webkit-box; 
+	        display: -webkit-flex; 
+	        display: flex;
+	        -webkit-box-pack: center;
+	        -webkit-justify-content: center;
+	                justify-content: center;
+	        -webkit-box-align: center;
+	        -webkit-align-items: center;
+	                align-items: center;
+	        border-radius: 45rpx;
+}
+.button {
+		font-family: 'Segoe UI';
+		width: 600rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		font-weight: bold;
+		border-radius: 40rpx;
+		background-color: #E2ECFF;
+		margin-top: 30rpx;
+}
+.content {
+		width: 97%;
+		margin: 0 auto;
+		margin-top: 15px;
+		border-bottom: 1px solid #808080;
+		font-family: 'Segoe UI';
+}
+.content>view {
+		margin-top: 10px;
+}
+.info>image {
+		width: 50px;
+		height: 50px;
+		box-shadow: 1px 2px 2px #C1C6CF;
+		border-radius: 50%;
+		margin-left: 2.5vw;
+}
+.info>._span {
+		margin-left: 8px;
+		margin-top: 5px;
+		vertical-align: top;
+}
+.info>._span>view:nth-child(1) {
+		font-size: 16px;
+}
+.info>._span>view:nth-child(2) {
+		font-size: 12px;
+		margin-top: 5px;
+		opacity: 0.6;
+}
+.textContent {
+		width: 90%;
+		margin: auto;
+}
+	/* 图片展示 */
+.userImage {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-wrap: wrap;
+		        flex-wrap: wrap;
+		margin-left: 3vw;
+		margin-top: 2vh;
+		overflow: hidden;
+}
+.displayImage {
+		height: 30vw;
+		width: 30vw;
+}
+	/*.
+
+	.displayImage:nth-child(2):nth-last-child(3){
+		height: 30vw;
+		width: 30vw;
+	    margin-right: 45vw;
+		object-fit: cover;
+	}
+*/
+.storySrc {
+		border-radius: 9px;
+		padding: 5px;
+		height: 250rpx;
+		/*换行！*/
+		background: #EEEEEE;
+		box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.16);
+		width: 90%;
+		margin: 0 auto;
+}
+.tag {
+		color: #ACACAC;
+		background: #FFFBF2;
+		border-radius: 15px;
+		border: 1px solid #FFFBF2;
+		box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.16);
+
+		display: inline-block;
+		padding: 8px;
+		margin: 5px;
+}
+.function {
+		float: right;
+		margin-bottom: 10px;
+		width: 45%;
+		text-align: center;
+}
+.icon {
+		width: 20px;
+		height: 20px;
+}
+.function>._span {
+		margin: 0px 12%;
+}
+

@@ -1,0 +1,47 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 标题栏 */
+.title {
+	position: relative;
+	height: 150rpx;
+	border-bottom: 4rpx solid #4572CD;
+	box-shadow: 0rpx 3rpx 3rpx #d5d5d5;
+}
+/* 返回按钮 */
+.backBtn {
+	font-size: 100rpx;
+	color: #333333;
+	float: left;
+	margin-left: 20rpx;
+	display: inline-block;
+	height: 150rpx;
+	line-height: 150rpx;
+}
+/* 个人中心四个字 */
+.personal {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	        transform: translate(-50%,-50%);
+	font-size: 50rpx;
+	font-family: FZCuHeiSongS-B-GB;
+	padding: 15rpx 70rpx;
+	border-radius: 70rpx;
+	background-color: #E2ECFF;
+	box-shadow: 0rpx 5rpx 5rpx #4572CD;
+}
+

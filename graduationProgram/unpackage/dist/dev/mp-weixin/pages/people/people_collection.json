@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "我的收藏",
+  "navigationBarBackgroundColor": "#4572CD",
+  "usingComponents": {
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "title-component": "/pages/people/titleComponent",
+    "list-item": "/pages/people/listItemComponent",
+    "uni-load-more": "/pages/components/uni-load-more"
+  }
+}

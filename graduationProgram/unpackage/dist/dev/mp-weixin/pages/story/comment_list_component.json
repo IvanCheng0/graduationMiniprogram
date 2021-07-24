@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "uni-load-more": "/pages/components/uni-load-more"
+  },
+  "component": true
+}

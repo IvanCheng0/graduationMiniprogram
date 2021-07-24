@@ -1,0 +1,1 @@
+<view class="title _div"><block wx:if="{{isShownBack}}"><label data-event-opts="{{[['tap',[['$emit',['back']]]]]}}" class="backBtn _span" bindtap="__e"></label></block><label class="personal _span">{{title+''}}</label></view>

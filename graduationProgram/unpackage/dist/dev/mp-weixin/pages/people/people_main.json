@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "个人中心",
+  "navigationBarBackgroundColor": "#4572CD",
+  "usingComponents": {
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "title-component": "/pages/people/titleComponent",
+    "authorization": "/pages/authorization/authorization"
+  }
+}

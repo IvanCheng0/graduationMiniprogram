@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "故事详情",
+  "navigationBarBackgroundColor": "#4572CD",
+  "usingComponents": {
+    "comment-list": "/pages/story/comment_list_component"
+  }
+}

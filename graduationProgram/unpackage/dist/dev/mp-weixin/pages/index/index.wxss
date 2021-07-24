@@ -1,0 +1,50 @@
+
+.u-search {
+	margin-top: 40rpx !important;
+}
+.areaChoose {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+	margin-top: 50rpx;
+}
+.areaChoose .button {
+	border-radius: 20rpx;
+	background-color: #E2ECFF !important;
+	padding: 10rpx;
+	font-family: 'Microsoft JhengHei UI Segoe';
+	color: #AFAFAF;
+}
+.u-content.data-v-4c556b40 {
+	margin: 0 50rpx;
+	background-color: #E2ECFF !important;
+	margin-top: 30rpx;
+}
+.u-input.data-v-4c556b40 {
+	background-color: #E2ECFF !important;
+}
+map {
+	width: 100%;
+	height: 75vh;
+	margin-top: 50rpx;
+	margin-right: 40rpx;
+	/* border:10rpx solid #4572CD; */
+}
+.locate {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	margin-top: 30rpx;
+	margin-left: 400rpx;
+}
+.locate image {
+	width: 40rpx;
+	height: 35rpx;
+	margin-right: 30rpx;
+}
+.locate view {
+	font-size: 30rpx;
+}
+

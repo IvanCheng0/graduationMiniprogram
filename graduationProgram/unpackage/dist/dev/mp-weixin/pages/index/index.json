@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "灯神故事地图",
+  "navigationBarBackgroundColor": "#4572CD",
+  "usingComponents": {
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "authorization": "/pages/authorization/authorization"
+  }
+}

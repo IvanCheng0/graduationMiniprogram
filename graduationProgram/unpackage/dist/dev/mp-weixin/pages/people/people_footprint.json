@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "我的足迹",
+  "navigationBarBackgroundColor": "#4572CD",
+  "usingComponents": {
+    "list-item": "/pages/people/listItemComponent",
+    "title-component": "/pages/people/titleComponent"
+  }
+}

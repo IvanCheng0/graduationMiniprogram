@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "发布故事",
+  "navigationBarBackgroundColor": "#4572CD",
+  "usingComponents": {
+    "u-form": "/uview-ui/components/u-form/u-form",
+    "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
+    "u-select": "/uview-ui/components/u-select/u-select",
+    "u-upload": "/uview-ui/components/u-upload/u-upload",
+    "u-toast": "/uview-ui/components/u-toast/u-toast"
+  }
+}
