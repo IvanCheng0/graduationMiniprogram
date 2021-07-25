@@ -9,10 +9,10 @@ export default {
 		})
 	},
 	//获取某个地点的故事
-	getStory(options){
+	getStory(options) {
 		return http({
 			url: '/api/v1/getStory',
-			params:options
+			params: options
 		})
 	},
 	//请求评论数据
@@ -22,7 +22,7 @@ export default {
 			params: options
 		})
 	},
-	//发布评论，还没写发请求
+	//发布评论
 	postComment(options) {
 		return http({
 			url: `/api/v1/pubDiscuss?sid=${options.sid}`,
@@ -46,7 +46,7 @@ export default {
 			params: options.data
 		})
 	},
-	//收藏故事1/1
+	//收藏故事
 	postMarkStory(options) {
 		return http({
 			url: `/api/v1/storyCollect?sid=${options.sid}`,
@@ -76,6 +76,12 @@ export default {
 			url: `/api/v1/discussGoodCancel?did=${options.did}`,
 			methods: 'POST',
 			params: options.data
+		})
+	},
+	getSingleStory(options) {
+		return http({
+			url: `/api/v1/getSingleStory?sid=${options.sid}`,
+			params: options
 		})
 	},
 }

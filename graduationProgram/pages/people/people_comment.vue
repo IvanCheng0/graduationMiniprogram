@@ -1,40 +1,39 @@
 <template>
 	<div>
-		<view v-if="list.length==0" style="position: absolute;top: 30%;width: 85%;margin-left: 10%">
+		<view v-if="discussList.length==0" style="position: absolute;top: 30%;width: 85%;margin-left: 10%">
 			<image src="../../static/dengshen.jpg" style="height: 60vw;width: 60vw;margin-left: 10%"></image>
 			<view style="font-size: 20px;text-align: center;">这里还没有内容噢！</view>
 		</view>
-		<div v-else class="container">
-			<title-component :title="title" @back="back()" :isShownBack="isShownBack"></title-component>
-			<div v-for="item in list" :key="item.sid" class="list">
-				<list-item :avatar="getAvatar()" :listItem="item" v-bind:showDel="true" @delete="deleteItem" @showDetail="showDetail"></list-item>
-			</div>
+		<view v-else class="container">
+			<title-component :title="titleName" @back="back()" :isShownBack="isShownBack"></title-component>
+		
+			<listComment :discussList="discussList" @toStory="toStory"></listComment>
+		
+		
 			<uni-load-more v-if="currLength >= 7" :loadingType="loadingType" :contentText="contentText"></uni-load-more>
 			<u-modal v-model="modalShow" @confirm="confirm" ref="uModal" :async-close="true" content="确认删除？" show-cancel-button
 			 confirmText="确认" cancelText="取消"></u-modal>
-		</div>
+		</view>
 	</div>
 	
 </template>
 
 <script>
-	import bus from "../utils/bus.js"
 	import titleComponent from './titleComponent.vue';
-	import listItem from './listItemComponent.vue';
+	import listComment from './listCommentComponent.vue'
 	import uniLoadMore from '../components/uni-load-more.vue';
 	import {
-		getMyStoryList,
-		deleteMyStory
+		getMyDiscussList
 	} from "../../api/people/api.js"
 	export default {
 		components: {
-			listItem: listItem,
 			titleComponent: titleComponent,
-			uniLoadMore: uniLoadMore
+			uniLoadMore: uniLoadMore,
+			listComment: listComment,
 		},
 		data() {
 			return {
-				selectID: '',
+				titleName: '我的评论',
 				page_id: 1,
 				modalShow: false,
 				isShownBack: true,
@@ -48,54 +47,50 @@
 				contentText: {
 					contentdown: '上拉显示更多',
 					contentrefresh: '正在加载...',
-					contentnomore: '没有更多了哦'
+					contentnomore: '没有更多数据了'
 				},
-				title: '我的故事',
-				// list的数据
-				// type: 0->文字   1->语音    2->视频
-				list: [],
+				discussList: [],
+				sid:null
 			}
 		},
 		onReachBottom: function() {
-			//触底的时候请求数据，即为上拉加载更多
+			//触底加载
 			//为了更加清楚的看到效果，添加了定时器
 			this.getmorenews();
 		},
 		methods: {
-			onStart(){
-				const _self = this
-				this.page_id = 1;
-				getMyStoryList(this.page_id).then((res) => {
-					if (res.data) { //_self.list = _self.list.concat(res.data.storyList)
-						console.log(res.data, "data")
-						const temp = JSON.parse(JSON.stringify(res.data.storyList));
-						_self.list = [];
-						console.log(temp, "temp")
-						for (var i = 0; i < temp.length; i++) {
-							_self.list.push({
-								sid: temp[i].sid,
-								name: temp[i].username,
-								time: temp[i].pubDate, //无
-								place: temp[i].location_name,
-								avatar: temp[i].avatar,
-								desc: temp[i].detail
-							})
-						}
-						_self.page_id++
-						_self.currLength = _self.list.length
-					} else {
-						uni.showToast({
-							icon: 'loading',
-							title: '获取数据失败'
-						})
-					}
-				}).catch((err) => {
-					console.log(err)
-				})
+			toStory(val){
+				uni.navigateTo({
+					url: `../story/storyDetails?sid=${val}`, 
+				});
 			},
-			getAvatar() {
-				//console.log(this.userInfo)
-				return this.userInfo.avatar
+			getData(){
+				getMyDiscussList(this.page_id).then(res=>{
+					console.log('res.data',res.data)
+					console.log(res)
+							res.data.storyList.forEach((item, index) => {
+								let discuss = {
+									reply: null,
+									replyUser: null,
+									date: null,
+									sid:null,
+								}
+								// if (!this.discussList) {
+									discuss.reply = item.desc;
+									discuss.replyUser = item.username
+									discuss.date = item.pubDate
+									discuss.sid=item.sid
+									this.discussList.push(discuss)
+								// } else {
+								// 	this.discussList[index].reply = item.desc;
+								// 	this.discussList[index].replyUser = item.username
+								// 	this.discussList[index].date = item.pubDate
+								// }
+								console.log(this.discussList)
+					
+							})
+
+				})
 			},
 			getmorenews: function() {
 				if (this.loadingType !== 0) { //loadingType!=0;直接返回
@@ -104,16 +99,8 @@
 				this.loadingType = 1;
 				uni.showNavigationBarLoading(); //显示加载动画
 				const _self = this
-				getMyStoryList(this.page_id).then((res) => {
-					/*if (res.data) {
-						if (res.data.storyList && res.data.storyList.length === 0) {
-							_self.loadingType = 2
-						} else {
-							_self.list = _self.list.concat(res.data.storyList)
-							_self.page_id++
-							this.loadingType = 0;
-						}
-					}*/
+				//console.log("getMore", this.page_id);
+				getMyDiscussList(this.page_id).then((res) => {
 					if (res.data.storyList.length != 0) {
 						console.log(res.data, "data")
 						const temp = JSON.parse(JSON.stringify(res.data.storyList));
@@ -131,7 +118,7 @@
 								time: temp[i].pubDate,
 								place: temp[i].location_name,
 								avatar: temp[i].avatar,
-								desc: temp[i].detail
+								desc: temp[i].desc
 							})
 						}
 						//_self.list = _self.list.concat(res.data.storyList)
@@ -144,7 +131,7 @@
 						_self.page_id--;
 						console.log("botton page", this.page_id);
 						uni.showToast({
-							icon: 'none',
+							icon:'none',
 							title: '没有更多了哦！'
 						})
 					} else {
@@ -169,26 +156,21 @@
 				// 弹出弹窗询问是否删除
 				this.modalShow = true;
 				this.selectID = itemID;
-				
 			},
 			// 跳转查看详情
 			showDetail(itemID) {
-				uni.navigateTo({
-					url: `../story/storyDetails?sid=${itemID}`, 
-				});
+				console.log(itemID, "lalala");
 			},
 			confirm() {
 				// 这里要写异步删除
-				//console.log("删除", this.selectID)
+				console.log("删除", this.selectID)
 				const _self = this
 				deleteMyStory(this.selectID).then((res) => {
-					console.log(res);
-					if (res.data && res.data.code==1001) {
+					if (res.data && res.data.msg === "success") {
 						uni.showToast({
 							title: '删除成功'
 						})
 						_self.modalShow = false;
-						_self.onStart();
 					} else {
 						uni.showToast({
 							icon: 'loading',
@@ -205,18 +187,10 @@
 				})
 			}
 		},
-		created() {
-			bus.$on("hello", msg => {
-				console.log(msg, "lll")
-			})
-		},
 		onLoad(data) {
-			this.userInfo.name = this.$store.state.userInfo.userName;
-			this.userInfo.avatar = this.$store.state.userInfo.avatar;
-		},
-		onShow() {
-			this.onStart();
-		},
+			this.getData()
+		}
+
 	}
 </script>
 
@@ -239,5 +213,81 @@
 		text-align: center;
 		font-size: 35upx;
 		font-family: FZCuHeiSongS-B-GB;
+	}
+
+
+
+
+	.outer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 14vh;
+		width: 92vw;
+		margin: 0 auto;
+		margin-bottom: 100rpx;
+		box-sizing: border-box;
+		background-color: #FFFFFF;
+	}
+
+	.left {
+		width: 5vw;
+		height: 18vh;
+		background: #DCB093;
+		box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+		border-radius: 10px 0px 0px 10px;
+	}
+
+	.right {
+		width: 85vw;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		margin-left: 20rpx;
+		/* background-color: red; */
+	}
+
+	.right .date {
+		font-family: Abel;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 24rpx;
+		line-height: 36rpx;
+		color: #000000;
+	}
+
+	.right .reply {
+		font-family: Abel;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 24rpx;
+		line-height: 44rpx;
+		color: #666666;
+	}
+
+	.right .line {
+		height: 3.99rpx;
+		background-color: #A9A9A9;
+		transform: scale(50%);
+		width: 70vw;
+		margin-top: 10rpx;
+	}
+
+	.right .commit::before {
+		display: block;
+		height: 20rpx;
+		background-color: #A9A9A9;
+		transform: scale(50%);
+		width: 70vw;
+		margin-top: 20rpx;
+	}
+
+	.right .commit {
+		font-family: Abel;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 20rpx;
+		line-height: 36rpx;
+		color: #A9A9A9;
 	}
 </style>

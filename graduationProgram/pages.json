@@ -6,11 +6,16 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "灯神故事地图",
+				"navigationBarBackgroundColor": "#4572CD"
 			}
 		},
 		{
-			"path":"pages/index/search"
+			"path":"pages/index/search",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"navigationBarBackgroundColor": "#4572CD"
+			}
 		},
 		{
 		   "path": "pages/story/postStory",
@@ -31,7 +36,7 @@
 		   "path":"pages/story/storyDetails",
 		   "style":{
 		    "navigationBarTitleText":"故事详情",
-		    "navigationBarBackgroundColor": "#4572CD"
+		   "navigationBarBackgroundColor": "#4572CD"
 		   }
 		  },
 		  {
@@ -44,20 +49,45 @@
 		{
 			"path": "pages/people/people_main",
 			"style": {
-				"navigationBarTitleText": "个人信息"
+				"navigationBarTitleText": "个人中心",
+				"navigationBarBackgroundColor": "#4572CD"
 			}
 		},
 		{
-			"path":"pages/people/people_story"
+			"path":"pages/people/people_story",
+			"style": {
+				"navigationBarTitleText": "我的故事",
+				"navigationBarBackgroundColor": "#4572CD"
+			}
 		},
 		{
-			"path":"pages/people/people_collection"
+			"path":"pages/people/people_collection",
+			"style": {
+				"navigationBarTitleText": "我的收藏",
+				"navigationBarBackgroundColor": "#4572CD"
+			}
+			
 		},
 		{
-			"path":"pages/people/people_footprint"
+			"path":"pages/people/people_footprint",
+			"style": {
+				"navigationBarTitleText": "我的足迹",
+				"navigationBarBackgroundColor": "#4572CD"
+			}
 		},
 		{
-			"path":"pages/people/people_action"
+			"path":"pages/people/people_like",
+			"style": {
+				"navigationBarTitleText": "我赞过的",
+				"navigationBarBackgroundColor": "#4572CD"
+			}
+		},
+		{
+			"path":"pages/people/people_comment",
+			"style": {
+				"navigationBarTitleText": "我的评论",
+				"navigationBarBackgroundColor": "#4572CD"
+			}
 		}
     ],
 	"tabBar": {

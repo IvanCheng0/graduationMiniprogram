@@ -29,11 +29,8 @@ export function getMyCollectList(page_id) {
 
 export function deleteMyCollect(sid) {
 	return http({
-		url: "api/v1/storyCollectCancel",
+		url: `/api/v1/storyCollectCancel?sid=${sid}`,
 		methods: "POST",
-		params: {
-			sid
-		}
 	})
 }
 

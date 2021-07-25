@@ -1,5 +1,5 @@
 <template>
-	<view class="avl_comment">
+	<view id="avl_comment">
 		<view :style="{ overflow: detailStatus=='true'? 'auto' : 'visible'}">
 			<view class="contentComment">
 				<view v-if="commentList.length==0">
@@ -20,13 +20,13 @@
 			</view>
 
 
-			<view class="scollComment" v-if="detailStatus==0">
+			<view class="scollComment" v-if="detailStatus==false">
 				<input placeholder="一起来分享你的回忆吧~(list)" v-model="replyContent" @confirm="submit" />
 			</view>
 
 		</view>
 
-		<view class="listComment" v-if="detailStatus==1">
+		<view v-if="detailStatus==true">
 			<input placeholder="一起来分享你的回忆吧~" v-model="replyContent" @confirm="submit" />
 		</view>
 	</view>
@@ -64,7 +64,6 @@
 						console.log("postLikeComment", res);
 					})
 				}
-
 			},
 			submit() {
 				console.log(this.replyContent, 'replyContent');
@@ -84,7 +83,6 @@
 						//console.log("storyListComments", res2)
 						const templist = JSON.parse(JSON.stringify(res2.data.discussList));
 						this.commentList = [];
-
 						for (var j = 0; j < templist.length; j++) {
 							this.commentList.push({
 								did: templist[j].did,
@@ -102,14 +100,15 @@
 		props: {
 			p_commentList: Array,
 			p_sid: Number,
-			storyPageType: Number,
+			storyPageType: Boolean,
 		},
 		watch: {
 			commentList(val) {
 				this.commentList = val;
 			}
 		},
-		onLoad() {},
+		onLoad() {
+		},
 		mounted() {
 			//console.log(this.detailStatus,'status');
 		}
@@ -121,25 +120,20 @@
 		width: 20px;
 		height: 20px;
 	}
-
-	.avl_comment>view:nth-child(1) {
+	#avl_comment>view:nth-child(1) {
 		margin: 0 auto;
 		padding: 5%;
 		border-radius: 20px 20px 0px 0px;
 		max-height: 320px;
 		overflow: auto;
 	}
-
-	.avl_comment>view:nth-child(2) {
+	#avl_comment>view:nth-child(2) {
 		background-color: #437796;
 		padding: 3%;
-
 	}
-
 	.contentComment {
-		margin: 0 1vw 10vh 1vw;
+		margin: 0 2.5vw 10vh 2.5vw;
 	}
-
 	.scollComment {
 		background-color: #437796;
 		padding: 3%;
@@ -149,47 +143,32 @@
 		left: 0;
 		bottom: 0;
 	}
-
-	.scollComment>input {
+	input {
 		background-color: #FFFFFF;
 		padding: 2%;
 		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
 		opacity: 1;
 		border-radius: 10px;
 	}
-
-	.listComment>input {
-		background-color: #FFFFFF;
-		padding: 2%;
-		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-		opacity: 1;
-		border-radius: 10px;
-	}
-
 	.comment {
 		margin: 3% 0;
 	}
-
 	.comment>image {
 		width: 40px;
 		height: 40px;
 		border-radius: 14px;
 		margin-right: 5%;
 	}
-
 	.comment>span {
 		display: inline-block;
 		vertical-align: top;
 	}
-
 	.comment>span:nth-of-type(2) {
 		float: right;
 	}
-
 	.comment>span>view:nth-child(1) {
 		color: #437796;
 	}
-
 	.comment>span>view:nth-child(2) {
 		margin-top: 5%;
 	}

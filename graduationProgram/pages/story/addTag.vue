@@ -1,15 +1,16 @@
 <template>
 	<view class="content">
 		<view>
-			<input class="textContent" placeholder="输入要添加的标签" v-model="tagContent" @confirm="addTag"/>
-			<!--可以搜索-->
+			<!-- @confirm   点击完成按钮时触发，event.detail = {value: value} -->
+			<!-- @input   当键盘输入时，触发input事件，event.detail = {value}     debounce(addTag,500)   -->
+			<input class="textContent" placeholder="输入要添加的标签" v-model="tagContent" @input="debounce(addTag,3000)"/>
 		</view>
 
 		<view class="part">
 			<view >已添加的标签（再次点击标签可删除哟~）</view>
 			
 			
-			<view v-if="selected.length==0" style="color: #3F536E;font-size:8px">暂时没有添加标签噢~</view>
+			<view v-if="selected.length==0" style="color: #3F536E;font-size:11px">暂时没有添加标签噢~</view>
 			<span v-for="(item,idx) in selected" style="margin-right: 10px;" @click="delThisTag(idx)" :key="idx">#{{item}}</span>
 		</view>
 		<view class="part">
@@ -29,10 +30,6 @@
 	import bus from '../utils/bus.js'
 	export default {
 		onLoad() {
-			// let pages = getCurrentPages();  //获取所有页面栈实例列表
-			// let nowPage = pages[ pages.length - 1];  //当前页页面实例
-			// let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-			// this.selected = prevPage.$vm.tags;  //获取所有页面栈实例列表
 		},
 		data() {
 			return {
@@ -46,20 +43,20 @@
 			}
 		},
 		methods:{
+			//防抖
+			debounce(func,delay){
+				console.log(1111111)
+				let timeout=null;
+				if(timeout) clearTimeout(timeout)
+				timeout=setTimeout(()=>{
+					func.apply(this,arguments)
+					console.log(22222222)
+				},delay)
+			},
 			//搜索框添加标签
 			addTag(){
-				if(this.tagContent==''){
-					//this.tagEmpty=true;
-					uni.showModal({
-						title:'提示',
-						content:'内容不能为空！',
-						showCancel:false
-					})
-				}
-				else{
-					this.selected.push(this.tagContent);
-					this.tagContent='';
-				}
+				this.selected.push(this.tagContent);
+				this.tagContent='';
 			},
 			//标签添加
 			addThisTag(idx, list){
@@ -71,7 +68,8 @@
 			},
 			addAllTag(){
 				console.log(this.selected)
-				bus.$emit('tagsToPostStory',this.selected)
+				this.$store.commit('tagsToPostStory',this.selected)
+				// bus.$emit('tagsToPostStory',this.selected)
 				uni.navigateBack({  //uni.navigateTo跳转的返回，默认1为返回上一级
 					delta: 1
 				});
@@ -81,12 +79,7 @@
 </script>
 
 <style scoped>
-@font-face {
-	font-family:"FZCuHeiSongS-B-GB";
-	src: url("../../static/story/font/fzchsjwgb10_downyi.com.TTF");
-}
 .content {
-	font-family: 'FZCuHeiSongS-B-GB';
 	width: 90%;
 	margin: 0 auto;
 	margin-top: 15px;

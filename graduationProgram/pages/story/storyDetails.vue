@@ -19,7 +19,7 @@
 		<!--图片内容-->
 		<view class="userImage">
 			<view v-for="(image,index) in imgList" :key="index">
-				<image mode="aspectFill" class="displayImage" :src="image"  @tap="_previewImage(`${image}`)"></image>
+				<image mode="aspectFill" class="displayImage" :src="image" @tap="_previewImage(`${image}`)" :style="{marginLeft:imgList.length==1||imgList.length==2||imgList.length==4? '1.5vw' : '0.5vw'}"></image>
 			</view>
 		</view>
 		<view>
@@ -29,6 +29,7 @@
 		</view>
 		<!--功能-->
 		<view class="function">
+			<!--<image src="../../static/story/icon/comment.png" class="icon">{{comment_num}}</image>-->
 			<image src="../../static/story/icon/comment.png" class="icon">{{comment_num}}</image>
 			<span>
 				<image :src="like_flag==true? like_after_icon : like_icon" class="icon" @click="like()">{{like_num}}</image>
@@ -39,14 +40,17 @@
 
 		<view style="clear: both;"></view>
 		<!--评论区-->
-		<view>
-			<comment-list :p_sid="sid" :p_commentList="commentList"></comment-list>
+		<view style="border-top: 1px solid #808080;">
+			<comment-list :p_sid="sid" :p_commentList="commentList"
+			:p_locationID="locationID" :p_idx="idx" @updateComment="updateCommentList"></comment-list>
 		</view>
+		<uni-load-more v-if="currLength >= 8" :loadingType="loadingType" :contentText="contentText"></uni-load-more>
 
 	</view>
 </template>
 
 <script>
+	import uniLoadMore from '../components/uni-load-more.vue'
 	import commentList from '../story/comment_list_component.vue'
 	import api from '../../api/story/api.js'
 	export default {
@@ -62,17 +66,32 @@
 				comment_num: 0,
 				mark_flag: false,
 				like_flag: false,
-				like_num: 50,
+				like_num: 0,
 				replyContent: '',
 				commentList: [],
 				mark_icon: '../../static/story/icon/mark.png',
 				mark_after_icon: '../../static/story/icon/mark_after.png',
 				like_icon: '../../static/story/icon/like.png',
 				like_after_icon: '../../static/story/icon/like_after.png',
-
+				
+				//page_id: 1,
+				locationID: 0,
+				idx: -1,
+				
+				page_id: 1,
+				loadingText: '正在努力加载中...',
+				loadingType: 0, //定义加载方式 0---contentdown  1---contentfresh  2---contentnomore
+				contentText: {
+					contentdown: '上拉显示更多',
+					contentfresh: '正在加载中...',
+					contentnomore: '没有更多了哦'
+				}
 			}
 		},
 		methods: {
+			// changeCommentNum(){
+			// 	this.comment_num++;
+			// },
 			viewPic(e) {
 				let url = [];
 				for (let i = 0; i < this.picList.length; i++) {
@@ -94,7 +113,7 @@
 					current: imgArr[0]
 				});
 			},
-			
+
 			mark() {
 				this.mark_flag = !this.mark_flag;
 				if (this.mark_flag == true) {
@@ -147,50 +166,143 @@
 				}
 
 			},
-			submit() {
-				console.log(this.replyContent, 'replyContent');
-				//回车发送评论replyContent
-				api.postComment({
-					sid: this.sid,
-					data: {
-						"detail": this.replyContent
+			updateCommentList(){
+				this.comment_num++;
+				//console.log((this.comment_num / 8)+1)
+				let page = parseInt((this.comment_num / 8) + 1);
+				let i = this.comment_num % 8;// == 0? 0 : (this.storyList[idx].comment_num % 8)-1;
+				if(i == 0){
+					if(this.comment_num != 0){
+						page--;i = 7;
 					}
-				}).then(res => {
-					console.log("pubComment", res.data);
-					this.replyContent = '';
-				});
-			},
-		},
-		onLoad(option) {
-			//console.log(option,"option0");
-			console.log(this.$store.state, "aaaa")
-			const locationName = option.locationName;
-			console.log("locationName",locationName);
-			const idx = option.idx;
-			for (var i = 0; i < this.$store.state.storyList.length; i++) {
-				console.log("$store.location_name",this.$store.state.storyList[i].location_name);
-				if (this.$store.state.storyList[i].location_name == locationName) {
-					//console.log(this.$store.state.storyList[i], "store.list location YES");
-					//console.log(this.$store.state.storyList[i].list[idx], 'store list[i]');
-					this.sid = this.$store.state.storyList[i].list[idx].sid;
-					this.usrname = this.$store.state.storyList[i].list[idx].usrname;
-					this.avatar = this.$store.state.storyList[i].list[idx].avatar;
-					this.time = this.$store.state.storyList[i].list[idx].time;
-					this.tags = this.$store.state.storyList[i].list[idx].tags;
-					this.storyContent = this.$store.state.storyList[i].list[idx].storyContent;
-					this.imgList = this.$store.state.storyList[i].list[idx].imgList;
-					this.comment_num = this.$store.state.storyList[i].list[idx].comment_num;
-					this.mark_flag = this.$store.state.storyList[i].list[idx].mark_flag;
-					this.like_flag = this.$store.state.storyList[i].list[idx].like_flag;
-					this.like_num = this.$store.state.storyList[i].list[idx].like_num;
-					this.commentList = this.$store.state.storyList[i].list[idx].commentList;
+				} else{
+					i--;
 				}
-				console.log("this.commentList",this.commentList);
-				//console.log("this.avatar",this.avatar);
+				api.getComments({
+					sid: this.sid,
+					page_id:  page
+					//page_id: this.page_id
+				}).then(res => {
+					console.log("uupdate",res)
+					const templist = JSON.parse(JSON.stringify(res.data.discussList));
+					this.commentList.push({
+							did: templist[i].did,
+							headPic: templist[i].avatar,
+							name: templist[i].username,
+							content: templist[i].detail,
+							like_num: templist[i].count,
+							like_flag: templist[i].goodFlag,
+						});
+				});
+				
+			},
+			getmorenews:function(){
+				if (this.loadingType !== 0) {
+					return false;
+				}
+				this.loadingType = 1;
+				uni.showNavigationBarLoading();
+				const _self = this;
+				api.getComments({
+					sid: this.sid,
+					page_id: this.page_id
+				}).then(res => {
+					if (res.data){
+						if (res.data.discussList.length != 0) {
+							const templist = JSON.parse(JSON.stringify(res.data.discussList));
+							for (let j = 0; j < templist.length; j++) {
+								_self.commentList.push({
+									did: templist[j].did,
+									headPic: templist[j].avatar,
+									name: templist[j].username,
+									content: templist[j].detail,
+									like_num: templist[j].count,
+									like_flag: templist[j].goodFlag,
+								});
+							}
+							console.log("get more",this.page_id);
+							_self.page_id++;
+							_self.currLength = _self.commentList.length
+							_self.loadingType = 0;
+							console.log("after get more",this.page_id);
+							//this.$emit("updateComment",[this.idx,this.commentList]);
+						} else{
+							_self.loadingType = 2;
+							_self.page_id--;
+							console.log("botton page", this.page_id);
+							uni.showToast({
+								icon: 'none',
+								title: '没有更多了哦！'
+							});
+						}
+					} else {
+						uni.showToast({
+							icon: 'loading',
+							title: '获取失败！'
+						})
+					}
+				
+				}).catch(err => {
+					console.log(err)
+				});
+				//console.log("after get more",this.page_id);
 			}
-			
 		},
-
+		onLoad() {
+		},
+		onShow() {
+			let pages = getCurrentPages();
+			let currentPage = pages[pages.length-1];
+			this.sid = Number(currentPage.options.sid);
+			api.getSingleStory({
+				sid: this.sid
+			}).then(res =>{
+				console.log("res", res, "this.sid", this.sid);
+				const temp = JSON.parse(JSON.stringify(res.data.data));
+				// let temp_avatar = '../../static/avatar_miss.jpg';
+				// let temp_name = '匿名用户';
+				// if (temp.isShow===true) { //实名，有这两个属性
+				// 	temp_avatar = temp.avatar;
+				// 	temp_name = temp.username;
+				// }
+				this.usrname = temp.username;
+				this.avatar = temp.avatar;
+				this.time = temp.pubDate;
+				this.tags = temp.tagsList;
+				this.storyContent = temp.detail;
+				this.imgList = temp.showImgList;
+				this.mark_flag = temp.collectFlag;
+				this.like_flag = temp.goodFlag;
+				this.like_num = temp.goodCount;
+				this.comment_num = temp.discussCount;
+				//this.commentList = temp.commentList;
+				api.getComments({
+					sid: this.sid,
+					page_id: this.page_id
+				}).then(res2 => {
+					//console.log("storyListComments", i, temp[i], res2)
+					const templist = JSON.parse(JSON.stringify(res2.data.discussList));
+					//console.log('templist', templist)
+					const tempCommentList = [];
+					for (let j = 0; j < templist.length; j++) {
+						tempCommentList.push({
+							did: templist[j].did,
+							headPic: templist[j].avatar,
+							name: templist[j].username,
+							content: templist[j].detail,
+							like_num: templist[j].count,
+							like_flag: templist[j].goodFlag,
+						});
+					}
+					this.commentList = tempCommentList;
+				});
+				this.page_id++;
+			})
+		},
+		onReachBottom() {
+			console.log('bottom!')
+			this.getmorenews();
+		},
 		components: {
 			commentList
 		}
@@ -199,7 +311,7 @@
 
 <style>
 	.content {
-		width: 95%;
+		width: 97%;
 		margin: 0 auto;
 		margin-top: 15px;
 		font-family: 'Segoe UI';
@@ -214,6 +326,7 @@
 		height: 50px;
 		box-shadow: 1px 2px 2px #C1C6CF;
 		border-radius: 50%;
+		margin-left: 2.5vw;
 	}
 
 	.info>span {
@@ -227,7 +340,7 @@
 	}
 
 	.info>span>view:nth-child(2) {
-		font-size: 8px;
+		font-size: 12px;
 		margin-top: 5px;
 		opacity: 0.6;
 	}
@@ -241,16 +354,16 @@
 	.userImage {
 		display: flex;
 		flex-wrap: wrap;
-		margin-left: 30rpx;
+		margin-left: 3vw;
 		margin-top: 2vh;
 		overflow: hidden;
 	}
-	
+
 	.displayImage {
 		height: 30vw;
 		width: 30vw;
-		margin-left: 1vw;
 	}
+
 
 	.storySrc {
 		border-radius: 9px;

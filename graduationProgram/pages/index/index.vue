@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<u-search placeholder="请输入关键词" @focus="leaveToSearch" style="margin-top:30rpx;" class="search" v-model="keyword"
-		 :clearabled="true" :show-action="false">
+		<u-search placeholder="请输入关键词" @focus="leaveToSearch" style="" class="search" v-model="keyword" :clearabled="true"
+		 :show-action="false">
 		</u-search>
 		<view class="areaChoose">
 			<view class="button" @click="toWushan">五山校区</view>
@@ -18,86 +18,134 @@
 			<image @click="locate" src="../../static/search/images/locate.png"></image>
 			<view>显示当前位置</view>
 		</view> -->
-
+		<!-- <authorization v-if="tologin" @cancelChild="getChild"></authorization> -->
 	</view>
 </template>
 
 <script>
 	import api from '../../api/search/api.js'
+	import authorization from '../authorization/authorization.vue'
 	export default {
+		components: {
+			authorization: authorization
+		},
 		data() {
 			return {
+				url: 'https://story.genielink.cn/api/v1/getAddress',
+				userInfo: {
+					name: "",
+					desc: "",
+					avatar: "",
+				},
 				keyword: '',
 				title: 'map',
 				latitude: 23.046455,
 				longitude: 113.405261,
-				covers: [{
-					id: '大学城校区-图书馆',
-					latitude: 23.046455,
-					longitude: 113.405261,
-					title: '图书馆',
-					label: {
-						content: '',
-						color: '#F76350',
-						anchorX: 0, //label的坐标，原点是 marker 对应的经纬度
-						anchorY: -80, //label的坐标，原点是 marker 对应的经纬度 
-						bgColor: '#fff', //背景色
-						padding: 5,
-					},
-					callout: { //自定义标记点上方的气泡窗口 点击有效
-						content: '图书馆',
-						color: '#F76350',
-						fontSize: 12,
-						borderRadius: 5,
-					},
-				}, {
-					id: '大学城校区-A1教学楼',
-					latitude: 23.047667,
-					longitude: 113.405512,
-					title: 'A1教学楼',
-					x: 23.1290,
-					y: 113.264,
-					label: {
-						content: '',
-						color: '#F76350',
-						bgColor: '#fff',
-						anchorX: 0, //label的坐标，原点是 marker 对应的经纬度
-						anchorY: -80, //label的坐标，原点是 marker 对应的经纬度
-						padding: 5,
-						borderRadius: 4,
-					},
-					callout: {
-						content: 'A1教学楼',
-						color: '#F76350',
-						fontSize: 12
-					}
-				}],
+				tologin: false,
+				// data是获取的全部地点数据
+				data: null,
+				covers: [],
 				scale: 17,
 			}
 		},
+		onShow() {
+			this.getLocationData();
+		},
 		methods: {
+			// 获取经纬度数据
+			getLocationData() {
+				// const res = await uni.request({
+				// 	url: `${this.url}`
+				// });
+				uni.request({
+					url: `${this.url}`,
+					success: (res) => {
+						this.data = res.data.addressList;
+						console.log('data', this.data)
+						this.data.forEach((item, index) => {
+							const latitude = parseFloat(item.position.split(',')[0])
+							const longitude = parseFloat(item.position.split(',')[1])
+							let coordinate = {
+								id: null,
+								latitude: null,
+								longitude: null,
+								title: null,
+								width: '30rpx',
+								height: '60rpx'
+							}
+							coordinate.id = index;
+							coordinate.latitude = latitude;
+							coordinate.longitude = longitude;
+							coordinate.title = item.location_name;
+							if (!this.covers[index]) {
+								this.covers.push(coordinate)
+							} else {
+								this.covers[index] = coordinate
+							}
+						
+						})
+						// console.log(this.covers)
+						
+						
+					}
+				});
+				
+			},
+
 			leaveToSearch() {
 				uni.navigateTo({
 					url: './search'
 				})
 			},
-			getLocation(index) {
-				// console.log(index)
+			login() {
+				const token = this.$store.state.userInfo.token
+				if (!token) {
+					this.tologin = true
+				} else {
+					this.userInfo.name = this.$store.state.userInfo.userName,
+						this.userInfo.avatar = this.$store.state.userInfo.avatar,
+						this.userInfo.desc = this.$store.state.userInfo.desc
+				}
+			},
+			getChild(val) {
+				this.tologin = val
+				this.userInfo.name = this.$store.state.userInfo.userName,
+					this.userInfo.avatar = this.$store.state.userInfo.avatar,
+					this.userInfo.desc = this.$store.state.userInfo.desc
+			},
+			//二分查找
+			bsearch(arr, value) {
+				let low = 0;
+				let high = arr.length - 1;
+				while (low <= high) {
+					let mid = Math.floor(low + (high - low) / 2);
+					if (arr[mid] == value) {
+						return mid
+					} else if (arr[mid] < value) {
+						low = mid + 1
+					} else {
+						high = mid - 1
+					}
+				}
+				return -1;
 			},
 			changeTap(e) {
-				console.log(e.detail.markerId)
-				// if(e.detail.markerId== '大学城校区-图书馆'){
-				// }else if(e.detail.markerId=='大学城校区-A1教学楼'){
-				// 	console.log("A1教学楼")										
-				// }
-				api.getStory({
-					location_name: `${e.detail.markerId}`,
-					page_id: 1
-				}).then(res => {
-					console.log("getStory",res)
+				// 下面这部分代码是之前发网络请求获取地点数据来获取相关信息
+				// console.log('e.detail.markerId', e.detail.markerId)
+				e.detail.markerId = e.detail.markerId + 1
+				let arr = new Array();
+				this.data.forEach(item => {
+					arr.push(item.aid)
 				})
+				// console.log('arr', arr)
+				const index = this.bsearch(arr, e.detail.markerId)
+				// console.log('index', index)
+				const name = this.data[index].campus + '-' + this.data[index].location_name
+				// console.log('name', name)
+				const aid = this.data[index].aid
+				console.log('aid', aid)
 				uni.navigateTo({
-					url: '../story/storyList'
+					url: `../story/storyList?place=${name}&aid=${aid}`
 				})
 			},
 			toWushan() {
@@ -126,9 +174,8 @@
 </script>
 
 <style>
-	@font-face {
-		font-family: "FZCuHeiSongS-B-GB";
-		src: url("../../static/story/font/fzchsjwgb10_downyi.com.TTF");
+	.u-search {
+		margin-top: 40rpx !important;
 	}
 
 	.areaChoose {
@@ -157,9 +204,10 @@
 
 	map {
 		width: 100%;
-		height: 800rpx;
+		height: 75vh;
 		margin-top: 50rpx;
-		margin-right: 40rpx
+		margin-right: 40rpx;
+		/* border:10rpx solid #4572CD; */
 	}
 
 	.locate {
@@ -176,6 +224,5 @@
 
 	.locate view {
 		font-size: 30rpx;
-		font-family: "FZCuHeiSongS-B-GB";
 	}
 </style>
